@@ -110,7 +110,132 @@
   .p-0 {
     padding: 0!important;
   }
+
+
+
+
+
+  /*--------------------
+   shopcart //product display
+   ---------------------*/
+  .shop-card-single {
+    height: 500px;
+    width: 60%;
+    background: white;
+    position: relative;
+    margin-top: calc(50vh - 250px);
+  }
+  .shop-card-single.action {
+    animation: bounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  }
+  .shop-card-single .header {
+    height: 40px;
+    position: relative;
+    padding: 20px;
+  }
+  .shop-card-single .header .back {
+    position: relative;
+    width: 0px;
+    height: 0px;
+    border-top: 30px solid #47be73;
+    border-bottom: 30px solid transparent;
+    border-left: 30px solid #47be73;
+    border-right: 30px solid transparent;
+  }
+  .shop-card-single .header .back:before {
+    content: "←";
+    position: absolute;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.3rem;
+    font-weight: bold;
+    top: -22px;
+    left: -22px;
+  }
+  .shop-card-single .main {
+    padding: 0 30px;
+  }
+  .shop-card-single .main .quantity {
+    margin-top: 40px;
+    color: #333;
+  }
+  .shop-card-single .main h1 {
+    font-size: 4.5rem;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    margin: 0 -5px -15px;
+    color: #232e3a;
+  }
+  .shop-card-single .main h2 {
+    color: #999;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    margin: 0 0;
+    text-transform: uppercase;
+  }
+  .shop-card-single .main h3 {
+    color: #232e3a;
+    margin: 0;
+  }
+  .shop-card-single .main img {
+    max-width: 100%;
+    margin-left: -25px;
+  }
+  .shop-card-single .main .left, .shop-card-single .main .right {
+    width: 40%;
+    padding: 0 calc(5% - 1px);
+  }
+  .shop-card-single .main .right {
+    color: #999;
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+  .shop-card-single .footer {
+    position: absolute;
+    bottom: 0;
+    padding: 5px 40px 5px 0;
+    width: calc(90% - 40px);
+    left: 10%;
+    border-top: 1px solid #ccc;
+  }
+  .shop-card-single .footer .left p:before {
+    content: "Total Price";
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: black;
+    position: absolute;
+    top: -12px;
+    width: 200%;
+  }
+  .shop-card-single .footer p {
+    color: #47be73;
+    position: relative;
+    font-size: 1.5rem;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  .btn-danger {
+      background-color: #d71149;
+      border-color: #d71149;
+  }
   
+  .card {
+      border: none;
+  }
+  
+  
+  .btn-group-lg>.btn,
+  .btn-lg {
+      border-radius: none;
+  }
+  
+  
+  /*--------------------
+   Footer section
+   ---------------------*/
 
   .footer__page{
     background-color: #15141f;
