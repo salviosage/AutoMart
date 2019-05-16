@@ -421,6 +421,14 @@ body {
    ---------------------*/
 
 
+
+
+
+
+
+ 
+
+
   .form_wrapper {
     background: #fff;
     width: 400px;
@@ -495,7 +503,7 @@ body {
   .form_wrapper .textarea_field > span > i {
     padding-top: 10px;
   }
-  .form_wrapper input[type="text"], .form_wrapper input[type="email"], .form_wrapper input[type="password"]  .form_wrapper input[type="number"] {
+  .form_wrapper input[type="text"], .form_wrapper input[type="email"], .form_wrapper input[type="password"] , .form_wrapper input[type="number"] {
     width: 100%;
     padding: 8px 10px 9px 35px;
     height: 35px;
@@ -507,10 +515,10 @@ body {
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
   }
-  .form_wrapper input[type="text"]:hover, .form_wrapper input[type="email"]:hover, .form_wrapper input[type="password"]:hover .form_wrapper input[type="number"] {
+  .form_wrapper input[type="text"]:hover, .form_wrapper input[type="email"]:hover, .form_wrapper input[type="password"]:hover, .form_wrapper input[type="number"] {
     background: #fafafa;
   }
-  .form_wrapper input[type="text"]:focus, .form_wrapper input[type="email"]:focus, .form_wrapper input[type="password"]:focus .form_wrapper input[type="number"]:focus {
+  .form_wrapper input[type="text"]:focus, .form_wrapper input[type="email"]:focus, .form_wrapper input[type="password"]:focus, .form_wrapper input[type="number"]:focus {
     -webkit-box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
     -moz-box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
     box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
@@ -669,9 +677,10 @@ body {
     z-index: 1;
     text-align: center;
     padding: 15px;
-    color: #3F65B3;
+    color: black;
   }
   .form__footer a {
+    font-weight: bold;
     color: #3F65B3;
   }
   @-webkit-keyframes check {
