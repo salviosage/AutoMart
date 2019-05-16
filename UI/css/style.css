@@ -6,6 +6,10 @@ body {
   }
   /* Rectangle */
   
+  .bottom{
+      position: absolute;
+      bottom: 0%;
+  }
   
 .topburner{
     height: 20%;
@@ -533,175 +537,140 @@ input {
     transition: all .2s ease;
   }
   
-  .ghost-round {
-    cursor: pointer;
-    background: none;
-    border: 1px solid#2C4CA4;
-    border-radius: 25px;
-    color:#3F65B3;
-    -webkit-align-self: flex-end;
-    -ms-flex-item-align: end;
-    align-self: flex-end;
-    font-size: 19px;
-    font-size: 1.2rem;
-    font-family: roboto;
-    font-weight: 300;
-    line-height: 2.5em;
-    margin-top: auto;
-    margin-bottom: 25px;
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
-  }
-  
-  .signup__ghost-round:hover {
-    background: #3F65B3;
-    color: #fff;
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
-  }
-  
-  .signup__input-line {
-    background: none;
-    margin-bottom: 10px;
-    line-height: 2.4em;
-    color: #fff;
-    font-family: roboto;
-    font-weight: 300;
-    letter-spacing: 0px;
-    letter-spacing: 0.02rem;
-    font-size: 19px;
-    font-size: 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
-  }
-  
-  .full-width {
-    width: 100%;
-  }
-  
-  .signup__input-fields {
-    margin-top: 25px;
-  }
-  
-  .signup__container {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    padding-bottom: 30px;
-    
+  /*--------------------
+   single product
+   ---------------------*/
+
+
+.product img {
+    max-width: 100%;
     height: auto;
   }
-  
-  .signup__content {
-    padding-left: 25px;
-    padding-right: 25px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-flow: column;
-    -ms-flex-flow: column;
-    flex-flow: column;
-    z-index: 5;
-  }
-  
-  .signup__welcome {
-    font-weight: 200;
-    margin-top: 75px;
+  .product--title {
+    color: #008080;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: serif;
+    padding: 20px 0;
     text-align: center;
-    font-size: 40px;
-    font-size: 2.5rem;
-    letter-spacing: 0px;
-    letter-spacing: 0.05rem;
   }
-  
-  .signup__subtitle {
+  .product--title h2 {
+    display: inline-block;
+    border-bottom: 2px dashed;
+  }
+  .product--image, .product--details {
+    float: left;
+    width: 45%;
+  }
+  .product--img{
+      display: inline-block;
+  }
+  .product--image {
+    padding-right: 3%;
+  }
+  .product--image .icon-images img {
+    height: 80px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: 1px solid #e5e5e5;
+  }
+  .product--price .product--price_price {
+    color: rgba(20, 180, 180, .9);
+    font-size: 1.2em;
+    padding-right: 10px;
+  }
+  .product--state {
+    color: indianred;
+    border: 1px solid #952e2e;
+    border-radius: 5px 5px;
+    padding: 1px 3px;
+    font-size: 0.7em;
+  }
+  .product--desc {
+    font-family: sans;
+  }
+  .product--desc p {
+    margin: 20px 0px;
+  }
+  .product--size {
+    margin: 20px 0;
+  }
+  .product--size span {
+    display: inline-block;
+    width: 35px;
+    border: 1px solid #999;
+    border-radius: 4px 4px;
     text-align: center;
-    line-height: 1em;
-    font-weight: 100;
-    letter-spacing: 0px;
-    letter-spacing: 0.02rem;
+    padding: 1px 2px;
+    text-transform: uppercase;
+    cursor: pointer;
   }
-  
-  .signup__menu {
-    background: rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: 50px;
-  }
-  
-  .signup__window {
-    z-index: 100;
+  .product--size span.active {
     color: #fff;
-    font-family: roboto;
+    background: #008080;
+  }
+  .product--sellerprice input {
+   
+    border: 1px solid #2C4CA4;
+    border-radius: 4px;
+    padding: 3px 30px 3px 5px;
+    box-shadow: 0px 0px 3px 0px #2C4CA4;
     position: relative;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-flow: column;
-    -ms-flex-flow: column;
-    flex-flow: column;
-    box-shadow: 0px 15px 50px 10px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    height: 560px;
-    width: 360px;
-    background: #fff;
-    background: url('https://pexels.imgix.net/photos/27718/pexels-photo-27718.jpg?fit=crop&w=1280&h=823') top left no-repeat;
+    color:black;
+    
   }
-  
-  .signup__overlay {
-    background: #3F65B3;
-    background: #2C4CA4;
-    opacity: 0.85;
-    filter: alpha(opacity=85);
-    height: 560px;
+  .product--manufacturer  .product--date {
+      margin: 10px auto;
+  }
+  .product--sellerprice input::-webkit-inner-spin-button, .product--sellerprice input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .add-to-cart {
+    margin: 10px 10px 10px 0;
+  }
+  .btn {
+    background: none;
+    border: 0;
+    outline: 0;
+    -webkit-appearance: none;
+  }
+  .btn.btn--cart {
+    border: 1px solid #2C4CA4;
+    border-radius: 4px;
+    padding: 3px 30px 3px 5px;
+    box-shadow: 0px 0px 3px 0px #2C4CA4;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    font-size: 1.5em;
+  }
+  .btn.btn--cart:after {
+    content: "⇨";
+    padding-left: 2px;
     position: absolute;
-    width: 360px;
-    z-index: 1;
+    right: 150%;
+    transition: all 0.4s;
+    color: #fff;
   }
-  .login__overlay {
-    background: #3F65B3;
-    background: #2C4CA4;
-    opacity: 0.85;
-    filter: alpha(opacity=85);
-    height: 560px;
-    position: absolute;
-    width: 360px;
-    z-index: 1;
+  .btn.btn--cart:hover, .btn.btn--cart:focus {
+    background: indianred;
+    color: #fff;
+    text-shadow: 2px 2px 3px #666;
+    transition: all 0.4s;
   }
-  
-  .signup__bold-line {
-    background: #e7e7e7;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    margin: auto;
-    width: 100%;
-    height: 360px;
-    z-index: 1;
-    opacity:0.1;
-      background: url('https://pexels.imgix.net/photos/27718/pexels-photo-27718.jpg?fit=crop&w=1280&h=823') left no-repeat;
-    background-size:cover;
+  .btn.btn--cart:hover:after, .btn.btn--cart:focus:after {
+    right: 2%;
   }
-  
-  @media (max-width: 500px) {
-    .signup__window {
+  @media screen and (max-width: 500px) {
+    .product--image, .product--details {
+      float: none;
       width: 100%;
-      height: 100%;
-    }
-    .signup__overlay {
-      width: 100%;
-      height: 100%;
+      padding: 10px 5px;
+      margin: 5px 10px;
     }
   }
+  
+  
+  
   
