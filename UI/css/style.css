@@ -1694,7 +1694,7 @@ body {
   .form_wrapper .textarea_field > span > i {
     padding-top: 10px;
   }
-  .form_wrapper input[type="text"], .form_wrapper input[type="email"], .form_wrapper input[type="password"] , .form_wrapper input[type="number"] {
+  .form_wrapper input[type="text"], .form_wrapper input[type="email"], .form_wrapper input[type="password"] , .form_wrapper input[type="number"],.form_wrapper .textarea_field {
     width: 100%;
     padding: 8px 10px 9px 35px;
     height: 35px;
