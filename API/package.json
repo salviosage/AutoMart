@@ -4,11 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "babel server.js --out-dir build"
   },
   "author": "jean salvi",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^7.0.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1"
