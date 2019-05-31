@@ -19,15 +19,21 @@ class User{
               location: req.body.location,
               password: hash
             };
-            if(req.body.isadmin == true) {
-                newUser.role = 'admin';
-            } else  {
-                ewUser.role = 'normal';
-            }
+           
         });
+        if(req.body.isadmin == true) {
+          role = 'admin';
+       } else  {
+           role = 'user';
+       }
             mart.users.push(newUser).then(
               (newuser) => {
+                const token = jwt.sign(
+                  { userId: user.id ,role: role },
+                  'RANDOM_TOKEN_SECRET',
+                  { expiresIn: '24h' });
                 res.status(201).json({
+                  token,
                   message: 'User added successfully!',
                   newUser
                 });
@@ -45,7 +51,7 @@ class User{
 
       login (req, res, next)  {
        
-        mart.users.find( req.body.email ).then(
+        mart.users.find(user => mart.users.email === req.body.email).then(
           (user) => {
             if (!user) {
               return res.status(401).json({
@@ -59,12 +65,16 @@ class User{
                     error: new Error('Incorrect password!')
                   });
                 }
+                if(req.body.isadmin == true) {
+                  role = 'admin';
+               } else  {
+                   role = 'user';
+               }
                 const token = jwt.sign(
-                  { userId: user.id },
+                  { userId: user.id ,role: role },
                   'RANDOM_TOKEN_SECRET',
                   { expiresIn: '24h' });
                 res.status(200).json({
-                  
                   token: token,
                   user
                 });
