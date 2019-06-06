@@ -9,6 +9,7 @@ const carCtrl = require('../controllers/car');
 
 
 router.post('/', carCtrl.createAd );
+router.get('/', carCtrl.getAds );
 //router.get('/:id', auth,function(req, res){carCtrl.getOneAd} );
 //router.put('/:id', auth, function(req, res){carCtrl.modifycar});
 //router.delete('/:id', auth,function(req, res){ carCtrl.deleteAd});

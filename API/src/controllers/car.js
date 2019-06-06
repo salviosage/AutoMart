@@ -13,9 +13,7 @@ export const getAds= (req, res, next) =>{
    
 
 exports.createAd = (req, res, next) => {
-  console.log("here we go ");
 
- 
   const newAd = {
     id: uuid.v4(),
     owner: req.body.owner,
