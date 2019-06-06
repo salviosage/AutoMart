@@ -9,7 +9,7 @@ export const getAds= (req, res, next) =>{
  console.log(cars)
  console.log("cool" )
     res.send(cars);
-  }
+  };
    
 
 exports.createAd = (req, res, next) => {
@@ -33,4 +33,17 @@ exports.createAd = (req, res, next) => {
            
   
 };
+exports.getOneAd =(req, res, next) =>{
+
+  const car= cars.find(car=> car.id === req.body.car_id  )
+    console.log("then here second ")
+        if (!car || car.status !="available") {
+          return res.status(401).json({
+            error: new Error('call you want to order not found!')
+          });
+        }
+  console.log(car)
+  console.log("cool" )
+     res.send(car);
+   };
 
