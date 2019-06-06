@@ -4,7 +4,7 @@ const path=require('path');
 const router = express.Router();
 const carRoutes= require('./src/routes/car');
 const userRoutes = require('./src/routes/user');
-//const orderRoutes= require('./routes/order');
+const orderRoutes= require('./src/routes/order');
 //const flagRoutes = require('./routes/flag');
 const app = express();
 
@@ -24,6 +24,6 @@ const base_url = '/api/'+ api_version;
 
 app.use(base_url +'/car', carRoutes);
 app.use(base_url +'/auth',userRoutes);
-//app.use(base_url +'/order', orderRoutes);
+app.use(base_url +'/order', orderRoutes);
 //app.use(base_url +'/flag',flagRoutes);
 module.exports=app; 
