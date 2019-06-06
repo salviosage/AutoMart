@@ -17,5 +17,4 @@ router.get('/', carCtrl.getAds );
 //router.patch('/:id/price',  auth,function(req, res){ carCtrl.updateAdprice});
 
 
-
 module.exports = router;
