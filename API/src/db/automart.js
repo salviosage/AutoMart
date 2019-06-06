@@ -31,7 +31,7 @@
         "id" :"ffdfzfzef5f5zef54e",
         "owner" :"5545455dqsdq4ds",
         "state":"new",
-        "status" :"yoyo",
+        "status" :"available",
         "body_type" :"truc",
         "model" :"benz",
         "manufacturer" :"mercedes",
@@ -42,6 +42,13 @@
        
     ];
   export  const  flags = [
-        
+  
+      {
+        "id": "e1065f86-88cf-4a3b-95cb-47c2e4105880",
+        "car_id": "ffdfzfzef5f5zef54e",
+        "reason": "pricing ",
+        "discription": "pricing is wired man can you see that",
+        "created_on": 1559815177122
+    }
     ]
 
