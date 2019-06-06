@@ -14,7 +14,7 @@ router.get('/:id', carCtrl.getOneAd );
 //router.put('/:id', auth, function(req, res){carCtrl.modifycar});
 //router.delete('/:id', auth,function(req, res){ carCtrl.deleteAd});
 //router.patch('/:id/status', auth,function(req, res){ carCtrl.updateAdStatus});
-//router.patch('/:id/price',  auth,function(req, res){ carCtrl.updateAdprice});
+router.patch('/:id/price', carCtrl.updateAd);
 
 
 module.exports = router;
