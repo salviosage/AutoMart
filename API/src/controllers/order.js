@@ -43,3 +43,40 @@ exports.createOrder = (req, res, next) => {
            
   
 };
+exports.updateOrder = (req, res, next) => {
+    console.log(req.params)
+
+    const order= orders.find(order=> order.id === req.params.id )
+    console.log("then here second ")
+        if (!order || order.status !="pending") {
+          return res.status(401).json({
+            error: new Error('call you want to order not found!')
+          });
+        }
+        
+       
+        console.log("gotta add an order ")
+
+        const index = orders.indexOf(order);
+        console.log(index)
+        console.log(orders[index])
+        console.log(req.body.amount)
+        console.log(req.body)
+  
+    orders[index].id= order.id,
+    orders[index].buyer =order.buyer, // user id
+    orders[index].car_id = order.car_id,
+    orders[index].amount =  orders.amaout ||req.body.amount, // price offered
+    orders[index].status= order.satus   || req.body.status,
+    orders[index].created_on= order.created_on,
+    orders[index].modified_on= moment.now()
+    console.log(orders[index])
+ 
+         return  res.status(200).json({
+            order
+          });
+           
+  
+};
+    
+
