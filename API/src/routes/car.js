@@ -13,7 +13,7 @@ router.get('/', carCtrl.getAds );
 router.get('/:id', carCtrl.getOneAd );
 //router.put('/:id', auth, function(req, res){carCtrl.modifycar});
 //router.delete('/:id', auth,function(req, res){ carCtrl.deleteAd});
-//router.patch('/:id/status', auth,function(req, res){ carCtrl.updateAdStatus});
+router.patch('/:id/status',  carCtrl.updateAd);
 router.patch('/:id/price', carCtrl.updateAd);
 
 
