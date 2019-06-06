@@ -35,11 +35,11 @@ exports.createAd = (req, res, next) => {
 };
 exports.getOneAd =(req, res, next) =>{
 
-  const car= cars.find(car=> car.id === req.body.car_id  )
+  const car= cars.find(car=> car.id === req.body.id  )
     console.log("then here second ")
         if (!car || car.status !="available") {
           return res.status(401).json({
-            error: new Error('call you want to order not found!')
+            error: new Error('call you want to car not found!')
           });
         }
   console.log(car)
@@ -47,3 +47,40 @@ exports.getOneAd =(req, res, next) =>{
      res.send(car);
    };
 
+
+
+   exports.updateAd= (req, res, next) => {
+    console.log(req.params)
+
+    const car= cars.find(car=> car.id === req.params.id )
+    console.log("then here second ")
+        if (!car || car.status !="available") {
+          return res.status(401).json({
+            error: new Error('car not found !')
+          });
+        }
+        
+       
+        console.log("gotta add an car ")
+
+        const index = cars.indexOf(car);
+        console.log(index)
+        console.log(cars[index])
+        
+        console.log(req.body)
+  
+    cars[index].id= car.id,
+    cars[index].owner =car.owner, // user id
+    cars[index].state = car.state,
+    cars[index].price = req.body.price  || cars.price ,// price offered
+    cars[index].status=  req.body.status  || car.status ,
+    cars[index].created_on= car.created_on,
+    cars[index].modified_on= moment.now()
+    console.log(cars[index])
+ 
+         return  res.status(200).json({
+            car
+          });
+           
+  
+};
