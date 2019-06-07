@@ -7,27 +7,30 @@ import  carChema from "../schema/car"
 import carUpdate from "../schema/carUpdate"
 
 
-export const getAds= (req, res, next) =>{
+export const getAds= (req, res, next) => {
+  console.log("im in ");
   if(req.query){
-    const state=req.query.state,
-    const StatusValue= req.query.status,
-    const allCarSales= carsale.AllCarSales,
-    const minPrice= parseInt(req.query.min_price),
-    const maxPrice= parseInt(req.query.max_price),
-    const manufacturer= req.query.manufacturer,
+    console.log("im in ");
+    const state =req.query.state;
+    const StatusValue= req.query.status;
+    const allCarSales= req.query.AllCarSales;
+    const minPrice= parseInt(req.query.min_price);
+    const maxPrice= parseInt(req.query.max_price);
+    const manufacturer= req.query.manufacturer;
     const body_type= req.query.body_type
     if((StatusValue==='available') && !(minPrice) && !(maxPrice)){
       const carSaleFound= [];
       //Get all unsold cars by status=available
       for(let i=0; i<=cars.length-1; i++){
           if(cars[i].status===StatusValue){
-              carSaleFound.push(all_car_sales[i]);
+              carSaleFound.push(cars[i]);
           }
       }
       return res.status(302).json({
           data: carSaleFound
       });
   }
+};
  console.log(cars)
  console.log("cool" )
     res.send(cars);

@@ -2,7 +2,7 @@ const express=require('express');
 const bodyParser =require('body-parser');
 const path=require('path');
 const router = express.Router();
-const carRoutes= require('./API/routes/flag');
+const carRoutes= require('./API/routes/car');
 const userRoutes = require('./API/routes/user');
 const orderRoutes= require('./API/routes/order');
 const flagRoutes = require('./API/routes/flag');
@@ -21,9 +21,11 @@ const app = express();
 const api_version = 'v1';
 
 const base_url = '/api/'+ api_version;
+console.log("here")
 
 app.use(base_url +'/car', carRoutes);
 app.use(base_url +'/auth',userRoutes);
 app.use(base_url +'/order', orderRoutes);
 app.use(base_url +'/flag',flagRoutes);
+
 module.exports=app; 

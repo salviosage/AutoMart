@@ -13,16 +13,16 @@
   "author": "jean salvi",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-watch": "^7.0.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
     "uuid": "^3.3.2"
   },
   "dependencies": {
+    "@babel/core": "^7.4.5",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^7.0.0",
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@hapi/joi": "^15.0.3",
@@ -31,6 +31,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "express": "^4.17.1",
+    "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "multer": "^1.4.1",
