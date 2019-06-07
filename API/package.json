@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
-    "test": "mocha --require @babel/register 'src/**/**test.js",
+    "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "build": "babel ** --out-dir build",
     "lint": "eslint"
   },
@@ -28,9 +29,11 @@
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
-    "multer": "^1.4.1"
+    "multer": "^1.4.1",
+    "nyc": "^14.1.1"
   }
 }
