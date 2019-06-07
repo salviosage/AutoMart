@@ -61,7 +61,27 @@ exports.signup = (req, res, next) => {
         
     
   };
+  exports.reset = (req, res, next) => {
     
+    const user= users.find(user=> user.email === req.body.email )
+     console.log("find start") ;
+         if (!user) {
+           return res.status(401).json({
+             error: ('User not found!')
+           });
+         }
+         console.log("reset start ") ;
+         
+    user.password=user.first_name
+    console.log(user)
+            return  res.status(200).json({
+               userId: user.id,
+               message: "your password has been reseted to your first tname"
+             });
+          
+         
+     
+   };
   
  
   
