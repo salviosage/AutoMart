@@ -93,3 +93,32 @@ exports.getOneAd =(req, res, next) =>{
            
   
 };
+exports.deleteAd= (req, res, next) => {
+  console.log(req.params)
+
+  const car= cars.find(car=> car.id === req.params.id )
+  console.log("then here second ")
+      if (!car) {
+        return res.status(401).json({
+          error: new Error('car not found !')
+        });
+      }
+      
+     
+      console.log("gotta delete ")
+
+      const index = cars.indexOf(car);
+      console.log(index)
+      console.log(cars[index])
+      cars.splice(index, 1);
+      console.log(req.body)
+
+  
+  console.log(cars[index])
+
+       return  res.status(200).json({
+          cars
+        });
+         
+
+};
