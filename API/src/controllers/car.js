@@ -62,6 +62,15 @@ exports.getOneAd =(req, res, next) =>{
         
        
         console.log("gotta add an car ")
+        let price =car.price;
+        let  status=car.status;
+        if(req.body.price){
+           price= req.body.price
+        }
+        else{
+         
+          status=req.body.status
+        }
 
         const index = cars.indexOf(car);
         console.log(index)
@@ -72,8 +81,8 @@ exports.getOneAd =(req, res, next) =>{
     cars[index].id= car.id,
     cars[index].owner =car.owner, // user id
     cars[index].state = car.state,
-    cars[index].price = req.body.price  || cars.price ,// price offered
-    cars[index].status=  req.body.status  || car.status ,
+    cars[index].price = price ,// price offered
+    cars[index].status= status ,
     cars[index].created_on= car.created_on,
     cars[index].modified_on= moment.now()
     console.log(cars[index])
