@@ -2,10 +2,32 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 import moment from 'moment';
 import uuid from 'uuid';
-import {cars} from "../db/automart"
+import {cars} from "../db/automart";
+import  carChema from "../schema/car"
+import carUpdate from "../schema/carUpdate"
 
 
 export const getAds= (req, res, next) =>{
+  if(req.query){
+    const state=req.query.state,
+    const StatusValue= req.query.status,
+    const allCarSales= carsale.AllCarSales,
+    const minPrice= parseInt(req.query.min_price),
+    const maxPrice= parseInt(req.query.max_price),
+    const manufacturer= req.query.manufacturer,
+    const body_type= req.query.body_type
+    if((StatusValue==='available') && !(minPrice) && !(maxPrice)){
+      const carSaleFound= [];
+      //Get all unsold cars by status=available
+      for(let i=0; i<=cars.length-1; i++){
+          if(cars[i].status===StatusValue){
+              carSaleFound.push(all_car_sales[i]);
+          }
+      }
+      return res.status(302).json({
+          data: carSaleFound
+      });
+  }
  console.log(cars)
  console.log("cool" )
     res.send(cars);
@@ -13,6 +35,12 @@ export const getAds= (req, res, next) =>{
    
 
 exports.createAd = (req, res, next) => {
+  const carAdValidation= Joi.validate(req.body, carChema);
+  if(carAdValidation.error){
+      return res.status(400).json({
+          error_msg: `${carAdValidation.error.details[0].message}`
+      });
+  }
 
   const newAd = {
     id: uuid.v4(),
@@ -51,7 +79,13 @@ exports.getOneAd =(req, res, next) =>{
 
    exports.updateAd= (req, res, next) => {
     console.log(req.params)
-
+    
+    const carAdValidation= Joi.validate(req.body, carUpdate);
+    if(carAdValidation.error){
+        return res.status(400).json({
+            error_msg: `${carAdValidation.error.details[0].message}`
+        });
+    }
     const car= cars.find(car=> car.id === req.params.id )
     console.log("then here second ")
         if (!car || car.status !="available") {
@@ -66,6 +100,7 @@ exports.getOneAd =(req, res, next) =>{
         let  status=car.status;
         if(req.body.price){
            price= req.body.price
+           
         }
         else{
          

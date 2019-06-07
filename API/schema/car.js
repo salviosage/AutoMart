@@ -2,10 +2,13 @@ import Joi from 'joi';
 
 
 const carSchema={
-    reporter_Tel: Joi.string().trim().regex(/^[0-9]{7,10}$/).required(),
-    saleID: Joi.number().required(),
-    reason: Joi.string().required(),
-    description: Joi.string().required()
+    owner: Joi.string().email({minDomainAtoms : 2}).required(),
+    manufacturer: Joi.string().regex(/^[a-zA-Z]{2,20}$/).required(),
+    model: Joi.string().required(),
+    body_type: Joi.string().required(),
+    price: Joi.number().required(),
+    state: Joi.string().regex(/^[a-zA-Z]{3,5}$/).required(),
+    status: Joi.string().regex(/^[a-zA-Z]{3,20}$/).required(),
 };
 
 export default carSchema;

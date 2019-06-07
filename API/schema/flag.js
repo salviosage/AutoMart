@@ -2,10 +2,11 @@ import Joi from 'joi';
 
 
 const flagSchema={
-    reporter_Tel: Joi.string().trim().regex(/^[0-9]{7,10}$/).required(),
-    saleID: Joi.number().required(),
+    buyer:Joi.string().email({minDomainAtoms : 2}).required(),
+    car_id : Joi.number().required(),
     reason: Joi.string().required(),
-    description: Joi.string().required()
+    description: Joi.string()
+
 };
 
 export default flagSchema;
