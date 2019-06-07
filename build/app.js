@@ -1,7 +1,7 @@
 'use strict';
 
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require('./node_modules/express');
+var bodyParser = require('./node_modules/body-parser');
 var path = require('path');
 var router = express.Router();
 //const carRoutes= require('./routes/car');

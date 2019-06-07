@@ -2,10 +2,10 @@ const express=require('express');
 const bodyParser =require('body-parser');
 const path=require('path');
 const router = express.Router();
-const carRoutes= require('./src/routes/car');
-const userRoutes = require('./src/routes/user');
-const orderRoutes= require('./src/routes/order');
-const flagRoutes = require('./src/routes/flag');
+const carRoutes= require('./API/routes/flag');
+const userRoutes = require('./API/routes/user');
+const orderRoutes= require('./API/routes/order');
+const flagRoutes = require('./API/routes/flag');
 const app = express();
 
 
