@@ -3,9 +3,12 @@ const jwt = require('jsonwebtoken');
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
-import  carChema from "../schema/car"
-import carUpdate from "../schema/carUpdate"
-import { decode } from 'querystring';
+import  carChema from "../schema/car";
+import carUpdate from "../schema/carUpdate";
+import carDelete from "../schema/carDelete";
+import oneCar from "../schema/oneCar"
+import Joi from 'joi';
+
 
 
 
@@ -19,11 +22,12 @@ exports.getAds= (req, res, next) =>{
     console.log(req.headers.token)
     
     try {
+      console.log('in a token ')
       const token = req.headers.token 
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
       console.log(decodedToken)
-      const userId = decodedToken.userId;
-      console.log(userId);
+      const userName = decodedToken.userName;
+      console.log(userName);
       const role =decodedToken.role;
       console.log(role)
   
@@ -34,11 +38,11 @@ exports.getAds= (req, res, next) =>{
         console.log("admin found" )
   }
   // for any user signed in 
-   else if (userId) {
+   else if (role && userName) {
      console.log("norml user are here ")
     for(let i=0; i<=cars.length-1; i++){
-    if(cars[i].owner===userId || inReturn[i].status==="available"){
-      inReturn.push(inReturn[i]);
+    if(cars[i].owner===userName || cars[i].status==="available"){
+      inReturn.push(cars[i]);
       
   }
 }
@@ -134,10 +138,11 @@ catch {
        
           // check if there is specified price range 
           if( (minPrice) && (maxPrice)){
+            console.log(maxPrice)
             const carFilterByPrice= [];
-            for(let j=0; j<=carFound.length-1; j++){
-              if((carFound[j].price>=minPrice) && (carFound[j].price<=maxPrice)){
-                  carFilterByPrice.push(carFound[j]);
+            for(let j=0; j<=carSaleFound.length-1; j++){
+              if((carSaleFound[j].price>=minPrice) && (carSaleFound[j].price<=maxPrice)){
+                  carFilterByPrice.push(carSaleFound[j]);
               }
           
             }
@@ -206,12 +211,22 @@ exports.createAd = (req, res, next) => {
   
 };
 exports.getOneAd =(req, res, next) =>{
+  console.log(req.params)
+  const carAdValidation= Joi.validate(req.params, oneCar);
+    if(carAdValidation.error){
+        return res.status(400).json({
+            error: `${carAdValidation.error.details[0].message}`
+        });
+    }
 
-  const car= cars.find(car=> car.id === req.body.id  )
+    console.log(cars)
+  const car= cars.find(car=> car.id === req.params.id  )
+  console.log(req.params.id)
+  
     console.log("then here second ")
         if (!car || car.status !="available") {
           return res.status(401).json({
-            error: new Error('call you want to car not found!')
+            error: 'call you want to car not found!'
           });
         }
   console.log(car)
@@ -274,6 +289,12 @@ exports.getOneAd =(req, res, next) =>{
 };
 exports.deleteAd= (req, res, next) => {
   console.log(req.params)
+  const carAdValidation= Joi.validate(req.body, carDelete);
+    if(carAdValidation.error){
+        return res.status(400).json({
+            error: `${carAdValidation.error.details[0].message}`
+        });
+    }
 
   const car= cars.find(car=> car.id === req.params.id )
   console.log("then here second ")
