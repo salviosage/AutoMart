@@ -5,64 +5,176 @@ import uuid from 'uuid';
 import {cars} from "../db/automart";
 import  carChema from "../schema/car"
 import carUpdate from "../schema/carUpdate"
+import { decode } from 'querystring';
 
 
 
 exports.getAds= (req, res, next) =>{
   console.log("here");
-  console.log(req.query)
+ let inReturn =[]; // define an array to hold relevant data from database 
+
+  //if user signed in 
+  if (req.headers.token){
+    console.log(req.headers)
+    console.log(req.headers.token)
+    
+    try {
+      const token = req.headers.token 
+      const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+      console.log(decodedToken)
+      const userId = decodedToken.userId;
+      console.log(userId);
+      const role =decodedToken.role;
+      console.log(role)
+  
+      // for admin request 
+  if(role && role ==="admin"){
+       inReturn = cars;
+       console.log(inReturn)
+        console.log("admin found" )
+  }
+  // for any user signed in 
+   else if (userId) {
+     console.log("norml user are here ")
+    for(let i=0; i<=cars.length-1; i++){
+    if(cars[i].owner===userId || inReturn[i].status==="available"){
+      inReturn.push(inReturn[i]);
+      
+  }
+}
+console.log(inReturn)
+}
+    }
+
+catch {
+  return res.status(401).json({
+    error: ('Invalid request !')
+  });
+}
+  }
+
+ else {
+  for(let i=0; i<=cars.length-1; i++){
+    if( cars[i].status==="available"){
+      inReturn.push(cars[i]);
+  }
+      }
+    } 
+  
+
+  
   if(req.query){
+    
+    console.log(req.query)
     const state =req.query.state;
-    const status = req.query.status;
+    
     const minPrice= parseInt(req.query.min_price);
     const maxPrice= parseInt(req.query.max_price);
     const manufacturer= req.query.manufacturer;
     const body_type= req.query.body_type;
-    const carSaleFound= [];
+    let carSaleFound= [];
     
-    if((status==='available') && !(state) && !(minPrice) && !(maxPrice)){
-      
-      //Get all unsold cars by status=available
-      for(let i=0; i<=cars.length-1; i++){
-          if(cars[i].status===status){
-              carSaleFound.push(car[i]);
+    
+        //all get specification for cars withou price range specification 
+        
+        for(let i=0; i<=inReturn.length-1; i++){
+                   //get car with specified state 
+                   if(state  && !manufacturer && !body_type  ) {
+                    if( inReturn[i].state===state){
+                        carSaleFound.push(inReturn[i]);
+                    }
+                } 
+                //get car with specified manufacturer 
+                else if(!state  && manufacturer && !body_type  ) {
+                  if( inReturn[i].manufacturer===manufacturer  ){
+                    carSaleFound.push(inReturn[i]);
+                }
+                }
+                //get car with specified  body-type
+                else if(!state  && !manufacturer && body_type  ) {
+                  if( inReturn[i].body_type===body_type ){
+                    carSaleFound.push(inReturn[i]);
+                }
+                }
+                //get car with specified manufacturer and body_type
+                else if(!state  && manufacturer && body_type  ) {
+                  if(inReturn[i].manufacturer===manufacturer && inReturn[i].body_type===body_type ){
+                      carSaleFound.push(inReturn[i]);
+                  }
+              } 
+        
+            //get car with specified manufactirer body_type and state 
+           else  if(state  && manufacturer && body_type  ) {
+            if(inReturn[i].state===state && inReturn[i].manufacturer===manufacturer && inReturn[i].body_type===body_type ){
+                carSaleFound.push(inReturn[i]);
+            }
+        } 
+        //get car with specified manufacturer and state 
+        else if(state  && manufacturer && !body_type  ) {
+          if( inReturn[i].manufacturer===manufacturer && inReturn[i].state===state ){
+            carSaleFound.push(inReturn[i]);
+        }
+        }
+        //get car with specified state and body-type
+        else if(state  && !manufacturer && body_type  ) {
+          if(inReturn[i].body_type===body_type  && inReturn[i].state===state){
+            carSaleFound.push(inReturn[i]);
+        }
+        }
+        //get car with specified manufacturer and body_type
+        else if(!state  && manufacturer && body_type  ) {
+          if(inReturn[i].manufacturer===manufacturer && inReturn[i].body_type===body_type){
+              carSaleFound.push(inReturn[i]);
           }
+      } 
+      
+        if (carSaleFound.length<=0){
+          carSaleFound=inReturn;
+        }
+       
+          // check if there is specified price range 
+          if( (minPrice) && (maxPrice)){
+            const carFilterByPrice= [];
+            for(let j=0; j<=carFound.length-1; j++){
+              if((carFound[j].price>=minPrice) && (carFound[j].price<=maxPrice)){
+                  carFilterByPrice.push(carFound[j]);
+              }
+          
+            }
+         
+          //return car filter by price range
+          return res.status(320).json({
+            data:carFilterByPrice
+          })
       }
-      if (carSaleFound.length>0){
+      
         return res.status(302).json({
           data: carSaleFound
-      });
-      }return res.status(400).json({
+         
+         });
+      
+
+
+    }
+   }
+   else if (inReturn.length>0){
+    return res.status(302).json({
+      data: carSaleFound
+  });
+  } else{
+      return res.status(400).json({
         error: `no car found `
       });
-  }
-
-  if((status==='available') &&  state && !(minPrice) && !(maxPrice)){
-      
-    //Get all unsold cars by status=available
-    for(let i=0; i<=cars.length-1; i++){
-        if(cars[i].status===status && cars[i].state===state){
-            carSaleFound.push(cars[i]);
-        }
     }
-    if (carSaleFound.length>0){
-      return res.status(302).json({
-        data: carSaleFound
-    });
-    }
-    return res.status(400).json({
-      error: `no car found `
-    });
     
-}
-return res.status(400).json({
-  error: `no car found `
-});
-};
- console.log(cars)
- console.log("cool" )
-    res.send(cars);
-  };
+      
+
+   
+      }
+     
+  
+
+  
 
    
 
