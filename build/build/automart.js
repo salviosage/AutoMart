@@ -1,10 +1,8 @@
 "use strict";
 
 var mart = {
-    users: [],
-
-    orders: [],
-
-    cars: [],
-    flags: []
+  users: [],
+  orders: [],
+  cars: [],
+  flags: []
 };

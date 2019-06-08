@@ -38,7 +38,7 @@ exports.signup = (req, res, next) => {
     console.log("find start") ;
         if (!user) {
           return res.status(401).json({
-            error: new Error('User not found!')
+            error: "User not found!"
           });
         }
         console.log("bycrypt start ") ;
@@ -49,8 +49,14 @@ exports.signup = (req, res, next) => {
               });
             }
             console.log("fvalidation passed  jst start") ;
+            let role="user";
+            
+            if(user.is_admin==="true"){
+              role="admin"
+            }
+
             const token = jwt.sign(
-              { userId: user.id },
+              { userId: user.id,role:user.role },
               'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' });
            return  res.status(200).json({
