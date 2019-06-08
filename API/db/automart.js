@@ -30,7 +30,7 @@
     {
         "id" :"ffdfzfzef5f5zef54e",
         "owner" :"5545455dqsdq4ds",
-        "state":"new",
+        "state":"used",
         "status" :"available",
         "body_type" :"truc",
         "model" :"benz",

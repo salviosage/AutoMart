@@ -37,7 +37,7 @@ exports.getAds= (req, res, next) =>{
       });
   }
 
-  if((status==='available') && ( state ==='new') && !(minPrice) && !(maxPrice)){
+  if((status==='available') &&  state && !(minPrice) && !(maxPrice)){
       
     //Get all unsold cars by status=available
     for(let i=0; i<=cars.length-1; i++){
