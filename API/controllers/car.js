@@ -19,11 +19,12 @@ exports.getAds= (req, res, next) =>{
     console.log(req.headers.token)
     
     try {
+      console.log('in a token ')
       const token = req.headers.token 
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
       console.log(decodedToken)
-      const userId = decodedToken.userId;
-      console.log(userId);
+      const userName = decodedToken.userName;
+      console.log(userName);
       const role =decodedToken.role;
       console.log(role)
   
@@ -34,11 +35,11 @@ exports.getAds= (req, res, next) =>{
         console.log("admin found" )
   }
   // for any user signed in 
-   else if (userId) {
+   else if (role && userName) {
      console.log("norml user are here ")
     for(let i=0; i<=cars.length-1; i++){
-    if(cars[i].owner===userId || inReturn[i].status==="available"){
-      inReturn.push(inReturn[i]);
+    if(cars[i].owner===userName || cars[i].status==="available"){
+      inReturn.push(cars[i]);
       
   }
 }
@@ -134,10 +135,11 @@ catch {
        
           // check if there is specified price range 
           if( (minPrice) && (maxPrice)){
+            console.log(maxPrice)
             const carFilterByPrice= [];
-            for(let j=0; j<=carFound.length-1; j++){
-              if((carFound[j].price>=minPrice) && (carFound[j].price<=maxPrice)){
-                  carFilterByPrice.push(carFound[j]);
+            for(let j=0; j<=carSaleFound.length-1; j++){
+              if((carSaleFound[j].price>=minPrice) && (carSaleFound[j].price<=maxPrice)){
+                  carFilterByPrice.push(carSaleFound[j]);
               }
           
             }
