@@ -4,7 +4,7 @@ const router = express.Router();
 const auth = require ('../middleware/auth');
 //const multer = require('../middleware/multer-config');
 
-const carCtrl = require('../controllers/car');
+import  carCtrl from '../controllers/car';
 
 
 

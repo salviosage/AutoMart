@@ -7,39 +7,71 @@ import  carChema from "../schema/car"
 import carUpdate from "../schema/carUpdate"
 
 
-export const getAds= (req, res, next) =>{
+
+exports.getAds= (req, res, next) =>{
+  console.log("here");
+  console.log(req.query)
   if(req.query){
-    const state=req.query.state,
-    const StatusValue= req.query.status,
-    const allCarSales= carsale.AllCarSales,
-    const minPrice= parseInt(req.query.min_price),
-    const maxPrice= parseInt(req.query.max_price),
-    const manufacturer= req.query.manufacturer,
-    const body_type= req.query.body_type
-    if((StatusValue==='available') && !(minPrice) && !(maxPrice)){
-      const carSaleFound= [];
+    const state =req.query.state;
+    const status = req.query.status;
+    const minPrice= parseInt(req.query.min_price);
+    const maxPrice= parseInt(req.query.max_price);
+    const manufacturer= req.query.manufacturer;
+    const body_type= req.query.body_type;
+    const carSaleFound= [];
+    
+    if((status==='available') && !(state) && !(minPrice) && !(maxPrice)){
+      
       //Get all unsold cars by status=available
       for(let i=0; i<=cars.length-1; i++){
-          if(cars[i].status===StatusValue){
-              carSaleFound.push(all_car_sales[i]);
+          if(cars[i].status===status){
+              carSaleFound.push(car[i]);
           }
       }
-      return res.status(302).json({
+      if (carSaleFound.length>0){
+        return res.status(302).json({
           data: carSaleFound
       });
+      }return res.status(400).json({
+        error: `no car found `
+      });
   }
+
+  if((status==='available') && ( state ==='new') && !(minPrice) && !(maxPrice)){
+      
+    //Get all unsold cars by status=available
+    for(let i=0; i<=cars.length-1; i++){
+        if(cars[i].status===status && cars[i].state===state){
+            carSaleFound.push(cars[i]);
+        }
+    }
+    if (carSaleFound.length>0){
+      return res.status(302).json({
+        data: carSaleFound
+    });
+    }
+    return res.status(400).json({
+      error: `no car found `
+    });
+    
+}
+return res.status(400).json({
+  error: `no car found `
+});
+};
  console.log(cars)
  console.log("cool" )
     res.send(cars);
   };
+
    
 
 exports.createAd = (req, res, next) => {
   const carAdValidation= Joi.validate(req.body, carChema);
   if(carAdValidation.error){
-      return res.status(400).json({
-          error_msg: `${carAdValidation.error.details[0].message}`
-      });
+    return res.status(400).json({
+      error_msg: `${carAdValidation.error.details[0].message}`
+  });
   }
 
   const newAd = {
@@ -83,7 +115,7 @@ exports.getOneAd =(req, res, next) =>{
     const carAdValidation= Joi.validate(req.body, carUpdate);
     if(carAdValidation.error){
         return res.status(400).json({
-            error_msg: `${carAdValidation.error.details[0].message}`
+            error: `${carAdValidation.error.details[0].message}`
         });
     }
     const car= cars.find(car=> car.id === req.params.id )
@@ -154,6 +186,4 @@ exports.deleteAd= (req, res, next) => {
        return  res.status(200).json({
           cars
         });
-         
-
 };
