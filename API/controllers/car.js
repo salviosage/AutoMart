@@ -3,9 +3,12 @@ const jwt = require('jsonwebtoken');
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
-import  carChema from "../schema/car"
-import carUpdate from "../schema/carUpdate"
-import { decode } from 'querystring';
+import  carChema from "../schema/car";
+import carUpdate from "../schema/carUpdate";
+import carDelete from "../schema/carDelete";
+import oneCar from "../schema/oneCar"
+import Joi from 'joi';
+
 
 
 
@@ -208,12 +211,22 @@ exports.createAd = (req, res, next) => {
   
 };
 exports.getOneAd =(req, res, next) =>{
+  console.log(req.params)
+  const carAdValidation= Joi.validate(req.params, oneCar);
+    if(carAdValidation.error){
+        return res.status(400).json({
+            error: `${carAdValidation.error.details[0].message}`
+        });
+    }
 
-  const car= cars.find(car=> car.id === req.body.id  )
+    console.log(cars)
+  const car= cars.find(car=> car.id === req.params.id  )
+  console.log(req.params.id)
+  
     console.log("then here second ")
         if (!car || car.status !="available") {
           return res.status(401).json({
-            error: new Error('call you want to car not found!')
+            error: 'call you want to car not found!'
           });
         }
   console.log(car)
@@ -276,6 +289,12 @@ exports.getOneAd =(req, res, next) =>{
 };
 exports.deleteAd= (req, res, next) => {
   console.log(req.params)
+  const carAdValidation= Joi.validate(req.body, carDelete);
+    if(carAdValidation.error){
+        return res.status(400).json({
+            error: `${carAdValidation.error.details[0].message}`
+        });
+    }
 
   const car= cars.find(car=> car.id === req.params.id )
   console.log("then here second ")
