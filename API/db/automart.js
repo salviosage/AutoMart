@@ -9,7 +9,16 @@
             "password" :"121621454655",
             "address" :"kigali",
             "is_admin" :"true"
-            }
+            },
+            {   
+              "id" :"ffdfzfzef5f5zef54efdfd",
+              "email" :"jeasal@gmail.com",
+              "first_name" :"jean salvi",
+              "last_name":"duk",
+              "password" :"1216214546155",
+              "address" :"kigali",
+              "is_admin" :"false"
+              }
     ];
 
   export const orders= [{
@@ -31,7 +40,7 @@
         "id" :"ffdfzfzef5f5zef54e",
         "owner" :"5545455dqsdq4ds",
         "state":"used",
-        "status" :"sold",
+        "status" :"available",
         "body_type" :"truc",
         "model" :"benz",
         "manufacturer" :"mercedes",
