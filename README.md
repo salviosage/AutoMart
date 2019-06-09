@@ -104,9 +104,10 @@ It will to install all required package locally .
 
 
 ## Author
-- Jen salvi <salviosge@gmail.com>
+
+-[Jean Salvi ](https://www.linkedin.com/in/jean-salvi-d-78aa9016b/)
 
 ---
 
 ## License & copyright
-Copyright (c) Jean Salvi Dukuzwenimana,Life Long learner 
+Copyright (c) Jean Salvi ,lifelong learner |data science enthusiast
