@@ -97,6 +97,7 @@ catch {
                 //get car with specified  body-type
                 else if(!state  && !manufacturer && body_type  ) {
                   if( inReturn[i].body_type===body_type ){
+                    console.log("im in body type only")
                     carSaleFound.push(inReturn[i]);
                 }
                 }
