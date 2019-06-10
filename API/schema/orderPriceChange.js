@@ -1,6 +1,8 @@
 import Joi from 'joi';
 
 const orderPriceUpdateChema={
-    new_price_offered: Joi.number().required()
+
+    contacts:  Joi.string().email({minDomainAtoms : 2}).required(),
+    amount: Joi.number().required()
 }
 export default orderPriceUpdateChema;

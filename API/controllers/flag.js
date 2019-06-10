@@ -4,6 +4,8 @@ import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
 import {flags} from "../db/automart"
+import flagSchema from "../schema/flag";
+import Joi from 'joi'
 
 
 export const geAllFlag= (req, res, next) =>{
@@ -14,6 +16,12 @@ export const geAllFlag= (req, res, next) =>{
    
  
 exports.createFlag = (req, res, next) => {
+  const flagValidation= Joi.validate(req.body, flagSchema);
+  if(flagValidation.error){
+    return res.status(400).json({
+      error_msg: `${flagValidation.error.details[0].message}`
+  });
+  }
     console.log("im here ")
     console.log(cars )
     console.log(req.body )

@@ -183,7 +183,7 @@ catch {
   
 
    
-
+//create a car ad endpoint 
 exports.createAd = (req, res, next) => {
   const carAdValidation= Joi.validate(req.body, carChema);
   if(carAdValidation.error){

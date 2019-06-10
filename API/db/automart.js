@@ -23,7 +23,16 @@
 
   export const orders= [{
     "id": "91af9944-e3de-47b3-9ece-cbda9ee32699",
-        "buyer": "ffdfzfzef5f5zef54e",
+        "buyer": "salviosage@gmail.com",
+        "car_id": "ffdfzfzef5f5zef54e",
+        "amount":"11515555",
+        "status": "pending",
+        "created_on": 1559808005114,
+        "modified_on": 1559808005114
+  },
+  {
+    "id": "91af9944-e3de-47b3-9ece-cbda9e",
+        "buyer": "norml@gmail.com",
         "car_id": "ffdfzfzef5f5zef54e",
         "amount":"11515555",
         "status": "pending",
