@@ -9,11 +9,11 @@ const orderCtrl = require('../controllers/order');
 
 
 router.post('/',auth, orderCtrl.createOrder );
-//router.get('/', orderCtrl.getAllOrders );
-//router.get('/:id', auth,function(req, res){carCtrl.getOneAd} );
-//router.put('/:id', auth, function(req, res){carCtrl.modifycar});
-//router.delete('/:id', auth,function(req, res){ carCtrl.deleteAd});
-router.patch('/:id/status',auth, orderCtrl.updateOrder);
-router.patch('/:id/price',auth, orderCtrl.updateOrder);
+//router.get('/', auth, orderCtrl.getAllOrders );
+//router.get('/:id', auth,carCtrl.getOneAd );
+//router.put('/:id', auth, carCtrl.modifycar);
+//router.delete('/:id', auth, carCtrl.deleteAd);
+router.patch('/:id/status',auth, orderCtrl.updateOrderStatus);
+router.patch('/:id/price', auth,orderCtrl.updateOrderPrice);
 
 module.exports = router;

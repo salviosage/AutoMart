@@ -18,12 +18,12 @@ exports.getAds= (req, res, next) =>{
 
   //if user signed in 
   if (req.headers.token){
-    console.log(req.headers)
-    console.log(req.headers.token)
+    
+    const token = req.headers.token 
     
     try {
       console.log('in a token ')
-      const token = req.headers.token 
+      console.log(token)
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
       console.log(decodedToken)
       const userName = decodedToken.userName;
@@ -165,7 +165,7 @@ catch {
    }
    else if (inReturn.length>0){
     return res.status(302).json({
-      data: carSaleFound
+      data: inReturn
   });
   } else{
       return res.status(400).json({
@@ -183,7 +183,7 @@ catch {
   
 
    
-
+//create a car ad endpoint 
 exports.createAd = (req, res, next) => {
   const carAdValidation= Joi.validate(req.body, carChema);
   if(carAdValidation.error){
@@ -220,14 +220,15 @@ exports.getOneAd =(req, res, next) =>{
         });
     }
 
-    console.log(cars)
+    
   const car= cars.find(car=> car.id === req.params.id  )
+  console.log(car)
   console.log(req.params.id)
   
     console.log("then here second ")
         if (!car || car.status !="available") {
           return res.status(401).json({
-            error: 'call you want to car not found!'
+            error: 'call you want to car not found from one add get!'
           });
         }
   console.log(car)

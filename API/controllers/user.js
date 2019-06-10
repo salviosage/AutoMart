@@ -1,7 +1,10 @@
 import  bcrypt from'bcrypt';
 import  jwt from 'jsonwebtoken';
 import uuid from 'uuid';
-import {users} from "../db/automart"
+import {users} from "../db/automart";
+import Joi from 'joi';
+import userSchema from '../schema/user';
+import accountSchema from '../schema/account'
 
 export const getUser= (req, res, next) =>{
  console.log(users)
@@ -13,6 +16,12 @@ export const getUser= (req, res, next) =>{
   
 
 exports.signup = (req, res, next) => {
+  const acountValidation= Joi.validate(req.body, accountSchema);
+  if(flagValidation.error){
+    return res.status(400).json({
+      error_msg: `${acountValidation.error.details[0].message}`
+  });
+  }
     bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = {
@@ -51,6 +60,12 @@ exports.signup = (req, res, next) => {
   };
 
   exports.login = (req, res, next) => {
+    const userValidation= Joi.validate(req.body, userSchema);
+    if(flagValidation.error){
+      return res.status(400).json({
+        error_msg: `${userValidation.error.details[0].message}`
+    });
+    }
     
    const user= users.find(user=> user.email === req.body.email )
     console.log("find start") ;
@@ -98,8 +113,10 @@ exports.signup = (req, res, next) => {
          }
          console.log("reset start ") ;
         const hash= bcrypt.hash(user.first_name, 10);
-
-      usee.password= hash
+        console.log(user)
+        console.log(hash)
+      user.password= hash
+      console.log(user)
     console.log(user)
             return  res.status(200).json({
                userId: user.id,

@@ -11,6 +11,9 @@
   },
   "author": "jean salvi",
   "license": "ISC",
+  "engines": {
+    "node": "10.15.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "babel-preset-env": "^1.7.0",
