@@ -1,2 +1,2 @@
-web: --app  
+heroku run --app app 
  
