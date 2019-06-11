@@ -12,7 +12,9 @@
   "author": "jean salvi",
   "license": "ISC",
   "engines": {
-    "node": "10.15.0"
+    "node": "10.15.0",
+    "npm": "6.4.1"
+  
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
