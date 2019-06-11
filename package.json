@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon  server.js",
+    "start": "node --exec babel-node server.js",
     "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint"
@@ -12,7 +12,9 @@
   "author": "jean salvi",
   "license": "ISC",
   "engines": {
-    "node": "10.15.0"
+    "node": "10.15.0",
+    "npm": "6.4.1"
+  
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
