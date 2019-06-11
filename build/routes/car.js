@@ -1,25 +1,20 @@
 "use strict";
 
+var _express = _interopRequireDefault(require("express"));
+
+var _auth = _interopRequireDefault(require("../middleware/auth"));
+
 var _car = _interopRequireDefault(require("../controllers/car"));
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var express = require('express');
+var router = _express["default"].Router();
 
-var router = express.Router();
+router.post('/', _auth["default"], _car["default"].createAd);
+router.get('/:id', _car["default"].getOneAd);
+router.get('/', _car["default"].getAds); //router.put('/:id', auth,carCtrl.modifycar);
 
-var auth = require('../middleware/auth'); //const multer = require('../middleware/multer-config');
-
-
-router.post('/', _car["default"].createAd);
-router.get('/', _car["default"].getAds);
-router.get('/:id', _car["default"].getOneAd); //router.put('/:id', auth, function(req, res){carCtrl.modifycar});
-
-router["delete"]('/:id', _car["default"].deleteAd);
-router.patch('/:id/status', _car["default"].updateAd);
-router.patch('/:id/price', _car["default"].updateAd);
+router["delete"]('/:id', _auth["default"], _car["default"].deleteAd);
+router.patch('/:id/status', _auth["default"], _car["default"].updateAd);
+router.patch('/:id/price', _auth["default"], _car["default"].updateAd);
 module.exports = router;

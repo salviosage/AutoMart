@@ -1,5 +1,5 @@
 const http = require('http');
-const app = require('./app');
+const app = require('../app');
 var chalk =require('chalk');
 
 const normalizePort = val => {

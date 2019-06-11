@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js",
+    "start": "nodemon --exec babel-node API/server.js",
+    "build": "babel  API --out-dir build",
     "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint"

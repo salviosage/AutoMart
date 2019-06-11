@@ -9,11 +9,11 @@ var auth = require('../middleware/auth'); //const multer = require('../middlewar
 
 var orderCtrl = require('../controllers/order');
 
-router.post('/', orderCtrl.createOrder); //router.get('/', orderCtrl.getAllOrders );
-//router.get('/:id', auth,function(req, res){carCtrl.getOneAd} );
-//router.put('/:id', auth, function(req, res){carCtrl.modifycar});
-//router.delete('/:id', auth,function(req, res){ carCtrl.deleteAd});
+router.post('/', auth, orderCtrl.createOrder); //router.get('/', auth, orderCtrl.getAllOrders );
+//router.get('/:id', auth,carCtrl.getOneAd );
+//router.put('/:id', auth, carCtrl.modifycar);
+//router.delete('/:id', auth, carCtrl.deleteAd);
 
-router.patch('/:id/status', orderCtrl.updateOrder);
-router.patch('/:id/price', orderCtrl.updateOrder);
+router.patch('/:id/status', auth, orderCtrl.updateOrderStatus);
+router.patch('/:id/price', auth, orderCtrl.updateOrderPrice);
 module.exports = router;

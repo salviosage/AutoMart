@@ -9,11 +9,8 @@ var _joi = _interopRequireDefault(require("joi"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var loginSchema = {
-  email: _joi["default"].string().email({
-    minDomainAtoms: 2
-  }).required(),
-  password: _joi["default"].string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+var oneCarSchema = {
+  id: _joi["default"].string().required()
 };
-var _default = loginSchema;
+var _default = oneCarSchema;
 exports["default"] = _default;
