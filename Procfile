@@ -1,2 +1,2 @@
-heroku run --app app
+web: nodemon --exec babel-node server.js
  
