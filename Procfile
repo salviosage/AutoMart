@@ -1,2 +1,2 @@
-heroku run --app app 
+heroku run -a 
  
