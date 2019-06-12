@@ -91,7 +91,7 @@
     "id" :"ffdfzfzef5f5zef5",
     "owner" :"jeasal@gmail.comsalvi",
     "state":"new",
-    "status" :"sold",
+    "status" :"available",
     "body_type" :"truc",
     "model" :"benz",
     "manufacturer" :"mercedes",

@@ -27,16 +27,16 @@ exports.getAds= (req, res, next) =>{
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
       
       const userName = decodedToken.userName;
-      console.log(userName);
+    
       const role =decodedToken.role;
-      console.log(role)
+     
   
       // for admin request 
   if(role && role ==="admin"){
-    console.log(cars)
+   
        inReturn = cars;
        console.log("admin found" )
-       console.log(inReturn)
+      
        
   }
   // for any user signed in 
@@ -49,7 +49,7 @@ exports.getAds= (req, res, next) =>{
   }
 }
 console.log("in return arrray found ")
-console.log(inReturn)
+
 } 
     }
 
@@ -69,7 +69,7 @@ catch {
 
  
   console.log `this is found in return to be sorted by querry${inReturn}  `
-  console.log(inReturn)
+  
 
   
   if(req.query){
@@ -169,15 +169,18 @@ catch {
     }
    }
    else if (inReturn.length>0){
-     console.log("inReturn returning cars found ")
      console.log(inReturn)
+     console.log("inReturn returning cars found ")
+    
     return res.status(302).json({
+      status:302,
       data: inReturn
       
   });
-  } else{
+  } else{  // no array to return 
     console.log("no caar found ")
       return res.status(400).json({
+        status:401,
         error: `no car found `
       });
     }
@@ -197,6 +200,7 @@ exports.createAd = (req, res, next) => {
   const carAdValidation= Joi.validate(req.body, carChema);
   if(carAdValidation.error){
     return res.status(400).json({
+      status:401,
       error_msg: `${carAdValidation.error.details[0].message}`
   });
   }
@@ -245,6 +249,7 @@ exports.getOneAd =(req, res, next) =>{
   console.log(car)
   console.log("returning one car" )
   return res.status(200).json({
+    status:200,
     data: car
   });
    };
@@ -262,9 +267,11 @@ exports.getOneAd =(req, res, next) =>{
     }
     const car= cars.find(car=> car.id === req.params.id )
     console.log("then here second ")
+    
         if (!car || car.status !="available") {
           return res.status(401).json({
-            error: new Error('car not found !')
+            status:401,
+            error: ('car not found !')
           });
         }
         
@@ -294,17 +301,18 @@ exports.getOneAd =(req, res, next) =>{
     cars[index].status= status ,
     cars[index].created_on= car.created_on,
     cars[index].modified_on= moment.now()
-    console.log(cars[index])
+    
  
          return  res.status(200).json({
-            car
+           status:200,
+           data:car
           });
            
   
 };
 exports.deleteAd= (req, res, next) => {
   console.log(req.params)
-  const carAdValidation= Joi.validate(req.body, carDelete);
+  const carAdValidation= Joi.validate(req.params, carDelete);
     if(carAdValidation.error){
         return res.status(400).json({
             error: `${carAdValidation.error.details[0].message}`
@@ -332,6 +340,7 @@ exports.deleteAd= (req, res, next) => {
   console.log(cars[index])
   
        return  res.status(200).json({
-          cars
+         status:200,
+         data:"car deleted successfully"
         });
 };

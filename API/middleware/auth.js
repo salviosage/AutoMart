@@ -3,9 +3,9 @@ import {users} from "../db/automart"
 
 
 module.exports = (req, res, next) => {
-  console.log(req.headers)
+  if(req.headers.token){
   try {
-    console.log("try started ")
+    console.log("authentication starts  ")
     const token = req.headers.token
    
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -33,4 +33,12 @@ module.exports = (req, res, next) => {
       error: 'Invalid request! you must login first '
     });
   }
+}
+else {
+  console.log("authentication failed")
+    res.status(401).json({
+      status:401,
+      error: 'Invalid request! you must login first '
+    });
+}
 };
