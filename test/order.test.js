@@ -60,7 +60,7 @@ import  chai from 'chai';
    
     
 
-it('/PUT /ORDER ', (done) =>{
+it('/post  /ORDER ', (done) =>{
     const record = {  
         contact: "salviosage@gmail.com",
         car_id: "ffdfzfzef5f5zef54e",
