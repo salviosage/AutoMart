@@ -59,7 +59,7 @@ exports.signup = (req, res, next) => {
     );
   };
 
-  exports.login = (req, res, next) => {
+  exports.login = (req, res) => {
     const userValidation= Joi.validate(req.body, userSchema);
     if(flagValidation.error){
       return res.status(400).json({
@@ -94,9 +94,11 @@ exports.signup = (req, res, next) => {
               'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' });
            return  res.status(200).json({
+              
+              token: token,
               message:"successfully logged in ",
               userName: user.email,
-              token: token
+              
             });
          
         

@@ -233,7 +233,9 @@ exports.getOneAd =(req, res, next) =>{
         }
   console.log(car)
   console.log("cool" )
-     res.send(car);
+  return res.status(200).json({
+    data: car
+  });
    };
 
 
