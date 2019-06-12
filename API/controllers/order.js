@@ -30,7 +30,7 @@ exports.createOrder = (req, res, next) => {
     const car= cars.find(car=> car.id === req.body.car_id  )
     console.log("then here second ")
         if (!car || car.status !="available") {
-          return res.status(401).json({
+          return res.status(400).json({
             error: new Error('call you want to order not found!')
           });
         }

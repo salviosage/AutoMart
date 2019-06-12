@@ -205,8 +205,9 @@ exports.createAd = (req, res, next) => {
     modified_on: moment.now()
   };
   cars.push(newAd);
-         return  res.status(200).json({
-            newAd
+         return  res.status(201).json({
+           status: 201,
+            data:newAd
           });
            
   

@@ -22,8 +22,8 @@
     ];
 
   export const orders= [{
-    "id": "91af9944-e3de-47b3-9ece-cbda9ee32699",
-        "buyer": "salviosage@gmail.com",
+        "id": "91af9944-e3de-47b3-9ece-cbda9ee32699",
+        "contacts": "salviosage@gmail.com",
         "car_id": "ffdfzfzef5f5zef54e",
         "amount":"11515555",
         "status": "pending",
@@ -47,7 +47,7 @@
         
     {
         "id" :"ffdfzfzef5f5zef54e",
-        "owner" :"5545455dqsdq4ds",
+        "owner" :"jeasal@gmail.comsalvi",
         "state":"used",
         "status" :"available",
         "body_type" :"truc",
@@ -59,7 +59,7 @@
     },
     {
       "id" :"ffdfzfzef5f5zef5d5",
-      "owner" :"5545455dqsdq4ds",
+      "owner" :"jeasal@gmail.com",
       "state":"new",
       "status" :"available",
       "body_type" :"truc",
@@ -70,10 +70,10 @@
       "modified_on" :"112/12/2018"
   },
   {
-    "id" :"ffdfzfzef5f5zef54er",
-    "owner" :"5545455dqsdq4ds",
+    "id" :"ffdfzfzef5f5zef5",
+    "owner" :"jeasal@gmail.comsalvi",
     "state":"new",
-    "status" :"available",
+    "status" :"sold",
     "body_type" :"truc",
     "model" :"benz",
     "manufacturer" :"mercedes",
