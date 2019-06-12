@@ -18,7 +18,16 @@
               "password" :"1216214546155",
               "address" :"kigali",
               "is_admin" :"false"
-              }
+              },
+              {   
+                "email": "sagesalvi@com.salvi",
+		            "password": "1216214546155",
+                "first_name" :"jean salvi",
+                "last_name":"duk",
+                "password" :"1216214546155",
+                "address" :"kigali",
+                "is_admin" :"false"
+                }
     ];
 
   export const orders= [{

@@ -13,7 +13,7 @@ import Joi from 'joi';
 
 
 exports.getAds= (req, res, next) =>{
-  console.log("here");
+  console.log("get ads started ");
  let inReturn =[]; // define an array to hold relevant data from database 
 
   //if user signed in 
@@ -23,9 +23,9 @@ exports.getAds= (req, res, next) =>{
     
     try {
       console.log('in a token ')
-      console.log(token)
+      
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-      console.log(decodedToken)
+      
       const userName = decodedToken.userName;
       console.log(userName);
       const role =decodedToken.role;
@@ -33,9 +33,11 @@ exports.getAds= (req, res, next) =>{
   
       // for admin request 
   if(role && role ==="admin"){
+    console.log(cars)
        inReturn = cars;
+       console.log("admin found" )
        console.log(inReturn)
-        console.log("admin found" )
+       
   }
   // for any user signed in 
    else if (role && userName) {
@@ -46,8 +48,9 @@ exports.getAds= (req, res, next) =>{
       
   }
 }
+console.log("in return arrray found ")
 console.log(inReturn)
-}
+} 
     }
 
 catch {
@@ -55,16 +58,18 @@ catch {
     error: ('Invalid request !')
   });
 }
-  }
-
- else {
-  for(let i=0; i<=cars.length-1; i++){
-    if( cars[i].status==="available"){
-      inReturn.push(cars[i]);
-  }
+  }else {
+    console.log("unregistered user found ")
+    for(let i=0; i<=cars.length-1; i++){
+      if( cars[i].status==="available"){
+        inReturn.push(cars[i]);
+    }
+        }
       }
-    } 
-  
+
+ 
+  console.log `this is found in return to be sorted by querry${inReturn}  `
+  console.log(inReturn)
 
   
   if(req.query){
@@ -164,10 +169,14 @@ catch {
     }
    }
    else if (inReturn.length>0){
+     console.log("inReturn returning cars found ")
+     console.log(inReturn)
     return res.status(302).json({
       data: inReturn
+      
   });
   } else{
+    console.log("no caar found ")
       return res.status(400).json({
         error: `no car found `
       });
@@ -205,6 +214,7 @@ exports.createAd = (req, res, next) => {
     modified_on: moment.now()
   };
   cars.push(newAd);
+  console.log("car created successfull")
          return  res.status(201).json({
            status: 201,
             data:newAd
@@ -233,7 +243,7 @@ exports.getOneAd =(req, res, next) =>{
           });
         }
   console.log(car)
-  console.log("cool" )
+  console.log("returning one car" )
   return res.status(200).json({
     data: car
   });
@@ -320,7 +330,7 @@ exports.deleteAd= (req, res, next) => {
 
   
   console.log(cars[index])
-
+  
        return  res.status(200).json({
           cars
         });
