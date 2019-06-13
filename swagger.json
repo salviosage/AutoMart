@@ -188,7 +188,7 @@
       "/car/{id}/status": {
         "patch": {
           "tags": [
-            "car"
+            "Cars"
           ],
           "summary": "mark a posted car ad as sold",
           "description": "seller can mark a posted ad as sold",
@@ -241,7 +241,7 @@
       "/car/{id}/price": {
         "patch": {
           "tags": [
-            "car"
+            "Cars"
           ],
           "summary": "mark change price ",
           "description": "seller can change price of his car",
@@ -294,7 +294,7 @@
       "/car/{id}": {
         "get": {
           "tags": [
-            "Car"
+            "Cars"
           ],
           "summary": "View a specific car",
           "description": "user can view a specific car while its available or is his /her car ",
@@ -377,7 +377,7 @@
       "/flag": {
         "post": {
           "tags": [
-            "Flag"
+            "Flags"
           ],
           "summary": "Post Flag  ",
           "description": "User can Flag  car sale advert",
