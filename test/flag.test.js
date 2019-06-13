@@ -48,7 +48,7 @@ it('/PUT /FLAG ', (done) =>{
 		 .end((err, res)=>{
             
             res.body.should.be.a('object');
-            console.log(res.body)
+        
 			res.body.should.have.property('status').eql(200);
 			res.body.should.have.property('data');
 			res.body.data.should.be.a('object');
@@ -74,7 +74,7 @@ it('/PUT /FLAG ', (done) =>{
              .send(record)
              .end((err, res)=>{
             
-                    console.log(res.body)
+                   
                    
                    res.body.should.be.a('object');
                    res.body.should.have.property('status').eql(200);

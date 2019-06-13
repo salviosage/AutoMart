@@ -12,15 +12,13 @@ import orderStatusUpdateChema from '../schema/orderStatusUpdate';
 
 
 export const geAllOrder= (req, res, next) =>{
- console.log(cars)
- console.log("cool" )
+
     res.send(orders);
   }
    
  
 exports.createOrder = (req, res, next) => {
-    console.log("im here ")
-    console.log(req.body)
+   
     const orderValidation= Joi.validate(req.body, orderSchema);
     if(orderValidation.error){
       return res.status(400).json({
@@ -29,7 +27,7 @@ exports.createOrder = (req, res, next) => {
     }
 
     const car= cars.find(car=> car.id === req.body.car_id  )
-    console.log("then here second ")
+    
         if (!car || car.status !="available") {
           return res.status(400).json({
             error: new Error('call you want to order not found!')
@@ -37,7 +35,7 @@ exports.createOrder = (req, res, next) => {
         }
         
        
-        console.log("gotta add an order ")
+      
   const newOrder
    = {
     id: uuid.v4(),
@@ -57,7 +55,7 @@ exports.createOrder = (req, res, next) => {
   
 };
 exports.updateOrderPrice = (req, res, next) => {
-    console.log(req.params)
+    
    
     const orderUpdateValidation= Joi.validate(req.body, orderPriceUpdateSchema);
     if(orderUpdateValidation.error){
@@ -65,12 +63,9 @@ exports.updateOrderPrice = (req, res, next) => {
         error_msg: `${orderUpdateValidation.error.details[0].message}`
     });
     }
-console.log(req.params.id)
+
     const order= orders.find(order=> order.id === req.params.id )
-    console.log("then here second ")
-    console.log(order.status)
-    console.log(order.buyer)
-    console.log(req.params.contacts)
+    
         if (!order || order.status !="pending" || order.buyer !=req.body.contacts) {
           return res.status(401).json({
             status:401,
@@ -79,13 +74,10 @@ console.log(req.params.id)
         }
         
        
-        console.log("gotta update order  an order ")
+       
 
         const index = orders.indexOf(order);
-        console.log(index)
-        console.log(orders[index])
-        console.log(req.body.amount)
-        console.log(req.body)
+        
   
     orders[index].id= order.id,
     orders[index].buyer =order.buyer, // user id
@@ -94,7 +86,7 @@ console.log(req.params.id)
     orders[index].status= order.satus   
     orders[index].created_on= order.created_on,
     orders[index].modified_on= moment.now()
-    console.log(orders[index])
+    
  
          return  res.status(200).json({
            status:200,
@@ -104,18 +96,16 @@ console.log(req.params.id)
   
 };
 exports.updateOrderStatus = (req, res, next) => {
-  console.log(req.params)
- 
+
   const orderStatusUpdate= Joi.validate(req.body, orderStatusUpdateChema);
   if(orderStatusUpdate.error){
     return res.status(400).json({
       error_msg: `${orderStatusUpdate.error.details[0].message}`
   });
   }
- console.log(req.params.id)
- console.log(orders)
+
   const order= orders.find(order=> order.id === req.params.id )
-  console.log("then here second ")
+  
       if (!order || order.status !="pending") {
         return res.status(401).json({
           status:401,
@@ -133,13 +123,10 @@ exports.updateOrderStatus = (req, res, next) => {
      }
     
 
-      console.log("gotta update order  an order ")
+   
 
       const index = orders.indexOf(order); 
-      console.log(index)
-      console.log(orders[index])
-      console.log(req.body.amount)
-      console.log(req.body)
+      
 
   orders[index].id= order.id,
   orders[index].buyer =order.buyer, // user id
@@ -148,7 +135,7 @@ exports.updateOrderStatus = (req, res, next) => {
   orders[index].status= order.satus   || req.body.status,
   orders[index].created_on= order.created_on,
   orders[index].modified_on= moment.now()
-  console.log(orders[index])
+
 
        return  res.status(200).json({
           status:200,

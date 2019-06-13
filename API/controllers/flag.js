@@ -15,13 +15,10 @@ exports.createFlag = (req, res, next) => {
       error_msg: `${flagValidation.error.details[0].message}`
   });
   }
-    console.log("im here ")
-    console.log(cars )
-    console.log(req.body )
+    
 
     const car= cars.find(car=> car.id === req.body.car_id  )
-    console.log(car)
-    console.log("then here second ")
+    
         if (!car || car.status !="available") {
           return res.status(401).json({
             status:401,
@@ -29,8 +26,7 @@ exports.createFlag = (req, res, next) => {
           });
         }
         
-        console.log(req.body.description)
-        console.log("gotta add a flag ")
+       
         
   const newFlag
    = {
