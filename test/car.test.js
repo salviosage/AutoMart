@@ -53,7 +53,7 @@ import  chai from 'chai';
         .end((err, res)=>{
             
             userToken = res.body.token;
-            console.log("done with aouth")
+           
             done();
         })
 	
@@ -67,8 +67,7 @@ import  chai from 'chai';
 		 .get('/api/v1/car')
 		 .set('token', adminToken)
 		 .end((err, res)=>{
-            console.log(adminToken);
-            console.log(res.body);
+           
 			res.should.be.an('object');
 			res.body.should.have.property('status').eql(200);
 			res.body.should.have.property('data');
@@ -117,8 +116,7 @@ import  chai from 'chai';
             .get('/api/v1/car?min_price=125&max_price=65465455')
             .set('token', userToken)
             .end((err, res)=>{
-               console.log(adminToken);
-               console.log(res.body);
+              
             res.should.be.an('object');
             res.body.should.have.property('status').eql(200);
             res.body.should.have.property('data');
@@ -171,8 +169,7 @@ import  chai from 'chai';
             .get('/api/v1/car?status=available&min_price=125&max_price=65465455')
             .set('token', adminToken)
             .end((err, res)=>{
-               console.log(userToken);
-               console.log(res.body);
+              
             res.should.be.an('object');
             res.body.should.have.property('status').eql(200);
             res.body.should.have.property('data');
@@ -198,7 +195,7 @@ import  chai from 'chai';
          .set('token', userToken)
 		 .end((err, res)=>{
         
-                console.log(res.body)
+                
                
                res.body.should.be.a('object');
                res.body.should.have.property('status').eql(200);
@@ -221,7 +218,7 @@ import  chai from 'chai';
              .send(record)
              .end((err, res)=>{
             
-                    console.log(res.body)
+                   
                    
                    res.body.should.be.a('object');
                    res.body.should.have.property('status').eql(200);
@@ -245,7 +242,7 @@ import  chai from 'chai';
          .send(record)
 		 .end((err, res)=>{
         
-                console.log(res.body)
+             
                
                res.body.should.be.a('object');
                res.body.should.have.property('status').eql(200);
@@ -262,7 +259,6 @@ import  chai from 'chai';
                     
                      .end((err, res)=>{
                     
-                            console.log(res.body)
                            
                            res.body.should.be.a('object');
                            res.body.should.have.property('status').eql(200);
@@ -295,7 +291,7 @@ import  chai from 'chai';
 			 .set('token', userToken)
 			 .send(record)
  		    .end((err, res)=>{
-                 console.log(res.body)
+              
  		    	res.body.should.be.a('object');
                 res.body.should.have.property('status').eql(201);
                 res.body.should.have.property('data');
@@ -330,7 +326,7 @@ import  chai from 'chai';
             .post('/api/v1/car')
             .send(record)
             .end((err, res)=>{
-                console.log(res.body)
+              
                 res.body.should.be.a('object');
                res.body.should.have.property('status').eql(401);
                done();

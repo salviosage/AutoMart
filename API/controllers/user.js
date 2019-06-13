@@ -38,16 +38,16 @@ exports.signup = (req, res, next) => {
             is_admin : req.body.is_admin,
         };
       users.push(user);
-      console.log("fvalidation passed  jst start") ;
+     
       let role="user";
       
       if(user.is_admin==="true"){
         role="admin"
       }
-      console.log(role)
+     
      
       const userName =user.email
-      console.log(userName)
+     
 
       const token = jwt.sign(
         { userName:userName,role:role },
@@ -74,14 +74,14 @@ exports.signup = (req, res, next) => {
     }
     
    const user= users.find(user=> user.email === req.body.email )
-    console.log("find start") ;
+    
         if (!user) {
           return res.status(401).json({
             status:401,
             error: "User not found!"
           });
         }
-        console.log("bycrypt start ") ;
+       
         const compare =bcrypt.compare(req.body.password, user.password)
             if (!compare) {
               return res.status(401).json({
@@ -89,13 +89,13 @@ exports.signup = (req, res, next) => {
                 error: new Error('Incorrect password!')
               });
             }
-            console.log("validation passed  jst start") ;
+            
             let role="user";
             
             if(user.is_admin==="true"){
               role="admin"
             }
-            console.log(role)
+         
 
             const token = jwt.sign(
               { userName: user.email, role:role },
@@ -122,20 +122,17 @@ exports.signup = (req, res, next) => {
     }
     
     const user= users.find(user=> user.email === req.body.email )
-     console.log(" reset find start") ;
+    
          if (!user) {
            return res.status(401).json({
              error: ('User not found!')
            });
          }
-         console.log("reset start ") ;
+        
         const hash= bcrypt.hash(user.first_name, 10);
-        console.log(user)
-        console.log(hash)
+        
       user.password= hash
-      console.log(user)
-      console.log(user)
-    console.log(user)
+      
             return  res.status(200).json({
                status:200,
                userName: user.email,
