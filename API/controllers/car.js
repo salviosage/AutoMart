@@ -13,7 +13,7 @@ import Joi from 'joi';
 
 
 exports.getAds= (req, res, next) =>{
-  console.log("here");
+  console.log("get ads started ");
  let inReturn =[]; // define an array to hold relevant data from database 
 
   //if user signed in 
@@ -23,19 +23,21 @@ exports.getAds= (req, res, next) =>{
     
     try {
       console.log('in a token ')
-      console.log(token)
+      
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-      console.log(decodedToken)
+      
       const userName = decodedToken.userName;
-      console.log(userName);
+    
       const role =decodedToken.role;
-      console.log(role)
+     
   
       // for admin request 
   if(role && role ==="admin"){
+   
        inReturn = cars;
-       console.log(inReturn)
-        console.log("admin found" )
+       console.log("admin found" )
+      
+       
   }
   // for any user signed in 
    else if (role && userName) {
@@ -46,8 +48,9 @@ exports.getAds= (req, res, next) =>{
       
   }
 }
-console.log(inReturn)
-}
+console.log("in return arrray found ")
+
+} 
     }
 
 catch {
@@ -55,21 +58,23 @@ catch {
     error: ('Invalid request !')
   });
 }
-  }
-
- else {
-  for(let i=0; i<=cars.length-1; i++){
-    if( cars[i].status==="available"){
-      inReturn.push(cars[i]);
-  }
+  }else {
+    console.log("unregistered user found ")
+    for(let i=0; i<=cars.length-1; i++){
+      if( cars[i].status==="available"){
+        inReturn.push(cars[i]);
+    }
+        }
       }
-    } 
-  
 
+ 
+  console.log `this is found in return to be sorted by querry${inReturn}  `
   
-  if(req.query){
+ 
+  
+  if(inReturn){
     
-    console.log(req.query)
+    console.log`in a querry${req.query}  `
     const state =req.query.state;
     
     const minPrice= parseInt(req.query.min_price);
@@ -82,6 +87,7 @@ catch {
         //all get specification for cars withou price range specification 
         
         for(let i=0; i<=inReturn.length-1; i++){
+          console.log("in a for ")
                    //get car with specified state 
                    if(state  && !manufacturer && !body_type  ) {
                     if( inReturn[i].state===state){
@@ -134,7 +140,9 @@ catch {
       } 
       
         if (carSaleFound.length<=0){
+          console.log("assign carsale")
           carSaleFound=inReturn;
+          console.log(carSaleFound)
         }
        
           // check if there is specified price range 
@@ -150,11 +158,15 @@ catch {
          
           //return car filter by price range
           return res.status(320).json({
+            status:200,
             data:carFilterByPrice
           })
       }
       
+      `gonna return this array${carSaleFound}  `
         return res.status(302).json({
+         
+          status:302,
           data: carSaleFound
          
          });
@@ -163,12 +175,11 @@ catch {
 
     }
    }
-   else if (inReturn.length>0){
-    return res.status(302).json({
-      data: inReturn
-  });
-  } else{
+   
+   else{  // no array to return 
+    console.log("no caar found ")
       return res.status(400).json({
+        status:401,
         error: `no car found `
       });
     }
@@ -188,6 +199,7 @@ exports.createAd = (req, res, next) => {
   const carAdValidation= Joi.validate(req.body, carChema);
   if(carAdValidation.error){
     return res.status(400).json({
+      status:401,
       error_msg: `${carAdValidation.error.details[0].message}`
   });
   }
@@ -205,8 +217,10 @@ exports.createAd = (req, res, next) => {
     modified_on: moment.now()
   };
   cars.push(newAd);
-         return  res.status(200).json({
-            newAd
+  console.log("car created successfull")
+         return  res.status(201).json({
+           status: 201,
+            data:newAd
           });
            
   
@@ -232,8 +246,11 @@ exports.getOneAd =(req, res, next) =>{
           });
         }
   console.log(car)
-  console.log("cool" )
-     res.send(car);
+  console.log("returning one car" )
+  return res.status(200).json({
+    status:200,
+    data: car
+  });
    };
 
 
@@ -249,9 +266,11 @@ exports.getOneAd =(req, res, next) =>{
     }
     const car= cars.find(car=> car.id === req.params.id )
     console.log("then here second ")
+    
         if (!car || car.status !="available") {
           return res.status(401).json({
-            error: new Error('car not found !')
+            status:401,
+            error: ('car not found !')
           });
         }
         
@@ -281,17 +300,18 @@ exports.getOneAd =(req, res, next) =>{
     cars[index].status= status ,
     cars[index].created_on= car.created_on,
     cars[index].modified_on= moment.now()
-    console.log(cars[index])
+    
  
          return  res.status(200).json({
-            car
+           status:200,
+           data:car
           });
            
   
 };
 exports.deleteAd= (req, res, next) => {
   console.log(req.params)
-  const carAdValidation= Joi.validate(req.body, carDelete);
+  const carAdValidation= Joi.validate(req.params, carDelete);
     if(carAdValidation.error){
         return res.status(400).json({
             error: `${carAdValidation.error.details[0].message}`
@@ -317,8 +337,9 @@ exports.deleteAd= (req, res, next) => {
 
   
   console.log(cars[index])
-
+  
        return  res.status(200).json({
-          cars
+         status:200,
+         data:"car deleted successfully"
         });
 };

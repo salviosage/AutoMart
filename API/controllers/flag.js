@@ -8,13 +8,6 @@ import flagSchema from "../schema/flag";
 import Joi from 'joi'
 
 
-export const geAllFlag= (req, res, next) =>{
- console.log(cars)
- console.log("cool" )
-    res.send(orders);
-  }
-   
- 
 exports.createFlag = (req, res, next) => {
   const flagValidation= Joi.validate(req.body, flagSchema);
   if(flagValidation.error){
@@ -31,6 +24,7 @@ exports.createFlag = (req, res, next) => {
     console.log("then here second ")
         if (!car || car.status !="available") {
           return res.status(401).json({
+            status:401,
             error: 'call you want to flag  not found!'
           });
         }
@@ -41,7 +35,7 @@ exports.createFlag = (req, res, next) => {
   const newFlag
    = {
     id: uuid.v4(),
-    buyer : req.body.buyer, // user id
+    contact : req.body.contact, 
     car_id : req.body.car_id,
     reason : req.body.reason, // price offered
     discription: req.body.description || '',
@@ -50,7 +44,8 @@ exports.createFlag = (req, res, next) => {
   };
   flags.push(newFlag);
          return  res.status(200).json({
-            newFlag
+           status:200,
+            data: newFlag
           });
            
   

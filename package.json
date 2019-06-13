@@ -21,6 +21,7 @@
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
+    "should": "^13.2.3",
     "uuid": "^3.3.2"
   },
   "dependencies": {

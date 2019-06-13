@@ -3,22 +3,23 @@ import {users} from "../db/automart"
 
 
 module.exports = (req, res, next) => {
-  console.log(req.headers)
+  if(req.headers.token){
   try {
-    console.log("try started ")
+    console.log("authentication starts  ")
     const token = req.headers.token
-    console.log("try started ")
+   
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    console.log(decodedToken)
+    
     const userName = decodedToken.userName;
-    console.log(userName);
+   
     const role =decodedToken.role;
-    console.log(role);
+    
     const user= users.find(user=> user.email === userName )
     console.log("find start") ;
 
     if (!user ) {
       res.status(401).json({
+        status:401,
         error: 'Authentiction failed '
       });
     } else {
@@ -26,8 +27,18 @@ module.exports = (req, res, next) => {
       next();
     }
   } catch {
+    console.log("authentication failed")
     res.status(401).json({
+      status:401,
       error: 'Invalid request! you must login first '
     });
   }
+}
+else {
+  console.log("authentication failed")
+    res.status(401).json({
+      status:401,
+      error: 'Invalid request! you must login first '
+    });
+}
 };

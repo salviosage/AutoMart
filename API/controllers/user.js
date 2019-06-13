@@ -4,22 +4,26 @@ import uuid from 'uuid';
 import {users} from "../db/automart";
 import Joi from 'joi';
 import userSchema from '../schema/user';
-import accountSchema from '../schema/account'
+import accountSchema from '../schema/account';
+import resetSchema from '../schema/passwordReset'
 
 export const getUser= (req, res, next) =>{
- console.log(users)
- console.log("cool" )
-    res.send(users);
-  }
 
+  
+  return  res.status(200).json({
+    status:200,
+    data: users,
+    
+    });
+  }
 
   
 
 exports.signup = (req, res, next) => {
-  const acountValidation= Joi.validate(req.body, accountSchema);
-  if(flagValidation.error){
+  const accountValidation= Joi.validate(req.body, accountSchema);
+  if(accountValidation.error){
     return res.status(400).json({
-      error_msg: `${acountValidation.error.details[0].message}`
+      error_msg: `${accountValidation.error.details[0].message} got some eror in validation`
   });
   }
     bcrypt.hash(req.body.password, 10).then(
@@ -50,19 +54,21 @@ exports.signup = (req, res, next) => {
         'RANDOM_TOKEN_SECRET',
         { expiresIn: '24h' });
      return  res.status(200).json({
-        message: "successfully account created and loged in ",
-        userName:user.email,
-        token: token
+      status:200,
+      token: token,
+      message:"successfully logged in ",
+      userName: user.email,
       });
  
       }
     );
   };
 
-  exports.login = (req, res, next) => {
+  exports.login = (req, res) => {
     const userValidation= Joi.validate(req.body, userSchema);
-    if(flagValidation.error){
+    if(userValidation.error){
       return res.status(400).json({
+        sttus:400,
         error_msg: `${userValidation.error.details[0].message}`
     });
     }
@@ -71,6 +77,7 @@ exports.signup = (req, res, next) => {
     console.log("find start") ;
         if (!user) {
           return res.status(401).json({
+            status:401,
             error: "User not found!"
           });
         }
@@ -78,6 +85,7 @@ exports.signup = (req, res, next) => {
         const compare =bcrypt.compare(req.body.password, user.password)
             if (!compare) {
               return res.status(401).json({
+                status:401,
                 error: new Error('Incorrect password!')
               });
             }
@@ -94,18 +102,27 @@ exports.signup = (req, res, next) => {
               'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' });
            return  res.status(200).json({
+              status:200,
+              token: token,
               message:"successfully logged in ",
               userName: user.email,
-              token: token
+              
             });
          
         
     
   };
+
   exports.reset = (req, res, next) => {
+    const resetValidation= Joi.validate(req.body, resetSchema);
+    if(resetValidation.error){
+      return res.status(400).json({
+        error_msg: `${resetValidation.error.details[0].message}`
+    });
+    }
     
     const user= users.find(user=> user.email === req.body.email )
-     console.log("find start") ;
+     console.log(" reset find start") ;
          if (!user) {
            return res.status(401).json({
              error: ('User not found!')
@@ -117,9 +134,11 @@ exports.signup = (req, res, next) => {
         console.log(hash)
       user.password= hash
       console.log(user)
+      console.log(user)
     console.log(user)
             return  res.status(200).json({
-               userId: user.id,
+               status:200,
+               userName: user.email,
                message: "your password has been reseted to your first name"
              });
           

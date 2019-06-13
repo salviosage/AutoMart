@@ -20,9 +20,8 @@ const app = express();
 const api_version = 'v1';
 
 const base_url = '/api/'+ api_version;
-
-app.use(base_url +'/car', carRoutes);
 app.use(base_url +'/auth',userRoutes);
+app.use(base_url +'/car', carRoutes);
 app.use(base_url +'/order', orderRoutes);
 app.use(base_url +'/flag',flagRoutes);
 module.exports=app; 
