@@ -9,7 +9,7 @@
         "url": "https://opensource.org/licenses/MIT"
       }
     },
-    "host": "utomartsalvi.herokuapp.com/",
+    "host": "localhost:3000/",
     "basePath": "/api/v1",
     "tags": [
       {
