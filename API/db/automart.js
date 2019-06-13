@@ -104,10 +104,10 @@
   export  const  flags = [
   
       {
-        "contaact": "salviosage@gmail.com",
+        "contact": "salviosage@gmail.com",
         "car_id": "ffdfzfzef5f5zef54e",
         "reason": "pricing ",
-        "discription": "pricing is wired man can you see that",
+        "description": "pricing is wired man can you see that",
         "created_on": 1559815177122
     }
     ]
