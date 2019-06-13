@@ -70,11 +70,11 @@ catch {
  
   console.log `this is found in return to be sorted by querry${inReturn}  `
   
-
+ 
   
-  if(req.query){
+  if(inReturn){
     
-    console.log(req.query)
+    console.log`in a querry${req.query}  `
     const state =req.query.state;
     
     const minPrice= parseInt(req.query.min_price);
@@ -87,6 +87,7 @@ catch {
         //all get specification for cars withou price range specification 
         
         for(let i=0; i<=inReturn.length-1; i++){
+          console.log("in a for ")
                    //get car with specified state 
                    if(state  && !manufacturer && !body_type  ) {
                     if( inReturn[i].state===state){
@@ -139,7 +140,9 @@ catch {
       } 
       
         if (carSaleFound.length<=0){
+          console.log("assign carsale")
           carSaleFound=inReturn;
+          console.log(carSaleFound)
         }
        
           // check if there is specified price range 
@@ -155,11 +158,15 @@ catch {
          
           //return car filter by price range
           return res.status(320).json({
+            status:200,
             data:carFilterByPrice
           })
       }
       
+      `gonna return this array${carSaleFound}  `
         return res.status(302).json({
+         
+          status:302,
           data: carSaleFound
          
          });
@@ -168,16 +175,8 @@ catch {
 
     }
    }
-   else if (inReturn.length>0){
-     console.log(inReturn)
-     console.log("inReturn returning cars found ")
-    
-    return res.status(302).json({
-      status:302,
-      data: inReturn
-      
-  });
-  } else{  // no array to return 
+   
+   else{  // no array to return 
     console.log("no caar found ")
       return res.status(400).json({
         status:401,
