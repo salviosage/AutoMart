@@ -72,11 +72,13 @@ coveralls
 ```
 Heroku
 ```
-### Heroku link Example
+### Heroku link 
+
 [AutoMart heroku link](https://utomartsalvi.herokuapp.com)
 
-### Swagger link Example
+### Swagger link 
 
+[AutoMart Docs k](https://utomartsalvi.herokuapp.com/automart/#)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.

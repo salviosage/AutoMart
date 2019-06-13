@@ -17,17 +17,19 @@
         "description": "API for users in the system"
       },
       {
-        "name": "Flags",
-        "description": "API for Flag cars in a system"
+        "name": "Cars",
+        "description": "API for cars in the system"
       },
       {
         "name": "Orders",
         "description": "API for orders in the system"
       },
       {
-        "name": "Cars",
-        "description": "API for cars in the system"
+        "name": "Flags",
+        "description": "API for Flag  cars in a system"
       }
+     
+     
     ],
     "schemes": [
       "https",
@@ -86,7 +88,7 @@
               "in": "body",
               "description": "user that we want to signin",
               "schema": {
-                "$ref": "#/definitions/signin"
+                "$ref": "#/definitions/login"
               }
             }
           ],
@@ -111,7 +113,7 @@
           "tags": [
             "Cars"
           ],
-          "summary": "Post a car sale ad",
+          "summary": "Post a car sale ad  ",
           "description": "User(seller) can Post a car sale advert",
           "parameters": [
             {
@@ -147,7 +149,41 @@
               "description": "Server Error"
             }
           }
-        }
+        },
+        
+          "get": {
+            "tags": [
+              "Cars"
+            ],
+            "summary": "Get all posted car Ads for admin or available and owned car for normal user ",
+            "produces": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                  "name":"Authorization",
+                  "in": "header",
+                  "description" :"The user token to identify user  ",
+                  "required":false
+                
+                }
+            ],
+            "responses": {
+              "200": {
+                  "description": "success: successfully retrieving cars"
+                },
+                "404": {
+                  "description": "Error: no posted cars found"
+                },
+                "401": {
+                  "description": "Error: this is when someone tries to retrieve posted cars when he is not authorized"
+                },
+                "500": {
+                  "description": "Server Error"
+                }
+            }
+          }
+        
       },
       "/car/{id}/status": {
         "patch": {
@@ -167,7 +203,7 @@
             {
               "name":"id",
               "in": "path",
-              "description" :"car id",
+              "description" :"car status",
               "required":true,
               "type":"string"
             
@@ -200,13 +236,68 @@
                 "description": "Server Error"
               }
           }
-        },
+        }
+      },
+      "/car/{id}/price": {
+        "patch": {
+          "tags": [
+            "car"
+          ],
+          "summary": "mark change price ",
+          "description": "seller can change price of his car",
+          "parameters": [
+            {
+              "name":"Authorization",
+              "in": "header",
+              "description" :"The user token",
+              "required":true
+            
+            },
+            {
+              "name":"id",
+              "in": "path",
+              "description" :"car id",
+              "required":true,
+              "type":"string"
+            
+            },
+            {
+                "name": "new car price ",
+                "in": "body",
+                "schema": {
+                  "$ref": "#/definitions/changePrice"
+                }
+             }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+                "description": "success: car succesfully price change"
+              },
+              "400": {
+                "description": "Error: this is when someone  puts an invalid value"
+              },
+              "404": {
+                "description": "Error: car not found"
+              },
+              "401": {
+                "description": "Error: this is when someone tries to mark a car when he is not authorized"
+              },
+              "500": {
+                "description": "Server Error"
+              }
+          }
+        }
+      },
+      "/car/{id}": {
         "get": {
           "tags": [
-            "Cars"
+            "Car"
           ],
           "summary": "View a specific car",
-          "description": "user can view a specific car",
+          "description": "user can view a specific car while its available or is his /her car ",
           "parameters": [
             {
                 "name":"Authorization",
@@ -243,10 +334,10 @@
         },
         "delete": {
           "tags": [
-            "car"
+            "Car"
           ],
           "summary": "Delete the posted Ad record",
-          "description": "user(seller) can delete the posted ad record",
+          "description": "user(seller) can delete his/her post ad record ",
           "parameters": [
             {
                 "name":"Authorization",
@@ -282,78 +373,47 @@
           }
         }
       },
-        "/cars": {
-        "get": {
+ 
+      "/flag": {
+        "post": {
           "tags": [
-            "Cars"
+            "Flag"
           ],
-          "summary": "Get all posted car Ads",
-          "produces": [
-            "application/json"
-          ],
+          "summary": "Post Flag  ",
+          "description": "User can Flag  car sale advert",
           "parameters": [
             {
-                "name":"Authorization",
-                "in": "header",
-                "description" :"The user token have to be an admin ",
-                "required":true
-              
-              }
-          ],
-          "responses": {
-            "200": {
-                "description": "success: successfully retrieving cars"
-              },
-              "404": {
-                "description": "Error: no posted cars found"
-              },
-              "401": {
-                "description": "Error: this is when someone tries to retrieve posted cars when he is not authorized"
-              },
-              "500": {
-                "description": "Server Error"
-              }
-          }
-        }
-      },
-      "/cars/{id}/price": {
-        "patch": {
-          "tags": [
-            "Cars"
-          ],
-          "summary": "Update the price of posted car Ad",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
                 "name":"Authorization",
                 "in": "header",
                 "description" :"The user token",
                 "required":true
               
               },
-              {
-                "name": "id",
-                "in": "path",
-                "description": "car id",
-                "required":true,
-                "type":"integer"
+            {
+              "name": "car sale ad",
+              "in": "body",
+              "description": "details of a car sale you want to post",
+              "schema": {
+                "$ref": "#/definitions/flag"
               }
+            }
+          ],
+          "produces": [
+            "application/json"
           ],
           "responses": {
-            "200": {
-                "description": "success: successfully car price updated"
-              },
-              "404": {
-                "description": "Error: no such posted car found"
-              },
-              "401": {
-                "description": "Error: this is when someone tries to update the price of a posted car when he is not authorized"
-              },
-              "500": {
-                "description": "Server Error"
-              }
+            "201": {
+              "description": "success: when a flag ad is sucessfully posted"
+            },
+            "400": {
+              "description": "Error: this is when someone  puts an invalid value"
+            },
+            "401": {
+              "description": "Error: this is when someone tries to flag  a car sale which is not available"
+            },
+            "500": {
+              "description": "Server Error"
+            }
           }
         }
       },
@@ -452,6 +512,58 @@
           }
         }
       },
+      "/order/{id}/status": {
+        "patch": {
+          "tags": [
+            "Orders"
+          ],
+          "summary": "update the status of purchase order",
+          "description": "seller can update the status of purchase order",
+          "parameters": [
+            {
+                "name":"Authorization",
+                "in": "header",
+                "description" :"The user token",
+                "required":true
+              
+              },
+            {
+              "name": "id",
+              "in": "path",
+              "description": "order id",
+              "required":true,
+              "type":"integer"
+            },
+            {
+                "name": "new price offered",
+                "in": "body",
+                "schema": {
+                  "$ref": "#/definitions/updateOrderStatus"
+                }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+                "description": "success: when a purchase order is sucessfully updated"
+              },
+              "400": {
+                "description": "Error: this is when someone  puts an invalid value"
+              },
+              "404": {
+                "description": "Error: order not found"
+              },
+              "401": {
+                "description": "Error: this is when someone tries to make an order  car sale ad when he is not authorized"
+              },
+              "500": {
+                "description": "Server Error"
+              }
+          }
+        }
+      },
       "/car?status=available": {
         "get": {
           "tags": [
@@ -542,75 +654,9 @@
               }
           }
         }
-      },
-      "/cars/available/used": {
-        "get": {
-          "tags": [
-            "Cars"
-          ],
-          "summary": "View all used unsold cars",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-                "name":"Authorization",
-                "in": "header",
-                "description" :"The user token",
-                "required":true
-              
-              }
-          ],
-          "responses": {
-            "200": {
-                "description": "success: successfully retrieving used unsold cars"
-              },
-              "404": {
-                "description": "Error: no used unsold cars found"
-              },
-              "401": {
-                "description": "Error: this is when someone tries to retrieve used unsold cars when he is not authorized"
-              },
-              "500": {
-                "description": "Server Error"
-              }
-          }
-        }
-      },
-      "/cars/available/new": {
-        "get": {
-          "tags": [
-            "Cars"
-          ],
-          "summary": "View all new unsold cars",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-                "name":"Authorization",
-                "in": "header",
-                "description" :"The user token",
-                "required":true
-              
-              }
-          ],
-          "responses": {
-            "200": {
-                "description": "success: successfully retrieving new unsold cars"
-              },
-              "404": {
-                "description": "Error: no new unsold cars found"
-              },
-              "401": {
-                "description": "Error: this is when someone tries to retrieve new unsold cars when he is not authorized"
-              },
-              "500": {
-                "description": "Server Error"
-              }
-          }
-        }
       }
+  
+  
     },
   
   
@@ -647,7 +693,7 @@
           }
         }
       },
-      "signin": {
+      "login": {
         "required": [
             "email",
             "password"
@@ -695,6 +741,34 @@
           "status": {
             "type": "string"
           }
+        }
+    },
+      "flag": {
+        "required": [
+          "contact",
+          "car_id",
+          "reason",
+          "descriprion"
+        ],
+        "type": "object",
+        "properties": {
+          "contact": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          
+          "car_id": {
+          "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+         
         }
     },
       "order": {
