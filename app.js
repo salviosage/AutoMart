@@ -5,7 +5,10 @@ const carRoutes= require('./API/routes/car');
 const userRoutes = require('./API/routes/user');
 const orderRoutes= require('./API/routes/order');
 const flagRoutes = require('./API/routes/flag');
+import swaggerUi from 'swagger-ui-express';
+const  swaggerDoc  = require('./swagger.json')
 const app = express();
+
 
 
   app.use((req, res, next) => {
@@ -15,6 +18,7 @@ const app = express();
     next();
   });
  app.use(bodyParser.json());
+ app.use('/automart', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
  app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const api_version = 'v1';
