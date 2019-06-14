@@ -174,11 +174,13 @@ body {
     overflow: auto;
   }
   .container {
-    padding-right: 15px;
-    padding-left: 15px;
-    padding-bottom: 15px;
+   
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-bottom:16px;
     margin-right: auto;
     margin-left: auto;
+    width: 90%;
   }
   header{
       background-color: #FFFFFF;
@@ -240,13 +242,13 @@ body {
    ---------------------*/
    .shop-card {
     display: inline-block;
-    width: 250px;
+    width: 24%;
     background: rgb(206, 206, 216);
     box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
     overflow: hidden;
     /*border-radius: 5px;
     padding: 25px;*/
-    margin: 20px;
+    /* margin: 5px; */
     text-align: center;
   }
   .shop-card .header {
@@ -293,6 +295,7 @@ body {
     font-size: 30px;
     color: #23211f;
     margin-bottom: 5px;
+    text-align: right
   }
   .shop-card .desc {
     font-size: 17px;
@@ -1385,139 +1388,7 @@ body {
 
 
 
-  /*--------------------
-   shopcart //product display
-   ---------------------*/
-   .shop-card {
-    display: inline-block;
-    width: 250px;
-    background: rgb(206, 206, 216);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
-    overflow: hidden;
-    /*border-radius: 5px;
-    padding: 25px;*/
-    margin: 20px;
-    text-align: center;
-  }
-  .shop-card .header {
-    height: 40px;
-    position: relative;
-    padding: 20px;
-  }
-  .shop-card .header .state  {
-    position: relative;
-    width: 0px;
-    height: 0px;
-    
-  }
-  .shop-card .header .new {
-    border-top: 35px solid #47be73;
-    border-bottom: 35px solid transparent;
-    border-left: 35px solid #47be73;
-    border-right: 35px solid transparent;
-  }
-  .shop-card .header .used {
-    border-top: 35px solid red;
-    border-bottom: 35px solid transparent;
-    border-left: 35px solid red;
-    border-right: 35px solid transparent;
-  }
-
-  
- 
-  shop-card .header .new:before {
-    content: "New";
-    position: absolute;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.3rem;
-    font-weight: bold;
-    top: -22px;
-    left: -22px;
-    
-  }
-  shop-card .header .used:before {
-    content: "Used";
-    position: absolute;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.3rem;
-    font-weight: bold;
-    top: -22px;
-    left: -22px;
-    
-  }
-  .shop-card figure {
-    color:#2C4CA4#3F65B3;
-    margin:0;
-    padding:20px;
-    overflow: hidden;
-    outline: none !important;
-  }
-  .shop-card figure img {
-    
-    max-width: 100%;
-    max-height: 100%;
-  }
-  .shop-card .title {
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 30px;
-    color: #23211f;
-    margin-bottom: 5px;
-  }
-  .shop-card .desc {
-    font-size: 17px;
-    opacity: 0.8;
-    margin-bottom: 3px;
-  }
-  .shop-card .cta {
-    padding: 20px 20px 5px;
-  }
-  
-  .shop-card .price {
-    float: left;
-    color: #3F65B3;
-    font-size: 22px;
-    font-weight: 900;
-    padding-top: 2px;
-    transition: color 0.3s ease-in-out;
-    margin-top: 4px;
-  }
-  .shop-card .btn {
-    position: relative;
-    z-index: 1;
-    float: right;
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #3F65B3;
-    padding: 12px 18px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    line-height: 0.95;
-    border: none;
-    background: none;
-    outline: none;
-    border: 1px solid #3F65B3;
-    border-radius: 20px;
-    overflow: hidden;
-  }
-  .shop-card .btn .bg {
-    width: 101%;
-    height: 101%;
-    display: block !important;
-    z-index: -1;
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-    background: linear-gradient(135deg, #3F65B3, #2C4CA4);
-  }
-  .shop-card .btn:hover {
-    color: #fff !important;
-    border: 1px solid transparent !important;
-  }
-  .shop-card .btn:hover .bg {
-    opacity: 1;
-  }
+  /
   /*--------------------
    Slick Dots
    ---------------------*/
@@ -2244,3 +2115,4 @@ body {
     display: inline-block;
     margin-right: 20px;
   }
+  
