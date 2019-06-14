@@ -1,183 +1,183 @@
-import  chai from 'chai';
- import chaiHttp from 'chai-http';
- import app from '../server';
+// import  chai from 'chai';
+//  import chaiHttp from 'chai-http';
+//  import app from '../server';
  
 
- chai.should();
-  let userToken,adminToken,ownerToken;
- chai.use(chaiHttp);
+//  chai.should();
+//   let userToken,adminToken,ownerToken;
+//  chai.use(chaiHttp);
 
-describe('POST /AUTH', ()=>{
-    before((done)=>{
-		const adminInfo = {
-			email: "salviosage@gmail.com",
-			password: "121621454655"
-        }
-        const ownerInfo = {
-			email: "jeasal@gmail.com",
-			password: "1216214546155"
-        }
-        const userInfo = {
-			email: "sagesalvi@com.salvi",
-			password: "1216214546155"
-		}
+// describe('POST /AUTH', ()=>{
+//     before((done)=>{
+// 		const adminInfo = {
+// 			email: "salviosage@gmail.com",
+// 			password: "121621454655"
+//         }
+//         const ownerInfo = {
+// 			email: "jeasal@gmail.com",
+// 			password: "1216214546155"
+//         }
+//         const userInfo = {
+// 			email: "sagesalvi@com.salvi",
+// 			password: "1216214546155"
+// 		}
        
 
-		chai.request(app)
-		.post('/api/v1/auth/login')
-		.send(adminInfo)
-		.end((err, res)=>{
+// 		chai.request(app)
+// 		.post('/api/v1/auth/login')
+// 		.send(adminInfo)
+// 		.end((err, res)=>{
             
-			 adminToken = res.body.token;
+// 			 adminToken = res.body.token;
 			
-        })
+//         })
 
-    chai.request(app)
-    .post('/api/v1/auth/login')
-    .send(ownerInfo)
-    .end((err, res)=>{
+//     chai.request(app)
+//     .post('/api/v1/auth/login')
+//     .send(ownerInfo)
+//     .end((err, res)=>{
         
-         ownerToken = res.body.token;
+//          ownerToken = res.body.token;
        
         
-    })
+//     })
        
-    chai.request(app)
-        .post('/api/v1/auth/login')
-        .send(userInfo)
-        .end((err, res)=>{
+//     chai.request(app)
+//         .post('/api/v1/auth/login')
+//         .send(userInfo)
+//         .end((err, res)=>{
             
-            userToken = res.body.token;
+//             userToken = res.body.token;
             
-            done();
-        })
+//             done();
+//         })
 	
-    })
+//     })
   
    
-    it('it should create a user and return tokken ', (done)=>{
-     const record = {
-        email: "sam@gmail.com",
-        first_name: "sugira ",
-        last_name: "samuel",
-        password: "salvi123",
-        address: "kigali",
-        is_admin: 1
-      }
+//     it('it should create a user and return tokken ', (done)=>{
+//      const record = {
+//         email: "sam@gmail.com",
+//         first_name: "sugira ",
+//         last_name: "samuel",
+//         password: "salvi123",
+//         address: "kigali",
+//         is_admin: 1
+//       }
 
-        chai.request(app)
-            .post('/api/v1/auth/signup')
-            .send(record)
+//         chai.request(app)
+//             .post('/api/v1/auth/signup')
+//             .send(record)
             
-            .end((err, res)=>{
+//             .end((err, res)=>{
               
-               res.body.should.be.a('object');
-               res.body.should.have.property('status').eql(200);
-               res.body.should.have.property('message');
-               res.body.should.have.property('token');
-               res.body.should.have.property('userName').eql('sam@gmail.com');
+//                res.body.should.be.a('object');
+//                res.body.should.have.property('status').eql(200);
+//                res.body.should.have.property('message');
+//                res.body.should.have.property('token');
+//                res.body.should.have.property('userName').eql('sam@gmail.com');
                
-               done();
+//                done();
             
-           })
+//            })
 
-    });
-    it('it should login and return token  ', (done)=>{
-        const record = {
-           email: "salviosage@gmail.com",
-           password: "121621454655",
+//     });
+//     it('it should login and return token  ', (done)=>{
+//         const record = {
+//            email: "salviosage@gmail.com",
+//            password: "121621454655",
         
-         }
+//          }
    
-           chai.request(app)
-               .post('/api/v1/auth/login')
-               .send(record)
+//            chai.request(app)
+//                .post('/api/v1/auth/login')
+//                .send(record)
 
-               .end((err, res)=>{
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('status').eql(200);
-                  res.body.should.have.property('message').eql('successfully logged in ');
-                  res.body.should.have.property('token');
-                  res.body.should.have.property('userName').eql('salviosage@gmail.com');
+//                .end((err, res)=>{
+//                   res.body.should.be.a('object');
+//                   res.body.should.have.property('status').eql(200);
+//                   res.body.should.have.property('message').eql('successfully logged in ');
+//                   res.body.should.have.property('token');
+//                   res.body.should.have.property('userName').eql('salviosage@gmail.com');
                   
-                  done();
+//                   done();
                
-              })
+//               })
    
-       });
-       it('it should reset password for existing user ', (done)=>{
-        const record = {
-           email: "salviosage@gmail.com",
+//        });
+//        it('it should reset password for existing user ', (done)=>{
+//         const record = {
+//            email: "salviosage@gmail.com",
          
-        }
+//         }
    
-           chai.request(app)
-               .patch('/api/v1/auth/reset')
-               .send(record)
-               .end((err, res)=>{
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('status').eql(200);
-                  res.body.should.have.property('message').eql('your password has been reseted to your first name');
-                  res.body.should.have.property('userName').eql('salviosage@gmail.com');
+//            chai.request(app)
+//                .patch('/api/v1/auth/reset')
+//                .send(record)
+//                .end((err, res)=>{
+//                   res.body.should.be.a('object');
+//                   res.body.should.have.property('status').eql(200);
+//                   res.body.should.have.property('message').eql('your password has been reseted to your first name');
+//                   res.body.should.have.property('userName').eql('salviosage@gmail.com');
                   
-                  done();
+//                   done();
                
-              })
+//               })
    
-       });
-       it('it should return all users  ', (done)=>{
+//        });
+//        it('it should return all users  ', (done)=>{
       
    
-           chai.request(app)
-               .get('/api/v1/auth/users')
-               .set('token', adminToken)
-               .end((err, res)=>{
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('data');
-            	  res.body.data.should.be.a('array');
-                  res.body.should.have.property('status').eql(200);
+//            chai.request(app)
+//                .get('/api/v1/auth/users')
+//                .set('token', adminToken)
+//                .end((err, res)=>{
+//                   res.body.should.be.a('object');
+//                   res.body.should.have.property('data');
+//             	  res.body.data.should.be.a('array');
+//                   res.body.should.have.property('status').eql(200);
              
                   
                   
-                  done();
+//                   done();
                
-              })
+//               })
    
-       });
-       it('should not returning list of users for unuthorized user  ', (done)=>{
-        const record = {  
-       email :"sagesal@com.salvi",
-       password:"used"
-        }
+//        });
+//        it('should not returning list of users for unuthorized user  ', (done)=>{
+//         const record = {  
+//        email :"sagesal@com.salvi",
+//        password:"used"
+//         }
 
-        chai.request(app)
-            .get('/api/v1/auth/users')
-            .send(record)
-            .end((err, res)=>{
-               res.body.should.be.a('object');
+//         chai.request(app)
+//             .get('/api/v1/auth/users')
+//             .send(record)
+//             .end((err, res)=>{
+//                res.body.should.be.a('object');
                
-               res.body.should.have.property('status').eql(401);
+//                res.body.should.have.property('status').eql(401);
                
-               done();
-            })
-    });
-    it('should not log for unregistered user  user  ', (done)=>{
-        const record = {  
-       email :"sagesal@com.salvi",
-       password:"used"
-        }
+//                done();
+//             })
+//     });
+//     it('should not log for unregistered user  user  ', (done)=>{
+//         const record = {  
+//        email :"sagesal@com.salvi",
+//        password:"used"
+//         }
 
-        chai.request(app)
-            .post('/api/v1/auth/login')
-            .send(record)
-            .end((err, res)=>{
-               res.body.should.be.a('object');
+//         chai.request(app)
+//             .post('/api/v1/auth/login')
+//             .send(record)
+//             .end((err, res)=>{
+//                res.body.should.be.a('object');
                
-               res.body.should.have.property('status').eql(401);
-               done();
-            })
-    });
+//                res.body.should.have.property('status').eql(401);
+//                done();
+//             })
+//     });
    
 
-})
+// })
  

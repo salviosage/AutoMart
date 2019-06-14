@@ -1,5 +1,4 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
@@ -12,8 +11,20 @@ import orderStatusUpdateChema from '../schema/orderStatusUpdate';
 
 
 export const geAllOrder= (req, res, next) =>{
-
-    res.send(orders);
+  if (req.auth.role!="admin"){
+    return res.status(400).json({
+      status:400,
+      error: 'call you want to order not found!'
+    });
+  }
+  else{
+    return res.status(200).json({
+      status:200,
+      data:orders
+    });
+  }
+  
+    
   }
    
  
@@ -30,7 +41,7 @@ exports.createOrder = (req, res, next) => {
     
         if (!car || car.status !="available") {
           return res.status(400).json({
-            error: new Error('call you want to order not found!')
+            error: 'call you want to order not found!'
           });
         }
         
@@ -39,9 +50,9 @@ exports.createOrder = (req, res, next) => {
   const newOrder
    = {
     id: uuid.v4(),
-    contact : req.body.contact, // user id
+    contact : req.auth.userName, 
     car_id : req.body.car_id,
-    amount : req.body.amount, // price offered
+    amount : req.body.amount, 
     status:  'pending',
     created_on: moment.now(),
     modified_on: moment.now()
@@ -65,11 +76,12 @@ exports.updateOrderPrice = (req, res, next) => {
     }
 
     const order= orders.find(order=> order.id === req.params.id )
+    console.log(order)
     
-        if (!order || order.status !="pending" || order.buyer !=req.body.contacts) {
+        if (!order || order.status !="pending" || order.contact !=req.auth.userName) {
           return res.status(401).json({
             status:401,
-            error: new Error('invalid request!')
+            error: 'invalid request!'
           });
         }
         
@@ -80,9 +92,9 @@ exports.updateOrderPrice = (req, res, next) => {
         
   
     orders[index].id= order.id,
-    orders[index].buyer =order.buyer, // user id
+    orders[index].buyer =order.buyer, 
     orders[index].car_id = order.car_id,
-    orders[index].amount =  orders.amount ||req.body.amount, // price offered
+    orders[index].amount =  orders.amount ||req.body.amount, 
     orders[index].status= order.satus   
     orders[index].created_on= order.created_on,
     orders[index].modified_on= moment.now()
@@ -115,7 +127,8 @@ exports.updateOrderStatus = (req, res, next) => {
 
       
      const car =cars.find(car => car.id===order.car_id)
-     if (!car || car.owner!=req.body.contact){
+     
+     if (!car || car.owner!=req.auth.userName){
       return res.status(401).json({
         status:401,
         error: ('invalid request !')
@@ -129,9 +142,9 @@ exports.updateOrderStatus = (req, res, next) => {
       
 
   orders[index].id= order.id,
-  orders[index].buyer =order.buyer, // user id
+  orders[index].buyer =order.buyer, 
   orders[index].car_id = order.car_id,
-  orders[index].amount =  orders.amaout  // price offered
+  orders[index].amount =  orders.amaout  
   orders[index].status= order.satus   || req.body.status,
   orders[index].created_on= order.created_on,
   orders[index].modified_on= moment.now()

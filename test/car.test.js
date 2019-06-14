@@ -86,31 +86,7 @@ import  chai from 'chai';
 		 })
  
     })
-    // it('/GET all cars exist which is available  ', (done) =>{
-    //     chai.request(app)
-    //         .get('/api/v1/car?status=available')
-    //         .set('token', userToken)
-    //         .end((err, res)=>{
-    //            console.log(adminToken);
-    //            console.log(res.body);
-    //         res.should.be.an('object');
-    //         res.body.should.have.property('status').eql(200);
-    //         res.body.should.have.property('data');
-    //          res.body.data.should.be.a('array');
-   	// 		res.body.data[0].should.have.property('id');
-   	// 		res.body.data[0].should.have.property('owner');
-   	// 		res.body.data[0].should.have.property('state');
-   	// 		res.body.data[0].should.have.property('status');
-   	// 		res.body.data[0].should.have.property('body_type');
-    //         res.body.data[0].should.have.property('model');
-    //         res.body.data[0].should.have.property('manufacturer');
-   	// 		res.body.data[0].should.have.property('price');
-   	// 		res.body.data[0].should.have.property('created_on');
-   	// 		res.body.data[0].should.have.property('modified_on');
-    //            done();
-    //         })
-    
-    //    })
+  
        it('/GET all cars exist for specidied price range ', (done) =>{
         chai.request(app)
             .get('/api/v1/car?min_price=125&max_price=65465455')
@@ -136,32 +112,7 @@ import  chai from 'chai';
     
        })
 
-    //    it('/GET all cars exist for specific manufacturer   ', (done) =>{
-    //     chai.request(app)
-    //         .get('/api/v1/car?manufacturer=mercedes')
-    //         .set('token', userToken)
-    //         .end((err, res)=>{
-    //            console.log(adminToken);
-    //            console.log(res.body);
-    //         res.should.be.an('object');
-    //         res.body.should.have.property('status').eql(200);
-    //         res.body.should.have.property('data');
-    //          res.body.data.should.be.a('array');
-   	// 		res.body.data[0].should.have.property('id');
-   	// 		res.body.data[0].should.have.property('owner');
-   	// 		res.body.data[0].should.have.property('state');
-   	// 		res.body.data[0].should.have.property('status').eql('avalable');
-   	// 		res.body.data[0].should.have.property('body_type');
-    //         res.body.data[0].should.have.property('model');
-    //         res.body.data[0].should.have.property('manufacturer').eql('mercedes');
-   	// 		res.body.data[0].should.have.property('price');
-   	// 		res.body.data[0].should.have.property('created_on');
-   	// 		res.body.data[0].should.have.property('modified_on');
-    //            done();
-    //         })
-    
-    //    })
-
+   
 
       
     it('/GET all cars exist which is available price range  ', (done) =>{

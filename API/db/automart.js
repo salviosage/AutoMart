@@ -12,7 +12,7 @@
             },
             {   
               "id" :"ffdfzfzef5f5zef54efdfd",
-              "email" :"jeasal@gmail.com",
+              "email" :"sagesalvi@com.salvi",
               "first_name" :"jean salvi",
               "last_name":"duk",
               "password" :"1216214546155",
@@ -32,7 +32,7 @@
 
   export const orders= [{
         "id": "91af9944-e3de-47b3",
-        "contacts": "salviosage@gmail.com",
+        "contact": "salviosage@gmail.com",
         "car_id": "ffdfzfzef5f5zef54e",
         "amount":"11515555",
         "status": "pending",
@@ -41,8 +41,8 @@
   },
   {
   "id": "91af9944",
-  "contacts": "salviosage@gmail.com",
-  "car_id": "ffdfzfzef5f5zef54e",
+  "contact": "salviosage@gmail.com",
+  "car_id": "ffdfzfzef5f5z",
   "amount":"11515555",
   "status": "pending",
   "created_on": 1559808005114,
@@ -50,7 +50,7 @@
 },
   {
     "id": "91af9944-e3de-47b3-9ece-cbda9e",
-        "contact": "norml@gmail.com",
+        "contact": "sagesalvi@com.salvi",
         "car_id": "ffdfzfzef5f5zef54e",
         "amount":"11515555",
         "status": "pending",
@@ -68,7 +68,7 @@
         "owner" :"jeasal@gmail.comsalvi",
         "state":"used",
         "status" :"available",
-        "body_type" :"truc",
+        "body_type" :"bus",
         "model" :"benz",
         "manufacturer" :"mercedes",
         "price" :"1215144",
@@ -80,7 +80,7 @@
       "owner" :"jeasal@gmail.com",
       "state":"new",
       "status" :"available",
-      "body_type" :"truc",
+      "body_type" :"taxi",
       "model" :"benz",
       "manufacturer" :"mercedes",
       "price" :"1215144",
@@ -88,10 +88,10 @@
       "modified_on" :"112/12/2018"
   },
   {
-    "id" :"ffdfzfzef5f5zef5",
-    "owner" :"jeasal@gmail.comsalvi",
+    "id" :"ffdfzfzef5f5z",
+    "owner" :"salviosage@gmail.com",
     "state":"new",
-    "status" :"available",
+    "status" :"sold",
     "body_type" :"truc",
     "model" :"benz",
     "manufacturer" :"mercedes",
