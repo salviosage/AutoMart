@@ -16,7 +16,7 @@ Auto Mart is an online marketplace for automobiles of diverse makes, model or bo
 * Javascript
 
 ### GitHub Pages link for UI 
-[AutoMart/UI link](https://salviosage.github.io/AutoMart/index.html)
+[AutoMart/UI link](https://salviosage.github.io/AutoMart/UI/pages/welcome.html)
 
 ---------------------------------------------------------------------
 
