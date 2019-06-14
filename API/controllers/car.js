@@ -60,7 +60,7 @@ else {
                    //get car with specified state 
                    if(state  && !manufacturer && !body_type  ) {
                     if( inReturn[i].state===state){
-                      console.log("state only found ")
+                  
                         carSaleFound.push(inReturn[i]);
                     }
                 } 
@@ -73,7 +73,7 @@ else {
                 //get car with specified  body-type
                 else if(!state  && !manufacturer && body_type  ) {
                   
-                  console.log("in")
+                  
                   if( inReturn[i].body_type===body_type ){
                    
                     carSaleFound.push(inReturn[i]);
@@ -116,9 +116,10 @@ else {
           
          
           carSaleFound=inReturn;
+          inReturn=carSaleFound
        
         }
-       console.log(carSaleFound)
+
           // check if there is specified price range 
           if( (minPrice) && (maxPrice)){
            
@@ -131,17 +132,19 @@ else {
             }
 
           
-         console.log(carSaleFound)
-          //return car filter by price range
-         carSaleFound=carFilterByPrice
+        
+         if (carFilterByPrice.length>0){
+           inReturn=carFilterByPrice
+         }
+    
       }
     
        if (req.query.status ) {
-    
-        for(let i=0; i<=carSaleFound.length-1; i++){
+     
+        for(let i=0; i<=inReturn.length-1; i++){
           
-        if( carSaleFound[i].status===req.query.status){
-          toReturn.push(carSaleFound[i]);
+        if( inReturn[i].status===req.query.status){
+          toReturn.push(inReturn[i]);
           
       }
     }
@@ -153,12 +156,12 @@ else {
      });
   
     }
-    console.log(carSaleFound)
+   
      
         return res.status(302).json({
          
           status:302,
-          data: carSaleFound
+          data: inReturn
          
          });
       
@@ -227,6 +230,7 @@ exports.getOneAd =(req, res, next) =>{
   const carAdValidation= Joi.validate(req.params, oneCar);
     if(carAdValidation.error){
         return res.status(400).json({
+          status:400,
             error: `${carAdValidation.error.details[0].message}`
         });
     }
@@ -236,6 +240,7 @@ exports.getOneAd =(req, res, next) =>{
   
         if (!car ||car.status !="available" || (car.owner!=req.auth.userName &&req.auth.role!="admin")) {
           return res.status(401).json({
+            status:401,
             error: 'call you want to car not found from one add get!'
           });
         }
@@ -262,7 +267,7 @@ exports.getOneAd =(req, res, next) =>{
     const car= cars.find(car=> car.id === req.params.id )
     
     
-        if (!car || car.contact!=req.auth.userName || car.status !="available" ) {
+        if (!car || car.contact!=req.auth.userName  ) {
           return res.status(401).json({
             status:401,
             error: 'access denied invalid request !'
@@ -315,6 +320,7 @@ exports.deleteAd= (req, res, next) => {
     }
 
   const car= cars.find(car=> car.id === req.params.id )
+
   
       if (!car || car.owner!=req.auth.userName || req.auth.role!="admin") {
         return res.status(401).json({

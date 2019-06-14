@@ -23,7 +23,7 @@ export const getAllFlag= (req, res, next) =>{
     
   }
 exports.createFlag = (req, res, next) => {
-  console.log(req.auth)
+ 
   const flagValidation= Joi.validate(req.body, flagSchema);
   if(flagValidation.error){
     return res.status(400).json({

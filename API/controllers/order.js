@@ -76,7 +76,7 @@ exports.updateOrderPrice = (req, res, next) => {
     }
 
     const order= orders.find(order=> order.id === req.params.id )
-    console.log(order)
+
     
         if (!order || order.status !="pending" || order.contact !=req.auth.userName) {
           return res.status(401).json({
