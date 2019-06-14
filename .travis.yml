@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+ - 'node'
+install:
+   - npm install
+cache:
+ directories:
+   - 'node_modules'
+script:
+ - npm test
+after_script:
+ - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+after_success:
+ - npm run coveralls
+ 
