@@ -14,51 +14,25 @@ import Joi from 'joi';
 
 exports.getAds= (req, res, next) =>{
 
- let inReturn =[]; // define an array to hold relevant data from database 
-
-  //if user signed in 
-  if (req.headers.token){
-    
-    const token = req.headers.token 
-    
-    try {
-     
-      
-      const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-      
-      const userName = decodedToken.userName;
-    
-      const role =decodedToken.role;
-     
+ let inReturn =[]; 
+ let toReturn=[];
   
-      // for admin request 
-  if(role && role ==="admin"){
+  if(req.auth.role && req.auth.role==="admin"){
    
        inReturn = cars;
-    
-      
-       
+  
   }
-  // for any user signed in 
-   else if (role && userName) {
-    
+  
+   else if (req.auth.role ) {
+
     for(let i=0; i<=cars.length-1; i++){
-    if(cars[i].owner===userName || cars[i].status==="available"){
+    if(cars[i].contact===req.auth.userName || cars[i].status==="available"){
       inReturn.push(cars[i]);
       
   }
 }
-
-
-} 
-    }
-
-catch {
-  return res.status(401).json({
-    error: ('Invalid request !')
-  });
 }
-  }else {
+else {
     
     for(let i=0; i<=cars.length-1; i++){
       if( cars[i].status==="available"){
@@ -68,13 +42,10 @@ catch {
       }
 
   
- 
-  
-  if(inReturn){
+      
+  if(req.query!=null){
     
-   
     const state =req.query.state;
-    
     const minPrice= parseInt(req.query.min_price);
     const maxPrice= parseInt(req.query.max_price);
     const manufacturer= req.query.manufacturer;
@@ -89,6 +60,7 @@ catch {
                    //get car with specified state 
                    if(state  && !manufacturer && !body_type  ) {
                     if( inReturn[i].state===state){
+                  
                         carSaleFound.push(inReturn[i]);
                     }
                 } 
@@ -100,9 +72,12 @@ catch {
                 }
                 //get car with specified  body-type
                 else if(!state  && !manufacturer && body_type  ) {
+                  
+                  
                   if( inReturn[i].body_type===body_type ){
                    
                     carSaleFound.push(inReturn[i]);
+                   
                 }
                 }
                 //get car with specified manufacturer and body_type
@@ -136,13 +111,15 @@ catch {
               carSaleFound.push(inReturn[i]);
           }
       } 
-      
+    }
         if (carSaleFound.length<=0){
+          
          
           carSaleFound=inReturn;
+          inReturn=carSaleFound
        
         }
-       
+
           // check if there is specified price range 
           if( (minPrice) && (maxPrice)){
            
@@ -153,25 +130,50 @@ catch {
               }
           
             }
-         
-          //return car filter by price range
-          return res.status(320).json({
-            status:200,
-            data:carFilterByPrice
-          })
-      }
 
-      `gonna return this array${carSaleFound}  `
+          
+        
+         if (carFilterByPrice.length>0){
+           inReturn=carFilterByPrice
+         }
+    
+      }
+    
+       if (req.query.status ) {
+     
+        for(let i=0; i<=inReturn.length-1; i++){
+          
+        if( inReturn[i].status===req.query.status){
+          toReturn.push(inReturn[i]);
+          
+      }
+    }
+    return res.status(302).json({
+         
+      status:302,
+      data: toReturn
+     
+     });
+  
+    }
+   
+     
         return res.status(302).json({
          
           status:302,
-          data: carSaleFound
+          data: inReturn
          
          });
       
 
 
     }
+   else if (inReturn.length>0){
+ 
+    return res.status(320).json({
+      status:200,
+      data:inReturn
+    })
    }
    
    else{  // no array to return 
@@ -204,7 +206,7 @@ exports.createAd = (req, res, next) => {
 
   const newAd = {
     id: uuid.v4(),
-    owner: req.body.owner,
+    owner: req.auth.userName,
     state: req.body.state || 'new',
     status: req.body.status || 'available',
     body_type:req.body.body_type,
@@ -228,6 +230,7 @@ exports.getOneAd =(req, res, next) =>{
   const carAdValidation= Joi.validate(req.params, oneCar);
     if(carAdValidation.error){
         return res.status(400).json({
+          status:400,
             error: `${carAdValidation.error.details[0].message}`
         });
     }
@@ -235,11 +238,14 @@ exports.getOneAd =(req, res, next) =>{
     
   const car= cars.find(car=> car.id === req.params.id  )
   
-        if (!car || car.status !="available") {
+        if (!car ||car.status !="available" || (car.owner!=req.auth.userName &&req.auth.role!="admin")) {
           return res.status(401).json({
+            status:401,
             error: 'call you want to car not found from one add get!'
           });
         }
+        
+
 
   return res.status(200).json({
     status:200,
@@ -261,44 +267,48 @@ exports.getOneAd =(req, res, next) =>{
     const car= cars.find(car=> car.id === req.params.id )
     
     
-        if (!car || car.status !="available") {
+        if (!car || car.contact!=req.auth.userName  ) {
           return res.status(401).json({
             status:401,
-            error: ('car not found !')
+            error: 'access denied invalid request !'
           });
+        }
+        else{
+          let price =car.price;
+          let  status=car.status;
+          if(req.body.price){
+             price= req.body.price
+             
+          }
+          else{
+           
+            status=req.body.status
+          }
+          
+  
+          const index = cars.indexOf(car);
+       
+    
+      cars[index].id= car.id,
+      cars[index].contact =car.contact, // user id
+      cars[index].state = car||car.price,// price offered
+      cars[index].status= status ||car.status ,
+      cars[index].created_on= car.created_on,
+      cars[index].modified_on= moment.now()
+      
+   
+           return  res.status(200).json({
+             status:200,
+             data:car
+            });
+             
+    
+
         }
         
        
        
-        let price =car.price;
-        let  status=car.status;
-        if(req.body.price){
-           price= req.body.price
-           
-        }
-        else{
-         
-          status=req.body.status
-        }
-
-        const index = cars.indexOf(car);
-     
-  
-    cars[index].id= car.id,
-    cars[index].owner =car.owner, // user id
-    cars[index].state = car.state,
-    cars[index].price = price ,// price offered
-    cars[index].status= status ,
-    cars[index].created_on= car.created_on,
-    cars[index].modified_on= moment.now()
-    
- 
-         return  res.status(200).json({
-           status:200,
-           data:car
-          });
-           
-  
+        
 };
 exports.deleteAd= (req, res, next) => {
 
@@ -310,10 +320,11 @@ exports.deleteAd= (req, res, next) => {
     }
 
   const car= cars.find(car=> car.id === req.params.id )
- 
-      if (!car) {
+
+  
+      if (!car || car.owner!=req.auth.userName || req.auth.role!="admin") {
         return res.status(401).json({
-          error: new Error('car not found !')
+          error: 'access denied  !'
         });
       }
       

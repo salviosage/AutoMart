@@ -6,9 +6,10 @@ module.exports = (req, res, next) => {
   if(req.headers.token){
   try {
     
-    const token = req.headers.token
+    const token = req.headers.token;
    
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    console.log(decodedToken)
     
     const userName = decodedToken.userName;
    
@@ -23,6 +24,7 @@ module.exports = (req, res, next) => {
         error: 'Authentiction failed '
       });
     } else {
+      req.auth=decodedToken,
       
       next();
     }

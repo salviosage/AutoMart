@@ -34,9 +34,9 @@ import  chai from 'chai';
    
     
 
-it('/PUT /FLAG ', (done) =>{
+it('/PUT /ORDER ', (done) =>{
     const record = {  
-        contact: "salviosage@gmail.com",
+      
         car_id: "ffdfzfzef5f5zef54e",
         amount:"11515555"
                 
@@ -46,6 +46,7 @@ it('/PUT /FLAG ', (done) =>{
          .set('token', userToken)
          .send(record)
 		 .end((err, res)=>{
+            
             
             res.body.should.be.a('object');
         
@@ -63,7 +64,7 @@ it('/PUT /FLAG ', (done) =>{
    
        it('return an error user is trying to flag a post which is not available  ', (done) =>{
         const record = {  
-            contact:"jeasal@gmail.com",
+           
             car_id:"ffdfzfzef5f5zef54e",
             reason: "wired price",
             description:"doesnt matter "
@@ -72,9 +73,7 @@ it('/PUT /FLAG ', (done) =>{
              .post('/api/v1/flag')
              .set('token', userToken)
              .send(record)
-             .end((err, res)=>{
-            
-                   
+             .end((err, res)=>{ 
                    
                    res.body.should.be.a('object');
                    res.body.should.have.property('status').eql(200);

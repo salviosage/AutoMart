@@ -7,8 +7,23 @@ import {flags} from "../db/automart"
 import flagSchema from "../schema/flag";
 import Joi from 'joi'
 
-
+export const getAllFlag= (req, res, next) =>{
+  if (req.auth.role!="admin"){
+    return res.status(400).json({
+      error: 'access denied'
+    });
+  }
+  else{
+    return res.status(200).json({
+      status:200,
+      data:flags
+    });
+  }
+  
+    
+  }
 exports.createFlag = (req, res, next) => {
+ 
   const flagValidation= Joi.validate(req.body, flagSchema);
   if(flagValidation.error){
     return res.status(400).json({
@@ -22,7 +37,7 @@ exports.createFlag = (req, res, next) => {
         if (!car || car.status !="available") {
           return res.status(401).json({
             status:401,
-            error: 'call you want to flag  not found!'
+            error: 'car you want to flag  not found!'
           });
         }
         
@@ -31,7 +46,7 @@ exports.createFlag = (req, res, next) => {
   const newFlag
    = {
     id: uuid.v4(),
-    contact : req.body.contact, 
+    contact : req.auth.userName, 
     car_id : req.body.car_id,
     reason : req.body.reason, // price offered
     discription: req.body.description || '',

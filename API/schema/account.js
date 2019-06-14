@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 const accountSchema={
     email: Joi.string().email({minDomainAtoms : 2}).required(),
-    // first_name: Joi.string().required(),
+    first_name: Joi.string().required(),
     last_name: Joi.string().required(),
     password: Joi.string().required(),
     address: Joi.string().required(),
