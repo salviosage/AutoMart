@@ -13,19 +13,23 @@ import  chai from 'chai';
  describe('get all ads posts ', () => {
 
 	before((done)=>{
-		const adminInfo = {
+		
+        const unouthorized = {
+			email: "clet@gmail.com",
+			password: "121621"
+        }
+        const adminInfo = {
 			email: "salviosage@gmail.com",
-			password: "121621454655"
+			password: "15151"
         }
         const ownerInfo = {
 			email: "jeasal@gmail.com",
-			password: "1216214546155"
+			password: "1515"
         }
         const userInfo = {
 			email: "sagesalvi@com.salvi",
-			password: "1216214546155"
+			password: "151"
 		}
-       
 
 		chai.request(app)
 		.post('/api/v1/auth/login')
@@ -58,6 +62,7 @@ import  chai from 'chai';
         })
 	
     })
+    
   
    
     

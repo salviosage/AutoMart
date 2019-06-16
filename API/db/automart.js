@@ -1,33 +1,31 @@
 
    export  const users= [
         
-        {   
-            "id" :"ffdfzfzef5f5zef54e",
-            "email" :"salviosage@gmail.com",
-            "first_name" :"jean salvi",
-            "last_name":"duk",
-            "password" :"121621454655",
-            "address" :"kigali",
-            "is_admin" :"true"
-            },
-            {   
-              "id" :"ffdfzfzef5f5zef54efdfd",
-              "email" :"sagesalvi@com.salvi",
-              "first_name" :"jean salvi",
-              "last_name":"duk",
-              "password" :"1216214546155",
-              "address" :"kigali",
-              "is_admin" :"false"
-              },
-              {   
-                "email": "sagesalvi@com.salvi",
-		            "password": "1216214546155",
-                "first_name" :"jean salvi",
-                "last_name":"duk",
-                "password" :"1216214546155",
-                "address" :"kigali",
-                "is_admin" :"false"
-                }
+            { "id": 'dbe604ae-bb90-411d-bbad-2265984efa9c',
+            "email": 'salviosage@gmail.com',
+            "password":
+              '$2b$10$/uJF78TZI6aZHrZBVIkT.OS1hUuh10kYvdv4iA.RucfSbNaosHSba',
+            "first_name": 'jean  ',
+            "last_name": 'salvi ',
+            "address": 'kigali',
+            "is_admin": 1 },
+          { "id": 'd6051006-c0a5-4607-8ebf-b0486ad1cd00',
+            "email": 'jeasal@gmail.com',
+            "password":
+            '$2b$10$DY7ABkE5jKAhMCMiQTGZ/OAWLsPImVUdrpaVfrTNDLC2A3hWnWwYy',
+            "first_name": 'gato ',
+            "last_name": 'bosco ',
+            "address": 'kigali',
+            "is_admin": 0 },
+            { "id": 'def64a2d-9e39-4063-abd3-f9a1d231a241',
+  "email": 'sagesalvi@com.salvi',
+  "password":
+   '$2b$10$9G5rYFAg3xxfFBSvUxaKeO7BZHTT.6nbFZFfHB.jkk7QZTUKDh3.2',
+  "first_name": 'jean ',
+  "last_name": 'very ',
+  "address": 'kigali',
+  "is_admin": 0 },
+              
     ];
 
   export const orders= [{
@@ -39,6 +37,15 @@
         "created_on": 1559808005114,
         "modified_on": 1559808005114
   },
+  {
+    "id": "e3de-47b3",
+    "contact": "salviosage@gmail.com",
+    "car_id": "ffdfzfzef5f5zef54e",
+    "amount":"11515555",
+    "status": "rejected",
+    "created_on": 1559808005114,
+    "modified_on": 1559808005114
+},
   {
   "id": "91af9944",
   "contact": "salviosage@gmail.com",
@@ -91,7 +98,7 @@
     "id" :"ffdfzfzef5f5z",
     "owner" :"salviosage@gmail.com",
     "state":"new",
-    "status" :"available",
+    "status" :"sold",
     "body_type" :"truc",
     "model" :"benz",
     "manufacturer" :"mercedes",

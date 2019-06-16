@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.27% </span>
+        <span class="strong">40.91% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>17/22</span>
+        <span class='fraction'>9/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/10</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">76.19% </span>
+        <span class="strong">42.86% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>16/21</span>
+        <span class='fraction'>9/21</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -134,17 +134,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,7 +154,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,8 +163,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -194,19 +194,19 @@ export const <span class="fstat-no" title="function not covered" >getAllFlag=</s
   
     
   }
-exports.createFlag = (req, res, next) =&gt; {
+exports.createFlag = <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
  
-  const flagValidation= Joi.validate(req.body, flagSchema);
-  <span class="missing-if-branch" title="if path not taken" >I</span>if(flagValidation.error){
+  const flagValidation= <span class="cstat-no" title="statement not covered" >Joi.v</span>alidate(req.body, flagSchema);
+<span class="cstat-no" title="statement not covered" >  if(flagValidation.error){</span>
 <span class="cstat-no" title="statement not covered" >    return r</span>es.status(400).json({
       error_msg: `${flagValidation.error.details[0].message}`
   });
   }
     
 &nbsp;
-    const car= cars.find(car=&gt; car.id === req.body.car_id  )
+    const car= <span class="cstat-no" title="statement not covered" >cars.f</span>ind(<span class="fstat-no" title="function not covered" >car<span class="cstat-no" title="statement not covered" >=</span>&gt; c</span>ar.id === req.body.car_id  )
     
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!car || car.status !="available") {
+<span class="cstat-no" title="statement not covered" >        if (!car || car.status !="available") {</span>
 <span class="cstat-no" title="statement not covered" >          return r</span>es.status(401).json({
             status:401,
             error: 'car you want to flag  not found!'
@@ -216,17 +216,17 @@ exports.createFlag = (req, res, next) =&gt; {
        
         
   const newFlag
-   = {
+   = <span class="cstat-no" title="statement not covered" >{</span>
     id: uuid.v4(),
     contact : req.auth.userName, 
     car_id : req.body.car_id,
     reason : req.body.reason, // price offered
-    discription: req.body.description || <span class="branch-1 cbranch-no" title="branch not covered" >'',</span>
+    discription: req.body.description || '',
     created_on: moment.now(),
     
   };
-  flags.push(newFlag);
-         return  res.status(200).json({
+<span class="cstat-no" title="statement not covered" >  flags.p</span>ush(newFlag);
+<span class="cstat-no" title="statement not covered" >         return  r</span>es.status(200).json({
            status:200,
             data: newFlag
           });
@@ -238,7 +238,7 @@ exports.createFlag = (req, res, next) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 14 2019 07:24:08 GMT+0200 (Central Africa Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jun 16 2019 19:18:40 GMT+0200 (Central Africa Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>
