@@ -123,9 +123,6 @@ import  chai from 'chai';
 		 .get('/api/v1/car/ffdfzfzef5f5zef5d5')
          .set('token', adminToken)
 		 .end((err, res)=>{
-        
-                
-         
                res.body.should.be.a('object');
                res.body.should.have.property('status').eql(200);
                res.body.should.have.property('data');
@@ -135,20 +132,53 @@ import  chai from 'chai';
             })
     
        })
+
+       it('/GET not get one car while is not available   ', (done) =>{
+        chai.request(app)
+          .get('/api/v1/car/ffdfzfzef5f5z')
+          .set('token', userToken)
+          .end((err, res)=>{
+                res.body.should.be.a('object');
+                res.body.should.have.property('status').eql(401);
+                res.body.should.have.property('error').eql('call you want to car not found from one add get!');
+               
+ 
+                done();
+             })
+     
+        })
       
+       it('/GET  should not get one ad  when is not valid ', (done) =>{
+        chai.request(app)
+          .get('/api/v1/car/--ffdfzfzef5f5zef5d5')
+          .set('token', adminToken)
+          .end((err, res)=>{
+         
+               console.log(res.body)  
+          
+                res.body.should.be.a('object');
+                res.body.should.have.property('status').eql(400);
+                res.body.should.have.property('error').eql('"id" must only contain alpha-numeric characters');
+               
+ 
+                done();
+             })
+     
+        })
        
-       it('/PATH car price return an eeror becouse its is not yours  ', (done) =>{
+       
+       it('/PATH car price return an error becouse its is not yours  ', (done) =>{
         const record = {  
             price:"15555"
                     
                      }
            chai.request(app)
-             .patch('/api/v1/car/91af9944-e3de-47b3/price')
+             .patch('/api/v1/car/ffdfzfzef5f5z/price')
              .set('token', userToken)
              .send(record)
              .end((err, res)=>{
             
-                 
+                 console.log(res.body)
                    
                    res.body.should.be.a('object');
                    res.body.should.have.property('status').eql(401);
@@ -159,6 +189,48 @@ import  chai from 'chai';
         
            })
 
+           it('/PATH car price return an error becouse of invalid input   ', (done) =>{
+            const record = {  
+                price:"skdjsdndjnd"
+                        
+                         }
+               chai.request(app)
+                 .patch('/api/v1/car/ffdfzfzef5f5z/price')
+                 .set('token', userToken)
+                 .send(record)
+                 .end((err, res)=>{
+                
+                     console.log(res.body)
+                       
+                       res.body.should.be.a('object');
+                       res.body.should.have.property('error').eql('"price" must be a number')
+                       done();
+                    })
+            
+               })
+
+
+        it('/PATH car price of a car  ', (done) =>{
+        const record = {  
+            price:"15555"
+                    
+                        }
+            chai.request(app)
+                .patch('/api/v1/car/ffdfzfzef5f5z/price')
+                .set('token', adminToken)
+                .send(record)
+                .end((err, res)=>{
+            
+                    console.log(res.body)
+                    
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(200);
+                    res.body.should.have.property('data');
+                    
+                    done();
+                })
+        
+            })
     
      it('/PATH car status retun an eror access denied  ', (done) =>{
     const record = {  
@@ -166,13 +238,13 @@ import  chai from 'chai';
                 
          		}
        chai.request(app)
-		 .patch('/api/v1/car/ffdfzfzef5f5z/status')
+		 .patch('/api/v1/car/ffdfzfzef5f5zef5d5/status')
          .set('token', adminToken)
          .send(record)
 		 .end((err, res)=>{
         
              
-             
+             console.log(res.body)
                res.body.should.be.a('object');
                res.body.should.have.property('status').eql(401);
                res.body.should.have.property('error');
@@ -183,19 +255,53 @@ import  chai from 'chai';
         })
             it('/delete  car  ', (done) =>{
                    chai.request(app)
-                     .delete('/api/v1/car/ffdfzfzef5f5zef54e')
+                     .delete('/api/v1/car/ffdfzfzef5f5z')
                      .set('token', adminToken)
                     
                      .end((err, res)=>{
                     
                          
                            res.body.should.be.a('object');
-                           res.body.should.have.property('error');
+                           res.body.should.have.property('status').eql(200);
+                           res.body.should.have.property('data').eql( 'car deleted successfully')
                           
                            done();
                         })
                 
                    })
+            it('/not delete a car if user is not admin or owner   ', (done) =>{
+            chai.request(app)
+                .delete('/api/v1/car/ffdfzfzef5f5zef54e')
+                .set('token', userToken)
+                
+                .end((err, res)=>{
+                
+                    
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('error').eql('access denied  !');
+                    
+                    
+                    done();
+                    })
+            
+            })
+
+                    it('/not delete a car becouse of invalid parameters   ', (done) =>{
+                        chai.request(app)
+                          .delete('/api/v1/car/--ffdfzfzef5f5zef54e')
+                          .set('token', userToken)
+                         
+                          .end((err, res)=>{
+                         
+                              console.log(res.body)
+                                res.body.should.be.a('object');
+                                res.body.should.have.property('error').eql('"id" must only contain alpha-numeric characters');
+                               
+                               
+                                done();
+                             })
+                     
+                        })
     
        
 
@@ -207,7 +313,7 @@ import  chai from 'chai';
  	it('/POST /car', (done)=>{
  		const record = {  
         
-        state:"used",
+    
         body_type :"truc",
         model :"benz",
         manufacturer :"mercedes",
@@ -217,10 +323,10 @@ import  chai from 'chai';
 
  		chai.request(app)
 			 .post('/api/v1/car')
-			 .set('token', userToken)
+			 .set('token', adminToken)
 			 .send(record)
  		    .end((err, res)=>{
-                
+                console.log(res.body)
               
  		    	res.body.should.be.a('object');
                 res.body.should.have.property('status').eql(201);
@@ -231,6 +337,33 @@ import  chai from 'chai';
  		    })
  	})
 
+    
+        it('should not post a car ad while there is invalid parameter', (done)=>{
+            const record = {  
+           
+           state:"used",
+           body_type :"truc",
+          
+           manufacturer :"mercedes",
+           price :"5144",
+           
+            }
+   
+            chai.request(app)
+                .post('/api/v1/car')
+                .set('token', userToken)
+                .send(record)
+                .end((err, res)=>{
+                   
+                 console.log(res.body)
+                    res.body.should.be.a('object');
+                   res.body.should.have.property('status').eql(401);
+                   res.body.should.have.property ('error_msg').eql('"model" is required');
+                  
+                   done();
+                 
+                })
+        })
  	it('not post a car if user is anoninous ', (done)=>{
         const record = {  
        owner :"sagesalvi@gmail.comsalvi",

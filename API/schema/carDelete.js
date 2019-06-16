@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 const carDeleteSchema={
     
-    id: Joi.string().required()
+    id: Joi.string().alphanum().required()
     
 }
 
