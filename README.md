@@ -42,19 +42,19 @@ Auto Mart is an online marketplace for automobiles of diverse makes, model or bo
 
 ### Language
 ```
-*Javascript*
+Javascript
 ```
 ### Server Environment
 ```
- *NodeJS* (JavaScript runtime built on Chrome's V8 JavaScript engine)
+ NodeJS (JavaScript runtime built on Chrome's V8 JavaScript engine)
  ```
 ### Framework
 ```
- *Express* (minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.)
+ Express (minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.)
  ```
 ### Testing Framework and assertion library
 ```
- *Mocha* and *Chai*
+ Mocha and Chai
  ```
 ### Continuous Integration
 ```
