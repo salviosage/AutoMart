@@ -134,7 +134,7 @@ import  chai from 'chai';
                  .set('token', userToken)
                  .send(record)
                  .end((err, res)=>{ 
-                       console.log(res.body)
+        
                        res.body.should.be.a('object');
                        res.body.should.have.property('error_msg').eql('"car_id" is not allowed to be empty')
                        
@@ -176,7 +176,7 @@ import  chai from 'chai';
                      .set('token', adminToken)
                      .end((err, res)=>{
                         
-                        console.log(res.body);
+                   
                         res.body.should.be.a('object');
                         res.body.should.have.property('status').eql(200);
                         res.body.should.have.property('data');
@@ -188,7 +188,7 @@ import  chai from 'chai';
                 });
                
 
-                it('it should not get all flg while user is not dmin   ', (done) =>{
+                it('it should not get all flg while user is not admin   ', (done) =>{
               
                     chai.request(app)
                       .get('/api/v1/flag')

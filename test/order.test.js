@@ -94,7 +94,7 @@ it('/post  /ORDER ', (done) =>{
              .set('token', userToken)
              .send(record)
              .end((err, res)=>{
-               console.log(res.body)
+              
                 res.body.should.be.a('object');
                
                 res.body.should.have.property('error_msg').eql('"amount" is required');
@@ -116,7 +116,7 @@ it('/post  /ORDER ', (done) =>{
                  .set('token', userToken)
                  .send(record)
                  .end((err, res)=>{
-                   console.log(res.body)
+                 
                     res.body.should.be.a('object');
                    
                     res.body.should.have.property('status').eql(400);
@@ -188,7 +188,7 @@ it('/post  /ORDER ', (done) =>{
              .end((err, res)=>{
             
                
-                   console.log(res.body)
+                   
                    res.body.should.be.a('object');
                    res.body.should.have.property('error_msg').eql('"amount" is required');
                    done();
@@ -210,7 +210,7 @@ it('/post  /ORDER ', (done) =>{
          .send(record)
 		 .end((err, res)=>{
         
-           
+           console.log(res.body)
                
                res.body.should.be.a('object');
                res.body.should.have.property('status').eql(200);
@@ -232,7 +232,7 @@ it('/post  /ORDER ', (done) =>{
              .set('token', adminToken)
              .send(record)
              .end((err, res)=>{
-                 console.log(res.body);
+              
  
                    res.body.should.be.a('object');
                    res.body.should.have.property('error_msg').eql('"status" must be a string');
