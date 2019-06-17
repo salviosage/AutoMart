@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 import {users} from "../db/automart"
+import env from "dotenv"; 
+env.config()
 
 
 module.exports = (req, res, next) => {
@@ -8,7 +10,7 @@ module.exports = (req, res, next) => {
     
     const token = req.headers.token;
    
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token,process.env.secretKey);
     console.log(decodedToken)
     
     const userName = decodedToken.userName;
@@ -28,11 +30,11 @@ module.exports = (req, res, next) => {
       
       next();
     }
-  } catch {
+  } catch(error) {
    
     res.status(401).json({
       status:401,
-      error: 'Invalid request! you must login first '
+      error
     });
   }
 }

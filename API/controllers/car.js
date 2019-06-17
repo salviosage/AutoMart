@@ -266,8 +266,8 @@ exports.getOneAd =(req, res, next) =>{
     }
     const car= cars.find(car=> car.id === req.params.id )
     
-    
-        if (!car || car.contact!=req.auth.userName  ) {
+    console.log(car)
+        if (!car || car.owner!=req.auth.userName  ) {
           return res.status(401).json({
             status:401,
             error: 'access denied invalid request !'
@@ -290,9 +290,10 @@ exports.getOneAd =(req, res, next) =>{
        
     
       cars[index].id= car.id,
-      cars[index].contact =car.contact, // user id
-      cars[index].state = car||car.price,// price offered
-      cars[index].status= status ||car.status ,
+      cars[index].owner =car.owner, // user id
+      cars[index].state = car.state,
+      cars[index].status= status, 
+      cars[index].price= price,
       cars[index].created_on= car.created_on,
       cars[index].modified_on= moment.now()
       

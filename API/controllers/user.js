@@ -41,9 +41,10 @@ exports.signup = (req, res, next) => {
      
       let role="user";
       
-      if(user.is_admin==="true"){
+      if(user.is_admin){
         role="admin"
       }
+      console.log(user)
      
      
       const userName =user.email
@@ -64,7 +65,7 @@ exports.signup = (req, res, next) => {
     );
   };
 
-  exports.login = (req, res) => {
+  export const login =  async(req, res) => {
     const userValidation= Joi.validate(req.body, userSchema);
     if(userValidation.error){
       return res.status(400).json({
@@ -82,17 +83,24 @@ exports.signup = (req, res, next) => {
           });
         }
        
-        const compare =bcrypt.compare(req.body.password, user.password)
+          // bcrypt.compare(req.body.password, user.password, function(err, result) {
+          //     if (err) { throw (err); }
+          //     console.log(result);
+          // });
+      
+       
+        const compare = await bcrypt.compare(req.body.password, user.password)
+        console.log('value',compare)
             if (!compare) {
               return res.status(401).json({
                 status:401,
-                error: new Error('Incorrect password!')
+                error:'Incorrect password!'
               });
-            }
+           }
             
             let role="user";
             
-            if(user.is_admin==="true"){
+            if(user.is_admin){
               role="admin"
             }
          
@@ -120,10 +128,13 @@ exports.signup = (req, res, next) => {
         error_msg: `${resetValidation.error.details[0].message}`
     });
     }
+    console.log("found")
+    const user= users.find(user=> user.email === req.body.email );
+
+    console.log('user',user)
     
-    const user= users.find(user=> user.email === req.body.email )
-    
-         if (!user) {
+         if (user==={}) {
+           console.log("found")
            return res.status(401).json({
              error: ('User not found!')
            });
