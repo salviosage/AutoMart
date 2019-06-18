@@ -12,7 +12,7 @@ import Joi from 'joi';
 
 
 
-exports.getAds= (req, res, next) =>{
+const getAds = (req, res, next) =>{
 
  let inReturn =[]; 
  let toReturn=[];
@@ -195,7 +195,7 @@ else {
 
    
 //create a car ad endpoint 
-exports.createAd = (req, res, next) => {
+const createAd = (req, res, next) => {
   const carAdValidation= Joi.validate(req.body, carChema);
   if(carAdValidation.error){
     return res.status(400).json({
@@ -225,7 +225,7 @@ exports.createAd = (req, res, next) => {
            
   
 };
-exports.getOneAd =(req, res, next) =>{
+const getOneAd =(req, res, next) =>{
   
   const carAdValidation= Joi.validate(req.params, oneCar);
     if(carAdValidation.error){
@@ -255,7 +255,7 @@ exports.getOneAd =(req, res, next) =>{
 
 
 
-   exports.updateAd= (req, res, next) => {
+ const updateAd= (req, res, next) => {
    
     
     const carAdValidation= Joi.validate(req.body, carUpdate);
@@ -311,7 +311,7 @@ exports.getOneAd =(req, res, next) =>{
        
         
 };
-exports.deleteAd= (req, res, next) => {
+const deleteAd= (req, res, next) => {
 
   const carAdValidation= Joi.validate(req.params, carDelete);
     if(carAdValidation.error){
@@ -344,3 +344,6 @@ exports.deleteAd= (req, res, next) => {
          data:"car deleted successfully"
         });
 };
+export  {
+  getAds,getOneAd,deleteAd,updateAd,createAd
+}
