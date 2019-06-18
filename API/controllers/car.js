@@ -8,7 +8,7 @@ import {cars} from "../db/automart";
 
 
 
-exports.getAds= (req, res, next) =>{
+const getAds= (req, res, next) =>{
 
  let inReturn =[]; 
  let toReturn=[];
@@ -191,7 +191,7 @@ else {
 
    
 //create a car ad endpoint 
-exports.createAd = (req, res, next) => {
+const createAd = (req, res, next) => {
  
 
   const newAd = {
@@ -215,7 +215,7 @@ exports.createAd = (req, res, next) => {
            
   
 };
-exports.getOneAd =(req, res, next) =>{
+const getOneAd =(req, res, next) =>{
   
   
 
@@ -239,7 +239,7 @@ exports.getOneAd =(req, res, next) =>{
 
 
 
-   exports.updateAd= (req, res, next) => {
+  const updateAd= (req, res, next) => {
    
     
    
@@ -290,7 +290,7 @@ exports.getOneAd =(req, res, next) =>{
        
         
 };
-exports.deleteAd= (req, res, next) => {
+const deleteAd= (req, res, next) => {
 
   
 
@@ -318,3 +318,6 @@ exports.deleteAd= (req, res, next) => {
          data:"car deleted successfully"
         });
 };
+export default {
+  getAds,getOneAd,createAd,deleteAd,updateAd
+}

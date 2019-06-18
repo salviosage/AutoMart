@@ -6,7 +6,7 @@ import {cars} from "../db/automart";
 import {flags} from "../db/automart"
 
 
-export const getAllFlag= (req, res, next) =>{
+const getAllFlag= (req, res, next) =>{
   if (req.auth.role!="admin"){
     return res.status(400).json({
       error: 'access denied'
@@ -21,7 +21,7 @@ export const getAllFlag= (req, res, next) =>{
   
     
   }
-exports.createFlag = (req, res, next) => {
+const createFlag = (req, res, next) => {
  
  
     
@@ -55,3 +55,6 @@ exports.createFlag = (req, res, next) => {
            
   
 };
+export default {
+  createFlag, getAllFlag
+}

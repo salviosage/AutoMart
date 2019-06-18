@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import {users} from "../db/automart";
 
 
-export const getUser= (req, res, next) =>{
+const getUser= (req, res, next) =>{
 
   
   return  res.status(200).json({
@@ -16,7 +16,7 @@ export const getUser= (req, res, next) =>{
 
   
 
-exports.signup = (req, res, next) => {
+const signup = (req, res, next) => {
   
     bcrypt.hash(req.body.password, 10).then(
       (hash) => {
@@ -57,7 +57,7 @@ exports.signup = (req, res, next) => {
     );
   };
 
-  export const login =  async(req, res) => {
+const login =  async(req, res) => {
   
     
    const user= users.find(user=> user.email === req.body.email )
@@ -107,7 +107,7 @@ exports.signup = (req, res, next) => {
     
   };
 
-  exports.reset = (req, res, next) => {
+  const reset = (req, res, next) => {
   
     console.log("found")
     const user= users.find(user=> user.email === req.body.email );
@@ -134,6 +134,9 @@ exports.signup = (req, res, next) => {
          
      
    };
+   export default{
+     login,signup,reset,getUser
+   }
   
  
   
