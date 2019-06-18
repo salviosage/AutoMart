@@ -3,14 +3,6 @@ const jwt = require('jsonwebtoken');
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
-import  carChema from "../schema/car";
-import carUpdate from "../schema/carUpdate";
-import carDelete from "../schema/carDelete";
-import oneCar from "../schema/oneCar"
-import Joi from 'joi';
-
-
-
 
 const getAds = (req, res, next) =>{
 
@@ -156,17 +148,14 @@ else {
      });
   
     }
-   
-     
+
         return res.status(302).json({
          
           status:302,
           data: inReturn
          
          });
-      
-
-
+  
     }
    else if (inReturn.length>0){
  
@@ -183,28 +172,12 @@ else {
         error: `no car found `
       });
     }
-    
-      
 
-   
       }
-     
-  
 
-  
-
-   
 //create a car ad endpoint 
 const createAd = (req, res, next) => {
-  const carAdValidation= Joi.validate(req.body, carChema);
-  if(carAdValidation.error){
-    return res.status(400).json({
-      status:401,
-      error_msg: `${carAdValidation.error.details[0].message}`
-  });
-  }
-
-  const newAd = {
+ const newAd = {
     id: uuid.v4(),
     owner: req.auth.userName,
     state: req.body.state || 'new',
@@ -227,13 +200,7 @@ const createAd = (req, res, next) => {
 };
 const getOneAd =(req, res, next) =>{
   
-  const carAdValidation= Joi.validate(req.params, oneCar);
-    if(carAdValidation.error){
-        return res.status(400).json({
-          status:400,
-            error: `${carAdValidation.error.details[0].message}`
-        });
-    }
+  
 
     
   const car= cars.find(car=> car.id === req.params.id  )
@@ -258,12 +225,7 @@ const getOneAd =(req, res, next) =>{
  const updateAd= (req, res, next) => {
    
     
-    const carAdValidation= Joi.validate(req.body, carUpdate);
-    if(carAdValidation.error){
-        return res.status(400).json({
-            error: `${carAdValidation.error.details[0].message}`
-        });
-    }
+ 
     const car= cars.find(car=> car.id === req.params.id )
     
     console.log(car)
@@ -313,12 +275,7 @@ const getOneAd =(req, res, next) =>{
 };
 const deleteAd= (req, res, next) => {
 
-  const carAdValidation= Joi.validate(req.params, carDelete);
-    if(carAdValidation.error){
-        return res.status(400).json({
-            error: `${carAdValidation.error.details[0].message}`
-        });
-    }
+  
 
   const car= cars.find(car=> car.id === req.params.id )
 
