@@ -4,8 +4,7 @@ import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
 import {flags} from "../db/automart"
-import flagSchema from "../schema/flag";
-import Joi from 'joi'
+
 
 export const getAllFlag= (req, res, next) =>{
   if (req.auth.role!="admin"){
@@ -23,14 +22,6 @@ export const getAllFlag= (req, res, next) =>{
     
   }
 exports.createFlag = (req, res, next) => {
- 
-  const flagValidation= Joi.validate(req.body, flagSchema);
-  if(flagValidation.error){
-    return res.status(400).json({
-      error_msg: `${flagValidation.error.details[0].message}`
-  });
-  }
-    
 
     const car= cars.find(car=> car.id === req.body.car_id  )
     

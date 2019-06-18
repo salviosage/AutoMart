@@ -3,12 +3,6 @@ import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
 import {orders} from "../db/automart";
-import orderSchema from "../schema/order";
-import Joi from 'joi';
-
-import  orderPriceUpdateSchema from "../schema/orderPriceChange";
-import orderStatusUpdateChema from '../schema/orderStatusUpdate';
-
 
 export const geAllOrder= (req, res, next) =>{
   if (req.auth.role!="admin"){
@@ -30,12 +24,7 @@ export const geAllOrder= (req, res, next) =>{
  
 exports.createOrder = (req, res, next) => {
    
-    const orderValidation= Joi.validate(req.body, orderSchema);
-    if(orderValidation.error){
-      return res.status(400).json({
-        error_msg: `${orderValidation.error.details[0].message}`
-    });
-    }
+   
 
     const car= cars.find(car=> car.id === req.body.car_id  )
     
@@ -69,13 +58,7 @@ exports.createOrder = (req, res, next) => {
 exports.updateOrderPrice = (req, res, next) => {
     
    
-    const orderUpdateValidation= Joi.validate(req.body, orderPriceUpdateSchema);
-    if(orderUpdateValidation.error){
-      return res.status(400).json({
-        error_msg: `${orderUpdateValidation.error.details[0].message}`
-    });
-    }
-
+   
     const order= orders.find(order=> order.id === req.params.id )
 
     
@@ -110,12 +93,7 @@ exports.updateOrderPrice = (req, res, next) => {
 };
 exports.updateOrderStatus = (req, res, next) => {
 
-  const orderStatusUpdate= Joi.validate(req.body, orderStatusUpdateChema);
-  if(orderStatusUpdate.error){
-    return res.status(400).json({
-      error_msg: `${orderStatusUpdate.error.details[0].message}`
-  });
-  }
+ 
 
   const order= orders.find(order=> order.id === req.params.id )
   

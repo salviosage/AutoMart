@@ -20,12 +20,6 @@ export const getUser= (req, res, next) =>{
   
 
 exports.signup = (req, res, next) => {
-  const accountValidation= Joi.validate(req.body, accountSchema);
-  if(accountValidation.error){
-    return res.status(400).json({
-      error_msg: `${accountValidation.error.details[0].message} got some eror in validation`
-  });
-  }
     bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = {
@@ -66,13 +60,6 @@ exports.signup = (req, res, next) => {
   };
 
   export const login =  async(req, res) => {
-    const userValidation= Joi.validate(req.body, userSchema);
-    if(userValidation.error){
-      return res.status(400).json({
-        sttus:400,
-        error_msg: `${userValidation.error.details[0].message}`
-    });
-    }
     
    const user= users.find(user=> user.email === req.body.email )
     
@@ -122,12 +109,7 @@ exports.signup = (req, res, next) => {
   };
 
   exports.reset = (req, res, next) => {
-    const resetValidation= Joi.validate(req.body, resetSchema);
-    if(resetValidation.error){
-      return res.status(400).json({
-        error_msg: `${resetValidation.error.details[0].message}`
-    });
-    }
+  
     console.log("found")
     const user= users.find(user=> user.email === req.body.email );
 
