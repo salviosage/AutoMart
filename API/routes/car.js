@@ -1,17 +1,16 @@
 import  express from 'express';
 import auth from '../middleware/auth';
-import  carCtrl from '../controllers/car';
-const router = express.Router();
+import  { getAds,getOneAd,deleteAd,updateAd,createAd} from '../controllers/car';
 import SchemaValidator from "../middleware/schemaValidator";
 const validateRequest = SchemaValidator(true,"car");
+const router = express.Router();
 
-
-router.post('/',validateRequest,auth, carCtrl.createAd );
-router.get('/', auth,carCtrl.getAds );
-router.get('/:id',validateRequest,auth, carCtrl.getOneAd );
-router.delete('/:id',validateRequest,auth, carCtrl.deleteAd);
-router.patch('/:id/status',validateRequest,auth, carCtrl.updateAd);
-router.patch('/:id/price',validateRequest,auth, carCtrl.updateAd);
+router.post('/',validateRequest,auth,createAd );
+router.get('/', auth, getAds );
+router.get('/:id',validateRequest,auth, getOneAd );
+router.delete('/:id',validateRequest,auth, deleteAd);
+router.patch('/:id/status',validateRequest,auth, updateAd);
+router.patch('/:id/price',validateRequest,auth, updateAd);
 
 
 module.exports = router;

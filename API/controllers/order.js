@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import {cars} from "../db/automart";
 import {orders} from "../db/automart";
 
-export const geAllOrder= (req, res, next) =>{
+ const geAllOrder= (req, res, next) =>{
   if (req.auth.role!="admin"){
     return res.status(400).json({
       status:400,
@@ -22,7 +22,7 @@ export const geAllOrder= (req, res, next) =>{
   }
    
  
-exports.createOrder = (req, res, next) => {
+const createOrder = (req, res, next) => {
    
    
 
@@ -55,7 +55,7 @@ exports.createOrder = (req, res, next) => {
            
   
 };
-exports.updateOrderPrice = (req, res, next) => {
+const updateOrderPrice = (req, res, next) => {
     
    
    
@@ -91,7 +91,7 @@ exports.updateOrderPrice = (req, res, next) => {
            
   
 };
-exports.updateOrderStatus = (req, res, next) => {
+const updateOrderStatus = (req, res, next) => {
 
  
 
@@ -137,4 +137,6 @@ exports.updateOrderStatus = (req, res, next) => {
 
 };
     
-
+export {
+  createOrder,updateOrderPrice,updateOrderStatus,geAllOrder
+}

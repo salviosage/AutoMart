@@ -28,8 +28,8 @@ const newCarDataSchema = Joi.object().keys({
     model: name.required(),
     body_type: name.required(),
     price: amount.required(),
-    state: name.valid('new ', 'used').required(),
-    status: name.valid('available ', 'sold').required(),
+    state: name.valid('new', 'used').required(),
+    status: name.valid('available', 'sold').required(),
 });
 
 

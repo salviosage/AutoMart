@@ -2,12 +2,9 @@ import  bcrypt from'bcrypt';
 import  jwt from 'jsonwebtoken';
 import uuid from 'uuid';
 import {users} from "../db/automart";
-import Joi from 'joi';
-import userSchema from '../schema/user';
-import accountSchema from '../schema/account';
-import resetSchema from '../schema/passwordReset'
 
-export const getUser= (req, res, next) =>{
+
+ const getUser= (req, res, next) =>{
 
   
   return  res.status(200).json({
@@ -19,7 +16,7 @@ export const getUser= (req, res, next) =>{
 
   
 
-exports.signup = (req, res, next) => {
+const signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = {
@@ -59,7 +56,7 @@ exports.signup = (req, res, next) => {
     );
   };
 
-  export const login =  async(req, res) => {
+ const login =  async(req, res) => {
     
    const user= users.find(user=> user.email === req.body.email )
     
@@ -69,13 +66,7 @@ exports.signup = (req, res, next) => {
             error: "User not found!"
           });
         }
-       
-          // bcrypt.compare(req.body.password, user.password, function(err, result) {
-          //     if (err) { throw (err); }
-          //     console.log(result);
-          // });
-      
-       
+
         const compare = await bcrypt.compare(req.body.password, user.password)
         console.log('value',compare)
             if (!compare) {
@@ -108,7 +99,7 @@ exports.signup = (req, res, next) => {
     
   };
 
-  exports.reset = (req, res, next) => {
+const reset = (req, res, next) => {
   
     console.log("found")
     const user= users.find(user=> user.email === req.body.email );
@@ -135,6 +126,9 @@ exports.signup = (req, res, next) => {
          
      
    };
+   export  {
+     login,signup,reset,getUser
+   }
   
  
   
