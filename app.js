@@ -9,6 +9,9 @@ const flagRoutes = require('./API/routes/flag');
 import swaggerUi from 'swagger-ui-express';
 const  swaggerDoc  = require('./swagger.json');
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
+
 const app = express();
 
 
@@ -25,7 +28,7 @@ const app = express();
  app.use('/automart', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
  app.use('/images', express.static(path.join(__dirname, 'images')));
 
-const api_version = 'v1';
+const api_version = process.env.api_version;
 
 const base_url = '/api/'+ api_version;
 app.use(base_url +'/auth',userRoutes);

@@ -42,31 +42,18 @@ module.exports = (useJoiError,routing) => {
 
                     if (err) {
 
-                        // Joi Error
-                        const JoiError = {
-                            status: 'failed',
-                            error: {
-                                original: err._object,
-
-                                // fetch only message and type from each error
-                                details: _.map(err.details, ({message, type}) => ({
-                                    message: message.replace(/['"]/g, ''),
-                                    type
-                                }))
-                            }
-                        };
-
-                        // Custom Error
-                        const CustomError = {
-                            status: 'failed',
-                            error: 'Invalid request data. Please review request and try again.'
-                        };
-
+                      
                         // Send back the JSON error response
-                        res.status(422).json(_useJoiError ? JoiError : CustomError);
+                        
+                        res.status(422).json({
+                            status:422,
+                            error:  _.map(err.details, ({message}) => ({
+                                message: message.replace(/['"]/g, ''),
+                                
+                            }))
+                          });
 
                     } else {
-                        // Replace req.body with the data after Joi validation
                         req.body = data;
                         next();
                     }
