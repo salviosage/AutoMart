@@ -2,10 +2,7 @@ import  bcrypt from'bcrypt';
 import  jwt from 'jsonwebtoken';
 import uuid from 'uuid';
 import {users} from "../db/automart";
-import Joi from 'joi';
-import userSchema from '../schema/user';
-import accountSchema from '../schema/account';
-import resetSchema from '../schema/passwordReset'
+
 
 export const getUser= (req, res, next) =>{
 
@@ -20,12 +17,7 @@ export const getUser= (req, res, next) =>{
   
 
 exports.signup = (req, res, next) => {
-  const accountValidation= Joi.validate(req.body, accountSchema);
-  if(accountValidation.error){
-    return res.status(400).json({
-      error_msg: `${accountValidation.error.details[0].message} got some eror in validation`
-  });
-  }
+  
     bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = {
@@ -41,9 +33,10 @@ exports.signup = (req, res, next) => {
      
       let role="user";
       
-      if(user.is_admin==="true"){
+      if(user.is_admin){
         role="admin"
       }
+      console.log(user)
      
      
       const userName =user.email
@@ -64,14 +57,8 @@ exports.signup = (req, res, next) => {
     );
   };
 
-  exports.login = (req, res) => {
-    const userValidation= Joi.validate(req.body, userSchema);
-    if(userValidation.error){
-      return res.status(400).json({
-        sttus:400,
-        error_msg: `${userValidation.error.details[0].message}`
-    });
-    }
+  export const login =  async(req, res) => {
+  
     
    const user= users.find(user=> user.email === req.body.email )
     
@@ -82,17 +69,24 @@ exports.signup = (req, res, next) => {
           });
         }
        
-        const compare =bcrypt.compare(req.body.password, user.password)
+          // bcrypt.compare(req.body.password, user.password, function(err, result) {
+          //     if (err) { throw (err); }
+          //     console.log(result);
+          // });
+      
+       
+        const compare = await bcrypt.compare(req.body.password, user.password)
+        console.log('value',compare)
             if (!compare) {
               return res.status(401).json({
                 status:401,
-                error: new Error('Incorrect password!')
+                error:'Incorrect password!'
               });
-            }
+           }
             
             let role="user";
             
-            if(user.is_admin==="true"){
+            if(user.is_admin){
               role="admin"
             }
          
@@ -114,16 +108,14 @@ exports.signup = (req, res, next) => {
   };
 
   exports.reset = (req, res, next) => {
-    const resetValidation= Joi.validate(req.body, resetSchema);
-    if(resetValidation.error){
-      return res.status(400).json({
-        error_msg: `${resetValidation.error.details[0].message}`
-    });
-    }
+  
+    console.log("found")
+    const user= users.find(user=> user.email === req.body.email );
+
+    console.log('user',user)
     
-    const user= users.find(user=> user.email === req.body.email )
-    
-         if (!user) {
+         if (user==={}) {
+           console.log("found")
            return res.status(401).json({
              error: ('User not found!')
            });

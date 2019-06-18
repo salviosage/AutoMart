@@ -3,7 +3,7 @@ import Joi from 'joi';
 const oneCarSchema={
     
     
-    id: Joi.string().required()
+    id: Joi.string().alphanum().required()
     
 }
 

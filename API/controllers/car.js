@@ -3,11 +3,7 @@ const jwt = require('jsonwebtoken');
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
-import  carChema from "../schema/car";
-import carUpdate from "../schema/carUpdate";
-import carDelete from "../schema/carDelete";
-import oneCar from "../schema/oneCar"
-import Joi from 'joi';
+
 
 
 
@@ -196,13 +192,7 @@ else {
    
 //create a car ad endpoint 
 exports.createAd = (req, res, next) => {
-  const carAdValidation= Joi.validate(req.body, carChema);
-  if(carAdValidation.error){
-    return res.status(400).json({
-      status:401,
-      error_msg: `${carAdValidation.error.details[0].message}`
-  });
-  }
+ 
 
   const newAd = {
     id: uuid.v4(),
@@ -227,13 +217,7 @@ exports.createAd = (req, res, next) => {
 };
 exports.getOneAd =(req, res, next) =>{
   
-  const carAdValidation= Joi.validate(req.params, oneCar);
-    if(carAdValidation.error){
-        return res.status(400).json({
-          status:400,
-            error: `${carAdValidation.error.details[0].message}`
-        });
-    }
+  
 
     
   const car= cars.find(car=> car.id === req.params.id  )
@@ -258,16 +242,11 @@ exports.getOneAd =(req, res, next) =>{
    exports.updateAd= (req, res, next) => {
    
     
-    const carAdValidation= Joi.validate(req.body, carUpdate);
-    if(carAdValidation.error){
-        return res.status(400).json({
-            error: `${carAdValidation.error.details[0].message}`
-        });
-    }
+   
     const car= cars.find(car=> car.id === req.params.id )
     
-    
-        if (!car || car.contact!=req.auth.userName  ) {
+    console.log(car)
+        if (!car || car.owner!=req.auth.userName  ) {
           return res.status(401).json({
             status:401,
             error: 'access denied invalid request !'
@@ -290,9 +269,10 @@ exports.getOneAd =(req, res, next) =>{
        
     
       cars[index].id= car.id,
-      cars[index].contact =car.contact, // user id
-      cars[index].state = car||car.price,// price offered
-      cars[index].status= status ||car.status ,
+      cars[index].owner =car.owner, // user id
+      cars[index].state = car.state,
+      cars[index].status= status, 
+      cars[index].price= price,
       cars[index].created_on= car.created_on,
       cars[index].modified_on= moment.now()
       
@@ -312,12 +292,7 @@ exports.getOneAd =(req, res, next) =>{
 };
 exports.deleteAd= (req, res, next) => {
 
-  const carAdValidation= Joi.validate(req.params, carDelete);
-    if(carAdValidation.error){
-        return res.status(400).json({
-            error: `${carAdValidation.error.details[0].message}`
-        });
-    }
+  
 
   const car= cars.find(car=> car.id === req.params.id )
 

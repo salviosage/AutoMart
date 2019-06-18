@@ -1,13 +1,13 @@
+import "@babel/polyfill";
 const express=require('express');
 const bodyParser =require('body-parser');
 const path=require('path');
-const carRoutes= require('./API/routes/car');
-const userRoutes = require('./API/routes/user');
-const orderRoutes= require('./API/routes/order');
-const flagRoutes = require('./API/routes/flag');
+const automartRoute = require('./API/routes/automartRoute');
 import swaggerUi from 'swagger-ui-express';
-const  swaggerDoc  = require('./swagger.json')
+const  swaggerDoc  = require('./swagger.json');
+import cors from 'cors';
 const app = express();
+
 
 
 
@@ -17,15 +17,15 @@ const app = express();
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
+ app.use(cors());
  app.use(bodyParser.json());
  app.use('/automart', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
  app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const api_version = 'v1';
 
+
 const base_url = '/api/'+ api_version;
-app.use(base_url +'/auth',userRoutes);
-app.use(base_url +'/car', carRoutes);
-app.use(base_url +'/order', orderRoutes);
-app.use(base_url +'/flag',flagRoutes);
+app.use(base_url ,automartRoute);
+
 module.exports=app; 

@@ -1,25 +1,27 @@
 import  chai from 'chai';
  import chaiHttp from 'chai-http';
  import app from '../server';
+ import{users} from '../API/db/automart'
+ let newUser;
  
 
  chai.should();
-  let userToken,adminToken,ownerToken;
+  let userToken,adminToken,ownerToken,anyToken="";
  chai.use(chaiHttp);
 
 describe('POST /AUTH', ()=>{
     before((done)=>{
 		const adminInfo = {
 			email: "salviosage@gmail.com",
-			password: "121621454655"
+			password: "15151"
         }
         const ownerInfo = {
 			email: "jeasal@gmail.com",
-			password: "1216214546155"
+			password: "1515"
         }
         const userInfo = {
 			email: "sagesalvi@com.salvi",
-			password: "1216214546155"
+			password: "151"
 		}
        
 
@@ -54,57 +56,194 @@ describe('POST /AUTH', ()=>{
 	
     })
   
-   
-    it('it should create a user and return tokken ', (done)=>{
-     const record = {
-        email: "sam@gmail.com",
-        first_name: "sugira ",
-        last_name: "samuel",
-        password: "salvi123",
-        address: "kigali",
-        is_admin: 1
-      }
+   describe("test when a user does not exist in the db ",()=> { 
 
-        chai.request(app)
-            .post('/api/v1/auth/signup')
-            .send(record)
-            
-            .end((err, res)=>{
-              
-               res.body.should.be.a('object');
-               res.body.should.have.property('status').eql(200);
-               res.body.should.have.property('message');
-               res.body.should.have.property('token');
-               res.body.should.have.property('userName').eql('sam@gmail.com');
-               
-               done();
-            
-           })
-
-    });
-    it('it should login and return token  ', (done)=>{
+       it('it should create a user and return tokken ', (done)=>{
         const record = {
-           email: "salviosage@gmail.com",
-           password: "121621454655",
-        
+           email: "clet@gmil.com",
+           first_name: "mwunguzi ",
+           last_name: "lucky ",
+           password: "15",
+           address: "kigali",
+           is_admin: 0
          }
    
            chai.request(app)
-               .post('/api/v1/auth/login')
+               .post('/api/v1/auth/signup')
                .send(record)
-
+               
                .end((err, res)=>{
+                 
                   res.body.should.be.a('object');
                   res.body.should.have.property('status').eql(200);
-                  res.body.should.have.property('message').eql('successfully logged in ');
+                  res.body.should.have.property('message');
                   res.body.should.have.property('token');
-                  res.body.should.have.property('userName').eql('salviosage@gmail.com');
-                  
+                  res.body.should.have.property('userName').eql('clet@gmil.com');
+                  newUser=res.body.token;
+                  users.pop();
                   done();
                
               })
    
        });
+       it('it should create an admin  user and return tokken ', (done)=>{
+        const record = {
+           email: "clet@gmil.com",
+           first_name: "mwunguzi ",
+           last_name: "lucky ",
+           password: "15",
+           address: "kigali",
+           is_admin: 1
+         }
+   
+           chai.request(app)
+               .post('/api/v1/auth/signup')
+               .send(record)
+               
+               .end((err, res)=>{
+                 
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('status').eql(200);
+                  res.body.should.have.property('message');
+                  res.body.should.have.property('token');
+                  res.body.should.have.property('userName').eql('clet@gmil.com');
+                  newUser=res.body.token;
+                  users.pop();
+                  done();
+               
+              })
+   
+       });
+       it('it should not create a user becouse of invalid input ', (done)=>{
+        const record = {
+           email: "samgmail.com",
+           first_name: "sugira ",
+           last_name: "samuel",
+           password: "salvi123",
+           address: "kigali",
+           is_admin: 1
+         }
+   
+           chai.request(app)
+               .post('/api/v1/auth/signup')
+               .send(record)
+               
+               .end((err, res)=>{
+                 
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('error_msg');
+                
+                  done();
+               
+              })
+   
+       });
+      
+       it('/GET one AD ', (done) =>{
+        chai.request(app)
+          .get('/api/v1/car/ffdfzfzef5f5zef5d5')
+          .set('token', newUser)
+          .end((err, res)=>{
+              res.body.should.be.a('object');
+              res.body.should.have.property('status').eql(401);
+              res.body.should.have.property("error").eql('Authentiction failed ' );
+                done();
+             })
+     
+        });
+
+        it('should not log  in for user with invalid token  user  user  ', (done)=>{
+            const record = {  
+           email :"sagesal@com.salvi",
+           password:"used"
+            }
+            newUser  = newUser.slice(2, 4);
+    
+            chai.request(app)
+                .get('/api/v1/car/ffdfzfzef5f5zef5d5')
+                .set('token', newUser)
+                .send(record)
+                .end((err, res)=>{
+                   res.body.should.be.a('object');
+                   res.body.should.have.property('status').eql(401);
+                   res.body.error.should.be.a('object');
+                   res.body.error.should.have.property("name").eql('JsonWebTokenError');
+                   res.body.error.should.have.property("message").eql('jwt malformed');
+                   done();
+                })
+        });
+
+       
+
+
+   })
+    
+    it('it should login and return token  ', (done)=>{
+        const record = {
+            email: "salviosage@gmail.com",
+            password: "15151",
+         
+          }
+    
+            chai.request(app)
+                .post('/api/v1/auth/login')
+                .send(record)
+ 
+                .end((err, res)=>{
+                   res.body.should.be.a('object');
+                   res.body.should.have.property('status').eql(200);
+                   res.body.should.have.property('message').eql('successfully logged in ');
+                   res.body.should.have.property('token');
+                   res.body.should.have.property('userName').eql('salviosage@gmail.com');
+                   
+                   done();
+                
+               })
+    
+        });
+        it('it should not login user with wrong password   ', (done)=>{
+            const record = {
+                email: "salviosage@gmail.com",
+                password: "solve",
+             
+              }
+        
+                chai.request(app)
+                    .post('/api/v1/auth/login')
+                    .send(record)
+                    .end((err, res)=>{
+                        console.log(res.body)
+                       res.body.should.be.a('object');
+                       res.body.should.have.property('status').eql(401);
+                       res.body.should.have.property('error').eql('Incorrect password!');
+                    
+                       
+                       done();
+                    
+                   })
+        
+            });
+        
+       it('it should return error for invalid input   ', (done)=>{
+        const record = {
+        
+          }
+    
+            chai.request(app)
+                .post('/api/v1/auth/login')
+                .send(record)
+ 
+                .end((err, res)=>{
+                   res.body.should.be.a('object');
+                   console.log(res.body)
+                   res.body.should.have.property('error_msg').eql('"email" is required');
+                   
+                   
+                   done();
+                
+               })
+    
+        });
        it('it should reset password for existing user ', (done)=>{
         const record = {
            email: "salviosage@gmail.com",
@@ -120,6 +259,46 @@ describe('POST /AUTH', ()=>{
                   res.body.should.have.property('message').eql('your password has been reseted to your first name');
                   res.body.should.have.property('userName').eql('salviosage@gmail.com');
                   
+                  done();
+               
+              })
+   
+       });
+       it('it should not reset  password for unexisting user  ', (done)=>{
+        const record = {
+            email: "jangmail.com"
+          
+         }
+           chai.request(app)
+               .post('/api/v1/auth/reset')
+               .send(record)
+               
+               .end((err, res)=>{
+                 console.log(res.body)
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('status').eql(401);
+                  res.body.should.have.property('error').eql('User not found!');
+                
+                  done();
+               
+              })
+   
+       });
+       it('it should not reset  password for user with invalid email  ', (done)=>{
+        const record = {
+     
+         }
+   
+           chai.request(app)
+               .post('/api/v1/auth/reset')
+               .send(record)
+               
+               .end((err, res)=>{
+                 
+                  res.body.should.be.a('object');
+                 console.log(res.body);
+                  res.body.should.have.property('error_msg').eql( '"email" must be a valid email');
+                
                   done();
                
               })
@@ -177,6 +356,7 @@ describe('POST /AUTH', ()=>{
                done();
             })
     });
+    
    
 
 })

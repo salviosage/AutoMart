@@ -1,4 +1,7 @@
 import Joi from 'joi';
+const validateAccount={
+
+};
 
 const accountSchema={
     email: Joi.string().email({minDomainAtoms : 2}).required(),
