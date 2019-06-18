@@ -41,7 +41,7 @@ class Setup{
             console.log(res);
         })
         .catch((error)=>{
-            console.log(error.message);
+            console.log(`error`, error.message);
         })
 
         const users = `
@@ -60,7 +60,7 @@ class Setup{
             console.log(res)
         })
         .catch((error)=>{
-            console.log(error.message);
+            console.log(`error`, error.message);
         })
 
         const orders = `
@@ -79,7 +79,7 @@ class Setup{
             console.log(res);
         })
         .catch((error)=>{
-            console.log(error.message);
+            console.log(`error`,error.message);
         })
 
         

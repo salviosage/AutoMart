@@ -2,6 +2,9 @@ import  bcrypt from'bcrypt';
 import  jwt from 'jsonwebtoken';
 import uuid from 'uuid';
 import {users} from "../db/automart";
+import table from '../db/db';
+import helper from '../middleware/helper'
+import mart from '../db/db'
 
 
  const getUser= (req, res, next) =>{
@@ -16,7 +19,10 @@ import {users} from "../db/automart";
 
   
 
-const signup = (req, res, next) => {
+const signup = async (req, res, next) => {
+
+const isAvailable= await mart.selectCount(users,email,req.body.email);
+if (isAvailable)
     bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = {
@@ -57,6 +63,31 @@ const signup = (req, res, next) => {
   };
 
  const login =  async(req, res) => {
+  const sql = `
+  SELECT * FROM users
+  WHERE username = '${req.body.username}' AND password = '${req.body.password}'
+  `;
+  table.pool.query(sql)
+        .then((resp)=>{
+            
+            if(resp.rows.length > 0){
+                
+                const {id, username} = resp.rows[0];
+                const load = {
+                     id,
+                     username
+                   };   
+            //create a token
+              some.sign(req,res,load, 200);      
+            }
+           else{
+            return res.status(401).send({
+                status:401,
+                error: "Username or Password is Incorrect"
+            })
+        }
+         
+        })
     
    const user= users.find(user=> user.email === req.body.email )
     
