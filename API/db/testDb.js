@@ -41,7 +41,7 @@ class Setup{
             console.log(res);
         })
         .catch((error)=>{
-            console.log(error.message);
+            console.log(`error`, error.message);
         })
 
         const users = `
@@ -60,7 +60,7 @@ class Setup{
             console.log(res)
         })
         .catch((error)=>{
-            console.log(error.message);
+            console.log(`error`, error.message);
         })
 
         const orders = `
@@ -79,7 +79,7 @@ class Setup{
             console.log(res);
         })
         .catch((error)=>{
-            console.log(error.message);
+            console.log(`error`,error.message);
         })
 
         
@@ -89,6 +89,7 @@ class Setup{
         CREATE TABLE IF NOT EXISTS flags(
             id SERIAL PRIMARY KEY,
             car_id INT NOT NULL,
+            flager INT NOT NULL,
             created_on TIMESTAMP,
             reason VARCHAR(20) NOT NULL,
             description VARCHAR(100) NOT NULL,

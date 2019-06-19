@@ -1,48 +1,40 @@
 const jwt = require('jsonwebtoken');
-import {users} from "../db/automart"
 import env from "dotenv"; 
 env.config()
 
-
-module.exports = (req, res, next) => {
-  if(req.headers.token){
-  try {
-    
-    const token = req.headers.token;
-   
-    const decodedToken = jwt.verify(token,process.env.secret-key);
-    console.log(decodedToken)
-    
-    const userName = decodedToken.userName;
-   
-    const role =decodedToken.role;
-    
-    const user= users.find(user=> user.email === userName )
-    
-
-    if (!user ) {
-      res.status(401).json({
+let validateToken = (req, res, next) => {
+  let token = req.headers['x-access-token'] || req.headers['authorization']; 
+    if(!token){
+      return res.status(401).send({
         status:401,
-        error: 'Authentiction failed '
+        error:"Unauthorized access"
+      })
+    }  
+  if (token.startsWith('Bearer ')) {
+  
+      token = token.slice(7, token.length);
+    }
+
+    if (token) {
+      jwt.verify(token, process.env.secret-key, (err, decode) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: 'Token is not valid'
+          });
+      
+        } else {
+          req.auth = decode;
+          next();
+        }
       });
     } else {
-      req.auth=decodedToken,
-      
-      next();
+      return res.send({
+        success: false,
+        message: 'Auth token is not supplied'
+      });
     }
-  } catch(error) {
-   
-    res.status(401).json({
-      status:401,
-      error
-    });
-  }
-}
-else {
+  };
   
-    res.status(401).json({
-      status:401,
-      error: 'Invalid request! you must login first '
-    });
-}
-};
+  
+  export default validateToken;

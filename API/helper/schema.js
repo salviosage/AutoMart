@@ -17,7 +17,7 @@ const password = Joi.string().min(7).required().strict();
     email:email.required(),
     first_name: name.required(),
     last_name: name.required(),
-    location:name.required(),
+    address:name.required(),
     password: password,
     confirmPassword: password.valid(Joi.ref('password')).required().strict(),
     is_admin: option.required(),

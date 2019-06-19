@@ -10,9 +10,9 @@ import SchemaValidator from "../middleware/schemaValidator";
 const validateRequest = SchemaValidator(true,"order");
 
 
-router.post('/',validateRequest,auth, createOrder );
-router.get('/',auth, geAllOrder );
-router.patch('/:id/status',validateRequest,auth, updateOrderStatus);
-router.patch('/:id/price',validateRequest, auth,updateOrderPrice);
+// router.post('/',validateRequest,auth, createOrder );
+// router.get('/',auth, geAllOrder );
+// router.patch('/:id/status',validateRequest,auth, updateOrderStatus);
+// router.patch('/:id/price',validateRequest, auth,updateOrderPrice);
 
 module.exports = router;
