@@ -1,4 +1,5 @@
 const uuid = require('uuid/v1');
+import moment from 'moment';
 
 class Car {
     constructor(owner, state, price,model, body_type,manufacturer) {
@@ -10,6 +11,7 @@ class Car {
         this.manufacturer = manufacturer;
         this.model = model;
         this.body_type = body_type;
+        this.created_on=moment().format();;
         
     }
 }

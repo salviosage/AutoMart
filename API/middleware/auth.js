@@ -16,7 +16,7 @@ let validateToken = (req, res, next) => {
     }
 
     if (token) {
-      jwt.verify(token, process.env.secret-key, (err, decode) => {
+      jwt.verify(token, process.env.secret_key, (err, decode) => {
         if (err) {
           return res.send({
             success: false,
@@ -24,6 +24,7 @@ let validateToken = (req, res, next) => {
           });
       
         } else {
+          console.log(decode)
           req.auth = decode;
           next();
         }

@@ -6,7 +6,7 @@ class Database{
     return new Pool({
         user: process.env.PGUSER,
         host:process.env.PGHOST,
-        database:process.env.PGTESTDB,
+        database:process.env.PGDATABASE,
         password:process.env.PGPASSWORD,
         port:process.env.PGPORT
     });
@@ -63,13 +63,14 @@ class Database{
   
   async addUser(data) {
     const conn = this.dbConnection();
-    const result = await conn.query(`INSERT INTO users VALUES(
+    const result = await conn.query(`INSERT INTO users (id,email,first_name,last_name,password,address,is_admin) VALUES(
         '${data.id}',
+        '${data.email}',
         '${data.first_name}',
         '${data.last_name}',
-        '${data.email}',
         '${data.password}',
-        '${data.address}'
+        '${data.address}',
+        '${data.is_admin}'
       ) returning *;
     `);
     
@@ -80,7 +81,7 @@ class Database{
 
   async addCar(data) {
     const conn = this.dbConnection();
-    const result = await conn.query(`INSERT INTO cars(id,owner,state,status,price,manufacturer,model,body_type) VALUES(
+    const result = await conn.query(`INSERT INTO cars(id,owner,state,status,price,manufacturer,model,body_type,created_on) VALUES(
         '${data.id}',
         '${data.owner}',
         '${data.state}',
@@ -88,7 +89,8 @@ class Database{
         '${data.price}',
         '${data.manufacturer}',
         '${data.model}',
-        '${data.body_type}'
+        '${data.body_type}',
+        '${data.created_on}'
       ) returning *;
     `);
     
@@ -99,14 +101,14 @@ class Database{
   
   async addOrder(data) {
     const conn = this.dbConnection();
-    const result = await conn.query(`INSERT INTO orders(id,owner,car_id,status,amount,created_on,modified_on) VALUES(
+    const result = await conn.query(`INSERT INTO orders(id,buyer,car_id,amount,status,created_on) VALUES(
         '${data.id}',
-        '${data.owner}',
+        '${data.buyer}',
         '${data.car_id}',
-        '${data.status}',
         '${data.amount}',
+        '${data.status}',
         '${data.created_on}',
-        '${data.modified_on}'
+        
       ) returning *;
     `);
     
@@ -138,6 +140,14 @@ class Database{
     await conn.end();
     return result;
   }
+  
+  async updatePassword(data){
+    const conn = this.dbConnection();
+    const result = await conn.query(`UPDATE users SET password = '${data.password}' WHERE id = '${data.id}' returning *;`);
+    await conn.end();
+    return result;
+  }
+
 
   async updateCarStatus(data){
     const conn = this.dbConnection();

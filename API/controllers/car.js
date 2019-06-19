@@ -92,6 +92,7 @@ const createAd = async (req, res)  => {
         data: insertedCar.rows[0] 
        });
   } catch (error) {
+    console.log(error)
       return res.status(401).send({ 'status': 401, 'message': 'Car is not saved' });
   }
     }

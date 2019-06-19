@@ -8,7 +8,8 @@
     "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
     "coverage": "nyc --reporter=lcov npm run test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "createTables": "node  --require @babel/register ./API/db/testDb.js",
+    "createTablestest": "node  --require @babel/register ./API/db/testDb.js",
+    "createTables": "node  --require @babel/register ./API/db/db.js",
     "lint": "eslint"
   },
   "author": "jean salvi",
