@@ -22,7 +22,7 @@ import {orders} from "../db/automart";
   }
    
  
-const createOrder = (req, res, next) => {
+const createOrder = async(req, res, next) => {
    
    
 

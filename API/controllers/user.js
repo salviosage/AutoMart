@@ -3,8 +3,10 @@ import  jwt from 'jsonwebtoken';
 import uuid from 'uuid';
 import {users} from "../db/automart";
 import table from '../db/db';
-import helper from '../middleware/helper'
-import mart from '../db/db'
+import Helper from '../middleware/helper'
+const helper =new Helper();
+import Database from '../db/automrtdb'
+const mart = new Database();
 
 
  const getUser= (req, res, next) =>{
@@ -81,7 +83,7 @@ const signup = async (req, res, next) => {
 };
  
 
-const reset = (req, res, next) => {
+const reset = async(req, res, next) => {
   const result = await mart.selectBy('users', 'email', req.body.email);
   if (result.rows[0].count === '0') {
     //  Hash password
@@ -109,8 +111,6 @@ else{
       error: `User with this email exist.`
     });
 }
-
-return;
 };
   
     

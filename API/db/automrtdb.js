@@ -127,4 +127,4 @@ class Database{
   }
 }
 
-module.exports.Database = Database;
+export default Database

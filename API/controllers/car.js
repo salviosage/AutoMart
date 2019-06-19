@@ -1,278 +1,159 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
+import  Database from '../db/automrtdb';
+import Helper from '../middleware/helper';
+const helper= new Helper();
+const mart = new Database();
 
-const getAds = (req, res, next) =>{
-
- let inReturn =[]; 
- let toReturn=[];
-  
-  if(req.auth.role && req.auth.role==="admin"){
-   
-       inReturn = cars;
-  
-  }
-  
-   else if (req.auth.role ) {
-
-    for(let i=0; i<=cars.length-1; i++){
-    if(cars[i].contact===req.auth.userName || cars[i].status==="available"){
-      inReturn.push(cars[i]);
-      
-  }
-}
-}
-else {
+getAll = async (req, res) => {
+    var min_price = req.query.min;
+    var max_price = req.query.max;
     
-    for(let i=0; i<=cars.length-1; i++){
-      if( cars[i].status==="available"){
-        inReturn.push(cars[i]);
-    }
+    if(min_price && max_price) {
+        var queryMinMax = await mart.selectCarByPriceRange(min_price, max_price);
+        if (queryMinMax.rows.length>0){
+          res.status(200).send({
+            'status' : 200,
+            'message':  `Cars with price range is between ${min_price} and ${max_price}` ,
+            'data' :  queryMinMax.rows
+        });
         }
-      }
-
-  
-      
-  if(req.query!=null){
-    
-    const state =req.query.state;
-    const minPrice= parseInt(req.query.min_price);
-    const maxPrice= parseInt(req.query.max_price);
-    const manufacturer= req.query.manufacturer;
-    const body_type= req.query.body_type;
-    let carSaleFound= [];
-    
-    
-        //all get specification for cars withou price range specification 
-        
-        for(let i=0; i<=inReturn.length-1; i++){
-          
-                   //get car with specified state 
-                   if(state  && !manufacturer && !body_type  ) {
-                    if( inReturn[i].state===state){
-                  
-                        carSaleFound.push(inReturn[i]);
-                    }
-                } 
-                //get car with specified manufacturer 
-                else if(!state  && manufacturer && !body_type  ) {
-                  if( inReturn[i].manufacturer===manufacturer  ){
-                    carSaleFound.push(inReturn[i]);
-                }
-                }
-                //get car with specified  body-type
-                else if(!state  && !manufacturer && body_type  ) {
-                  
-                  
-                  if( inReturn[i].body_type===body_type ){
-                   
-                    carSaleFound.push(inReturn[i]);
-                   
-                }
-                }
-                //get car with specified manufacturer and body_type
-                else if(!state  && manufacturer && body_type  ) {
-                  if(inReturn[i].manufacturer===manufacturer && inReturn[i].body_type===body_type ){
-                      carSaleFound.push(inReturn[i]);
-                  }
-              } 
-        
-            //get car with specified manufactirer body_type and state 
-           else  if(state  && manufacturer && body_type  ) {
-            if(inReturn[i].state===state && inReturn[i].manufacturer===manufacturer && inReturn[i].body_type===body_type ){
-                carSaleFound.push(inReturn[i]);
-            }
-        } 
-        //get car with specified manufacturer and state 
-        else if(state  && manufacturer && !body_type  ) {
-          if( inReturn[i].manufacturer===manufacturer && inReturn[i].state===state ){
-            carSaleFound.push(inReturn[i]);
-        }
-        }
-        //get car with specified state and body-type
-        else if(state  && !manufacturer && body_type  ) {
-          if(inReturn[i].body_type===body_type  && inReturn[i].state===state){
-            carSaleFound.push(inReturn[i]);
-        }
-        }
-        //get car with specified manufacturer and body_type
-        else if(!state  && manufacturer && body_type  ) {
-          if(inReturn[i].manufacturer===manufacturer && inReturn[i].body_type===body_type){
-              carSaleFound.push(inReturn[i]);
-          }
-      } 
-    }
-        if (carSaleFound.length<=0){
-          
-         
-          carSaleFound=inReturn;
-          inReturn=carSaleFound
-       
-        }
-
-          // check if there is specified price range 
-          if( (minPrice) && (maxPrice)){
+        else{
+          res.status(401).send({
+            'status' : 401,
+            'message':`No cars withprice range is between ${min_price} and ${max_price}.`,
            
-            const carFilterByPrice= [];
-            for(let j=0; j<=carSaleFound.length-1; j++){
-              if((carSaleFound[j].price>=minPrice) && (carSaleFound[j].price<=maxPrice)){
-                  carFilterByPrice.push(carSaleFound[j]);
-              }
-          
-            }
-
-          
-        
-         if (carFilterByPrice.length>0){
-           inReturn=carFilterByPrice
-         }
-    
-      }
-    
-       if (req.query.status ) {
-     
-        for(let i=0; i<=inReturn.length-1; i++){
-          
-        if( inReturn[i].status===req.query.status){
-          toReturn.push(inReturn[i]);
-          
-      }
+        });
+        }
+       
     }
-    return res.status(302).json({
-         
-      status:302,
-      data: toReturn
-     
-     });
+    else if (min_price) {
+        var queryMin = await mart.selectCarByMinPrice(min_price);
+        if (queryMin.rows.length>0){
+          res.status(200).send({
+            'status' : 200,
+            'data' :  queryMin.rows
+        });
+        }
+        else{
+          res.status(401).send({
+            'status' : 401,
+            'message':`No carsfound`,
+           
+        });
+        }
+    }
+    else if(max_price) {
+        var queryMax = await mart.selectCarByMaxPrice(max_price);
+        if (queryMax.rows.length>0){
+          res.status(200).send({
+            'status' : 200,
+            'data' :  queryMax.rows
+        });
+        }
+        else{
+          res.status(401).send({
+            'status' : 401,
+            'message':`No carsfound`,
+           
+        });
+        }
+    }
+    else {
+        const token = req.auth
+        if (token) {
+            if (token.isadmin) {
+                var carsResult = await mart.selectAll('cars');
+                return res.status(200).send({ 
+                  'status': 200, 
+                  'data': carsResult.rows })
+            };
+        }
+        // Get all cars whose status is available
+        var carsResult = await mart.selectBy('cars', 'status', 'available');
+        return res.status(200).send({
+            'status' : 200,
+            'data' :  carsResult.rows,
+            'message': carsResult.rowCount > 0 ? 'Available cars' : 'No cars available.'   
+        });
+    }
+};
+//create a car ad endpoint 
+createAd = async (req, res)  => {
   
-    }
+  var car = new Car(  uuid.v4(),req.auth.userName,req.body.state || 'new',req.body.status || 'available', req.body.body_type,req.body.model,req.body.manufacturer,req.body.price, moment.now(), moment.now());
+  try {
+      const insertedUser = await mart.addCar(car);
+      return  res.status(201).json({
+        status: 201,
+        message:'Car post sucessfuly added',
+        data: insertedUser.rows[0] 
+       });
+  } catch (error) {
+      return res.status(401).send({ 'status': 401, 'message': 'Car is not saved' });
+  }
 
-        return res.status(302).json({
-         
-          status:302,
-          data: inReturn
-         
-         });
-  
-    }
-   else if (inReturn.length>0){
+};
+
  
-    return res.status(320).json({
-      status:200,
-      data:inReturn
-    })
-   }
+const getOneAd = async(req, res, next) =>{
+ 
+    var id = req.params.id;
+    const car = await mart.selectBy('cars', 'id', id);
    
-   else{  // no array to return 
-   
-      return res.status(400).json({
-        status:401,
-        error: `no car found `
+    if (car.rowCount!=0){
+      return res.status(200).json({
+        status200,
+        data: car.rows[0],
       });
     }
 
-      }
-
-//create a car ad endpoint 
-const createAd = (req, res, next) => {
- const newAd = {
-    id: uuid.v4(),
-    owner: req.auth.userName,
-    state: req.body.state || 'new',
-    status: req.body.status || 'available',
-    body_type:req.body.body_type,
-    model:req.body.model,
-    manufacturer:req.body.manufacturer,
-    price:req.body.price,
-    created_on: moment.now(),
-    modified_on: moment.now()
-  };
-  cars.push(newAd);
- 
-         return  res.status(201).json({
-           status: 201,
-            data:newAd
-          });
-           
-  
+    else{
+      return res.status(401).json({
+        status:401,
+        error: 'call you want to car not found from one add get!'
+      });
+    }
 };
-const getOneAd =(req, res, next) =>{
-  
   
 
-    
-  const car= cars.find(car=> car.id === req.params.id  )
-  
-        if (!car ||car.status !="available" || (car.owner!=req.auth.userName &&req.auth.role!="admin")) {
-          return res.status(401).json({
-            status:401,
-            error: 'call you want to car not found from one add get!'
-          });
-        }
-        
-
-
-  return res.status(200).json({
-    status:200,
-    data: car
-  });
-   };
 
 
 
- const updateAd= (req, res, next) => {
+ const updateAd= async(req, res, next) => {
    
-    
- 
-    const car= cars.find(car=> car.id === req.params.id )
-    
-    console.log(car)
-        if (!car || car.owner!=req.auth.userName  ) {
-          return res.status(401).json({
-            status:401,
-            error: 'access denied invalid request !'
-          });
-        }
-        else{
-          let price =car.price;
-          let  status=car.status;
-          if(req.body.price){
-             price= req.body.price
-             
-          }
-          else{
-           
-            status=req.body.status
-          }
-          
+  var id = req.params.id;
+  var status = req.body.status;
+  var price =req.body.price;
+  const user = await mart.selectBy('users', 'email', req.auth.userName);
+  if (req.body.price){
+    const result = await mart.updateCarPrice({'price': price, 'id': id, 'owner': user.rows[0].id});
+  } else if (req.body.status){
+    const result = await mart.updateCarStatus({'status': status, 'id': id, 'owner': user.rows[0].id});
+  }
   
-          const index = cars.indexOf(car);
-       
-    
-      cars[index].id= car.id,
-      cars[index].owner =car.owner, // user id
-      cars[index].state = car.state,
-      cars[index].status= status, 
-      cars[index].price= price,
-      cars[index].created_on= car.created_on,
-      cars[index].modified_on= moment.now()
+ 
+  
+
+  
+  if (result.rowCount > 0) {
+    return  res.status(200).json({
+      status:200,
+      data:car
+     });
       
-   
-           return  res.status(200).json({
-             status:200,
-             data:car
-            });
-             
-    
-
-        }
-        
-       
-       
-        
+  }
+  else{
+    return  res.status(400).json({
+      status:400,
+      error: 'filed to update car '
+     });
+      
+  }
 };
+ 
+    
 const deleteAd= (req, res, next) => {
 
   
