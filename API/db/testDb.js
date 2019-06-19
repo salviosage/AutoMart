@@ -89,6 +89,7 @@ class Setup{
         CREATE TABLE IF NOT EXISTS flags(
             id SERIAL PRIMARY KEY,
             car_id INT NOT NULL,
+            flager INT NOT NULL,
             created_on TIMESTAMP,
             reason VARCHAR(20) NOT NULL,
             description VARCHAR(100) NOT NULL,

@@ -3,6 +3,7 @@ import uuid from 'uuid';
 import {cars} from "../db/automart";
 import  Database from '../db/automrtdb';
 import Helper from '../middleware/helper';
+import {car} from '../models/car';
 const helper= new Helper();
 const mart = new Database();
 
@@ -81,19 +82,22 @@ getAll = async (req, res) => {
 };
 //create a car ad endpoint 
 createAd = async (req, res)  => {
-  
-  var car = new Car(  uuid.v4(),req.auth.userName,req.body.state || 'new',req.body.status || 'available', req.body.body_type,req.body.model,req.body.manufacturer,req.body.price, moment.now(), moment.now());
+  const user = await mart.selectBy('users', 'email', req.auth.userName);
+      
+    if (user.rowCount!=0){
+   
+  var car = new Car( user.rows[0].id,req.body.state || 'new',req.body.price, req.body.body_type,req.body.model,req.body.manufacturer);
   try {
-      const insertedUser = await mart.addCar(car);
+      const insertedCar = await mart.addCar(car);
       return  res.status(201).json({
         status: 201,
         message:'Car post sucessfuly added',
-        data: insertedUser.rows[0] 
+        data: insertedCar.rows[0] 
        });
   } catch (error) {
       return res.status(401).send({ 'status': 401, 'message': 'Car is not saved' });
   }
-
+    }
 };
 
  
@@ -127,10 +131,11 @@ const getOneAd = async(req, res, next) =>{
   var status = req.body.status;
   var price =req.body.price;
   const user = await mart.selectBy('users', 'email', req.auth.userName);
+  let result
   if (req.body.price){
-    const result = await mart.updateCarPrice({'price': price, 'id': id, 'owner': user.rows[0].id});
+     result = await mart.updatePrice({'table':'cars','price': price, 'id': id, 'owner': user.rows[0].id});
   } else if (req.body.status){
-    const result = await mart.updateCarStatus({'status': status, 'id': id, 'owner': user.rows[0].id});
+     result = await mart.updateCarStatus({'status': status, 'id': id, 'owner': user.rows[0].id});
   }
   
  

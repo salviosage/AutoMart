@@ -3,6 +3,7 @@ import  jwt from 'jsonwebtoken';
 import uuid from 'uuid';
 import {users} from "../db/automart";
 import table from '../db/db';
+import {user} from '../models/user';
 import Helper from '../middleware/helper'
 const helper =new Helper();
 import Database from '../db/automrtdb'
@@ -30,8 +31,9 @@ const signup = async (req, res, next) => {
         //  Hash password
         const hashedPassword = await helper.hashedPassword(req.body.password);
         const user = new User( req.body.email, req.body.first_name, req.body.last_name, hashedPassword, req.body.address, req.body.is_admin );
-        let result;
+      
         try {
+          const insertedUser = await mart.addUser(user);
             return  res.status(200).json({
               status:200,
               message: 'User registered sucessfuly!' ,
@@ -62,7 +64,8 @@ const signup = async (req, res, next) => {
  const login =  async(req, res) => {
   const result = await mart.selectBy('users', 'email', req.body.email);
     if (result.rowCount > 0) {
-        const validPassword = await helper.comparePassword( result.rows[0].password,req.body.password);
+      const hashedPassword = await helper.hashedPassword(req.body.password);
+        const validPassword = await helper.comparePassword( result.rows[0].password,hashedPassword);
         if (!validPassword) return res.send('Password is not correct.');
         const token =helper.generateToken(req.body.email,req.body.is_admin);
         return  res.status(200).json({

@@ -1,141 +1,85 @@
 
-import moment from 'moment';
-import uuid from 'uuid';
 import {cars} from "../db/automart";
-import {orders} from "../db/automart";
+import {order} from '../models/order';
 
  const geAllOrder= (req, res, next) =>{
-  if (req.auth.role!="admin"){
-    return res.status(400).json({
-      status:400,
-      error: 'call you want to order not found!'
-    });
-  }
-  else{
-    return res.status(200).json({
-      status:200,
-      data:orders
-    });
-  }
-  
+
     
-  }
+        if (req.auth.isadmin) {
+            var ordersResult = await mart.selectAll('orders');
+            return res.status(200).send({ 
+              'status': 200, 
+              'data':ordersResult.rows });
+        }
+        var ordersResult = await mart.selectBy('orders', 'owner', req.auth.userName);
+        return res.status(200).send({
+            'status' : 200,
+            'data' :  ordersResult.rows,
+            'message': ordersResult.rowCount > 0 ? 'Available cars' : 'No orders available.'   
+        });
+    }
+
    
  
 const createOrder = async(req, res, next) => {
-   
-   
+  const car = await mart.selectById('cars',req.body.car_id)
 
-    const car= cars.find(car=> car.id === req.body.car_id  )
+    if (car.rowCount == 0) return res.status(401).send({ 'status': 401, 'message': `Car  not found` });
     
-        if (!car || car.status !="available") {
-          return res.status(400).json({
-            status:400,
-            error: 'call you want to order not found!'
-          });
-        }
-        
-       
-      
-  const newOrder
-   = {
-    id: uuid.v4(),
-    contact : req.auth.userName, 
-    car_id : req.body.car_id,
-    amount : req.body.amount, 
-    status:  'pending',
-    created_on: moment.now(),
-    modified_on: moment.now()
-  };
-  orders.push(newOrder);
-         return  res.status(200).json({
-           status:200,
-            data:newOrder
-          });
-           
-  
+    const user = await mart.selectBy('users', 'email', req.auth.userName);
+   
+  if (car.rowCount!=0,user.rowCount!=0){
+  var order = new order(  user.rows[0].id,req.body.car_id,req.body.amount,req.body.status || 'pending');
+  try {
+      const insertedOrder = await mart.addOrder(car);
+      return  res.status(201).json({
+        status: 201,
+        message:'order post sucessfuly added',
+        data: insertedOrder.rows[0] 
+       });
+  } catch (error) {
+      return res.status(401).send({ 'status': 401, 'message': 'order is not saved' });
+  }
+
 };
-const updateOrderPrice = (req, res, next) => {
+
+}
+
+const updateOrderPrice = async(req, res, next) => {
     
    
    
-    const order= orders.find(order=> order.id === req.params.id )
+  const order = await mart.selectBy('orders', 'id', req.params.id);
 
-    
-        if (!order || order.status !="pending" || order.contact !=req.auth.userName) {
-          return res.status(401).json({
-            status:401,
-            error: 'invalid request!'
-          });
-        }
-        
-       
-       
+  if (order.rowCount === 0) return res.status(401).send({ 'status': 401, 'message': 'It looks like order you want to updaate is not found.'});
+  
+  const result = await mart.updatPrice({'table':'orders','price': req.body.price, 'id': req.params.id,});
+  
+  if (result.rowCount > 0) {
+      return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
+  }
+  else{
+      return res.status(401).send({ 'status': 401, 'message': 'Update failed, you don\'t own this order.'});
+  }
+}
 
-        const index = orders.indexOf(order);
-        
-  
-    orders[index].id= order.id,
-    orders[index].buyer =order.buyer, 
-    orders[index].car_id = order.car_id,
-    orders[index].amount =  orders.amount ||req.body.amount, 
-    orders[index].status= order.satus   
-    orders[index].created_on= order.created_on,
-    orders[index].modified_on= moment.now()
-    
- 
-         return  res.status(200).json({
-           status:200,
-            data:order
-          });
-           
-  
-};
+
 const updateOrderStatus = (req, res, next) => {
 
- 
+  const order = await mart.selectBy('orders', 'id', req.params.id);
 
-  const order= orders.find(order=> order.id === req.params.id )
+  if (order.rowCount === 0) return res.status(401).send({ 'status': 401, 'message': 'It looks like order you want to updaate is not found.'});
   
-      if (!order || order.status !="pending") {
-        return res.status(401).json({
-          status:401,
-          error: ('order you want to edit not found!')
-        });
-      }
-
-      
-     const car =cars.find(car => car.id===order.car_id)
-     
-     if (!car || car.owner!=req.auth.userName){
-      return res.status(401).json({
-        status:401,
-        error: ('invalid request !')
-      });
-     }
-    
-
-   
-
-      const index = orders.indexOf(order); 
-      
-
-  orders[index].id= order.id,
-  orders[index].buyer =order.buyer, 
-  orders[index].car_id = order.car_id,
-  orders[index].amount =  orders.amaout  
-  orders[index].status= order.satus   || req.body.status,
-  orders[index].created_on= order.created_on,
-  orders[index].modified_on= moment.now()
-
-
-       return  res.status(200).json({
-          status:200,
-          data:order
-        });
-         
-
-};
+  const result = await mart.updateOrderstatus({'status': req.body.price, 'id': req.params.id});
+  
+  if (result.rowCount > 0) {
+      return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
+  }
+  else{
+      return res.status(401).send({ 'status': 401, 'message': 'Update failed, you don\'t own this order.'});
+  }
+}
+ 
     
 export {
   createOrder,updateOrderPrice,updateOrderStatus,geAllOrder

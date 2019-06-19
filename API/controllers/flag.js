@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 import moment from 'moment';
 import uuid from 'uuid';
 import {cars} from "../db/automart";
 import {flags} from "../db/automart"
+import {flag} from '../models/flag';
 
 
  const getAllFlag= (req, res, next) =>{
@@ -21,35 +21,29 @@ import {flags} from "../db/automart"
   
     
   }
-const createFlag = (req, res, next) => {
+const createFlag = async (req, res, next) => {
 
-    const car= cars.find(car=> car.id === req.body.car_id  )
-    
-        if (!car || car.status !="available") {
-          return res.status(401).json({
-            status:401,
-            error: 'car you want to flag  not found!'
-          });
-        }
-        
-       
-        
-  const newFlag
-   = {
-    id: uuid.v4(),
-    contact : req.auth.userName, 
-    car_id : req.body.car_id,
-    reason : req.body.reason, // price offered
-    discription: req.body.description || '',
-    created_on: moment.now(),
-    
+    const car = await mart.selectById('cars',req.body.car_id)
+  
+      if (car.rowCount == 0) return res.status(401).send({ 'status': 401, 'message': `Car  not found` });
+      const user = await mart.selectBy('users', 'email', req.auth.userName);
+      
+    if (car.rowCount!=0 && user.rowCount!=0){
+    var order = new flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
+    try {
+        const insertedFlag = await mart.addOrder(order);
+        return  res.status(201).json({
+          status: 201,
+          message:'order post sucessfuly added',
+          data: insertedOrder.rows[0] 
+         });
+    } catch (error) {
+        return res.status(401).send({ 'status': 401, 'message': 'order is not saved' });
+    }
+  
   };
-  flags.push(newFlag);
-         return  res.status(200).json({
-           status:200,
-            data: newFlag
-          });
-};
+  
+  }
  export {
    createFlag,getAllFlag
  }
