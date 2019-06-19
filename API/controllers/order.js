@@ -1,8 +1,10 @@
 
-import {cars} from "../db/automart";
-import {order} from '../models/order';
+import {Order} from '../models/order';
+import Database from '../db/automrtdb';
 
- const geAllOrder= (req, res, next) =>{
+const mart = new Database();
+
+ const geAllOrder= async(req, res, next) =>{
 
     
         if (req.auth.isadmin) {
@@ -29,7 +31,7 @@ const createOrder = async(req, res, next) => {
     const user = await mart.selectBy('users', 'email', req.auth.userName);
    
   if (car.rowCount!=0,user.rowCount!=0){
-  var order = new order(  user.rows[0].id,req.body.car_id,req.body.amount,req.body.status || 'pending');
+  var order = new Order(  user.rows[0].id,req.body.car_id,req.body.amount,req.body.status || 'pending');
   try {
       const insertedOrder = await mart.addOrder(car);
       return  res.status(201).json({
@@ -64,7 +66,7 @@ const updateOrderPrice = async(req, res, next) => {
 }
 
 
-const updateOrderStatus = (req, res, next) => {
+const updateOrderStatus = async(req, res, next) => {
 
   const order = await mart.selectBy('orders', 'id', req.params.id);
 

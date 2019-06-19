@@ -1,9 +1,6 @@
-
-import moment from 'moment';
-import uuid from 'uuid';
-import {cars} from "../db/automart";
-import {flags} from "../db/automart"
-import {flag} from '../models/flag';
+import Database from '../db/automrtdb';
+import {Flag} from '../models/flag';
+const mart = new Database();
 
 
  const getAllFlag= (req, res, next) =>{
@@ -29,13 +26,13 @@ const createFlag = async (req, res, next) => {
       const user = await mart.selectBy('users', 'email', req.auth.userName);
       
     if (car.rowCount!=0 && user.rowCount!=0){
-    var order = new flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
+    var order = new Flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
     try {
         const insertedFlag = await mart.addOrder(order);
         return  res.status(201).json({
           status: 201,
           message:'order post sucessfuly added',
-          data: insertedOrder.rows[0] 
+          data: insertedFlag.rows[0] 
          });
     } catch (error) {
         return res.status(401).send({ 'status': 401, 'message': 'order is not saved' });

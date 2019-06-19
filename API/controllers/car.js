@@ -1,13 +1,10 @@
-import moment from 'moment';
-import uuid from 'uuid';
-import {cars} from "../db/automart";
+
 import  Database from '../db/automrtdb';
-import Helper from '../middleware/helper';
-import {car} from '../models/car';
-const helper= new Helper();
+import {Car} from '../models/car';
 const mart = new Database();
 
-getAll = async (req, res) => {
+
+const getAds = async (req, res) => {
     var min_price = req.query.min;
     var max_price = req.query.max;
     
@@ -81,7 +78,7 @@ getAll = async (req, res) => {
     }
 };
 //create a car ad endpoint 
-createAd = async (req, res)  => {
+const createAd = async (req, res)  => {
   const user = await mart.selectBy('users', 'email', req.auth.userName);
       
     if (user.rowCount!=0){

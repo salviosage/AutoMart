@@ -1,12 +1,7 @@
-import  bcrypt from'bcrypt';
-import  jwt from 'jsonwebtoken';
-import uuid from 'uuid';
-import {users} from "../db/automart";
-import table from '../db/db';
-import {user} from '../models/user';
+import {User} from '../models/user';
 import Helper from '../middleware/helper'
+import Database from '../db/automrtdb';
 const helper =new Helper();
-import Database from '../db/automrtdb'
 const mart = new Database();
 
 
@@ -26,6 +21,7 @@ const signup = async (req, res, next) => {
   
     //  Check if user exist
     const result = await mart.selectCount('users', 'email', req.body.email);
+    console.log(result.rows[0])
     
     if (result.rows[0].count === '0') {
         //  Hash password

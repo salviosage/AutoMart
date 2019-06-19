@@ -12,7 +12,7 @@ class Helper  {
   }
   
   
-  generateToken(userName,role) {
+ generateToken(userName,role) {
     const token = jwt.sign(
       { userName:userName,role:role },
       process.env.secret-key,
