@@ -1,4 +1,5 @@
 const uuid = require('uuid/v1');
+import moment from 'moment';
 
 class Flag {
     constructor(car_id,user_id, reason, description) {
@@ -7,6 +8,7 @@ class Flag {
         this.car_id = car_id;
         this.reason = reason;
         this.description = description;
+        this.created_on=moment().format();
         
     }
 }

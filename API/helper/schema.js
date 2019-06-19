@@ -51,37 +51,37 @@ const newCarDataSchema = Joi.object().keys({
 });
 
  const newOrderDataSchema =Joi.object().keys({
-    carID:userID.required(),
-    userID:userID.required(),
+    car_id:userID.required(),
+    user_id:userID.required(),
     amount: amount.required(),
 });
 
  const newFlagDataSchema =Joi.object().keys({
-    carID:userID,
-    userID:userID,
+    car_id:userID,
+    user_id:userID,
     reason: name.valid('price wired ', 'wrong information', 'others').required(),
     description: name
 });
 
  const carPriceUpdateDataSchema= Joi.object().keys({
-    carID:userID,
-    userID:userID,
+    car_id:userID,
+    user_id:userID,
     price: amount.required(), 
 });
  const carStatusUpdateDataSchema =Joi.object().keys({
-    carID:userID,
-    userID:userID,
-    status: name.valid('available ', 'sold',).required(), 
+    car_id:userID,
+    user_id:userID,
+    status: name.valid('available', 'sold',).required(), 
 });
 
  const orderPriceUpdateDataSchema =Joi.object().keys({
     orderID:userID,
-    userID:userID,
+    user_id:userID,
     price: amount.required(), 
 });
  const orderStatusUpdateDataSchema =Joi.object().keys({
     orderID:userID,
-    userID:userID,
+    user_id:userID,
     status: name.valid('accepted', 'pending', 'rejected').required(), 
 });
 

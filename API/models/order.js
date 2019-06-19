@@ -1,4 +1,5 @@
 const uuid = require('uuid/v1');
+import moment from 'moment';
 
 class Order {
     constructor(buyer, car_id, amount, status) {
@@ -7,6 +8,7 @@ class Order {
         this.car_id = car_id;
         this.amount = amount;
         this.status = status;
+        this.created_on=moment().format();
       
     }
 }

@@ -4,7 +4,7 @@ import Database from '../db/automrtdb';
 
 const mart = new Database();
 
- const geAllOrder= async(req, res, next) =>{
+ const geAllOrder = async(req, res, next) =>{
 
     
         if (req.auth.isadmin) {
@@ -80,7 +80,7 @@ const updateOrderStatus = async(req, res, next) => {
   else{
       return res.status(401).send({ 'status': 401, 'message': 'Update failed, you don\'t own this order.'});
   }
-}
+};
  
     
 export {

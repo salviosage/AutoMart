@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/',validateRequest,auth,createAd );
 router.get('/', auth, getAds );
 router.get('/:id',validateRequest,auth, getOneAd );
-router.delete('/:id',validateRequest,auth, deleteAd);
+router.delete('/:id',auth, deleteAd);
 router.patch('/:id/status',validateRequest,auth, updateAd);
 router.patch('/:id/price',validateRequest,auth, updateAd);
 

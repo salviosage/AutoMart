@@ -24,8 +24,8 @@ class Setup{
 
         const cars = `
         CREATE TABLE IF NOT EXISTS cars(
-            id SERIAL PRIMARY KEY,
-            owner INT NOT NULL,
+            id UUID PRIMARY KEY,
+            owner UUID NOT NULL,
             created_on TIMESTAMP,
             state VARCHAR(5) NOT NULL,
             status VARCHAR(20) NOT NULL,
@@ -41,12 +41,12 @@ class Setup{
             console.log(res);
         })
         .catch((error)=>{
-            console.log(`error`, error.message);
+            console.log(error.message);
         })
 
         const users = `
         CREATE TABLE IF NOT EXISTS users(
-            id SERIAL PRIMARY KEY,
+            id UUID PRIMARY KEY,
             email VARCHAR(100) UNIQUE NOT NULL,
             first_name VARCHAR(100) NOT NULL,
             last_name VARCHAR(100) NOT NULL,
@@ -60,14 +60,15 @@ class Setup{
             console.log(res)
         })
         .catch((error)=>{
-            console.log(`error`, error.message);
+            console.log(error.message);
         })
 
         const orders = `
         CREATE TABLE IF NOT EXISTS orders(
-            id SERIAL PRIMARY KEY,
-            buyer INT NOT NULL,
-            car_id INT NOT NULL,
+            id UUID PRIMARY KEY,
+            buyer UUID NOT NULL,
+            car_id UUID NOT NULL,
+            created_on TIMESTAMP,
             amount INT NOT NULL,
             status VARCHAR(20) NOT NULL,
             FOREIGN KEY (buyer) REFERENCES users(id) ON DELETE CASCADE
@@ -79,7 +80,7 @@ class Setup{
             console.log(res);
         })
         .catch((error)=>{
-            console.log(`error`,error.message);
+            console.log(error.message);
         })
 
         
@@ -87,12 +88,12 @@ class Setup{
 
         const flags = `
         CREATE TABLE IF NOT EXISTS flags(
-            id SERIAL PRIMARY KEY,
-            car_id INT NOT NULL,
-            flager INT NOT NULL,
+            id UUID PRIMARY KEY,
+            car_id UUID NOT NULL,
+            user_id UUID NOT NULL,
             created_on TIMESTAMP,
             reason VARCHAR(20) NOT NULL,
-            description VARCHAR(100) NOT NULL,
+            description VARCHAR(100) ,
             FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
           )`;
           

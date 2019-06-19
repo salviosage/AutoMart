@@ -3,7 +3,7 @@ import {Flag} from '../models/flag';
 const mart = new Database();
 
 
- const getAllFlag= (req, res, next) =>{
+ const getAllFlag= async (req, res) =>{
   if (req.auth.role!="admin"){
     return res.status(400).json({
       error: 'access denied'
@@ -18,7 +18,7 @@ const mart = new Database();
   
     
   }
-const createFlag = async (req, res, next) => {
+const createFlag = async (req, res) => {
 
     const car = await mart.selectById('cars',req.body.car_id)
   
@@ -26,16 +26,18 @@ const createFlag = async (req, res, next) => {
       const user = await mart.selectBy('users', 'email', req.auth.userName);
       
     if (car.rowCount!=0 && user.rowCount!=0){
-    var order = new Flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
+    var flag = new Flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
     try {
-        const insertedFlag = await mart.addOrder(order);
+      console.log(flag)
+        const insertedFlag = await mart.addFlag(flag);
         return  res.status(201).json({
           status: 201,
           message:'order post sucessfuly added',
           data: insertedFlag.rows[0] 
          });
     } catch (error) {
-        return res.status(401).send({ 'status': 401, 'message': 'order is not saved' });
+      console.log(error);
+        return res.status(401).send({ 'status': 401, 'message': 'flag is not saved' });
     }
   
   };

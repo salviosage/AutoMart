@@ -25,16 +25,14 @@ module.exports = (useJoiError,routing) => {
 
         const route = '/'+routing+ req.route.path;
         const method = req.method.toLowerCase();
-        console.log(method)
-        console.log(route)
+        
 
         if (supportedMethods.includes(method) && _.has(Schemas, route)) {
          
 
             // get schema for the current route
             const _schema = _.get(Schemas, route);
-            console.log(_schema)
-
+            
             if (_schema) {
 
                 // Validate req.body using the schema and validation options
