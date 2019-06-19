@@ -4,7 +4,7 @@ import Database from '../db/automrtdb';
 const mart = new Database();
 
 
- const getUser= (req, res, next) =>{
+ const getUser= (req, res) =>{
 
   
   return  res.status(200).json({
@@ -16,7 +16,7 @@ const mart = new Database();
 
   
 
-const signup = async (req, res, next) => {
+const signup = async (req, res) => {
   
     //  Check if user exist
     const result = await mart.selectCount('users', 'email', req.body.email);
@@ -85,7 +85,7 @@ const signup = async (req, res, next) => {
 };
  
 
-const reset = async(req, res, next) => {
+const reset = async(req, res) => {
  
     const result = await mart.selectBy('users', 'email', req.body.email);
     if (result.rowCount > 0) {

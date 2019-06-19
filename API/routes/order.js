@@ -1,9 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-
 const auth = require ('../middleware/auth');
-//const multer = require('../middleware/multer-config');
 
 const {createOrder,updateOrderPrice,updateOrderStatus,geAllOrder} = require('../controllers/order');
 import SchemaValidator from "../middleware/schemaValidator";

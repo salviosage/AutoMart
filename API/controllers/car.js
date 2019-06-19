@@ -5,8 +5,13 @@ const mart = new Database();
 
 
 const getAds = async (req, res) => {
-    var min_price = req.query.min;
-    var max_price = req.query.max;
+    var min_price = req.query.min_price;
+    var max_price = req.query.max_price;
+    const body_type= req.query.body_type;
+    const manufacturer = req.query.manufacturer;
+    const status= req.query.status;
+
+    
     
     if(min_price && max_price) {
         var queryMinMax = await mart.selectCarByPriceRange(min_price, max_price);
@@ -31,6 +36,7 @@ const getAds = async (req, res) => {
         if (queryMin.rows.length>0){
           res.status(200).send({
             'status' : 200,
+            'message':"cars with  sitted min price",
             'data' :  queryMin.rows
         });
         }
@@ -42,6 +48,7 @@ const getAds = async (req, res) => {
         });
         }
     }
+    
     else if(max_price) {
         var queryMax = await mart.selectCarByMaxPrice(max_price);
         if (queryMax.rows.length>0){
@@ -58,6 +65,57 @@ const getAds = async (req, res) => {
         });
         }
     }
+    else if(body_type) {
+
+      var queryMax = await mart.selectBy( 'cars','body_type',body_type);
+      if (queryMax.rows.length>0){
+        res.status(200).send({
+          'status' : 200,
+          'data' :  queryMax.rows
+      });
+      }
+      else{
+        res.status(401).send({
+          'status' : 401,
+          'message':`No carsfound for specified body type`,
+         
+      });
+      }
+  }
+  else if(manufacturer) {
+    var queryMax = await mart.selectBy('cars','manufacturer',manufacturer);
+    if (queryMax.rows.length>0){
+      res.status(200).send({
+        'status' : 200,
+        'data' :  queryMax.rows
+    });
+    }
+    else{
+      res.status(401).send({
+        'status' : 401,
+        'message':`No carsfound`,
+       
+    });
+    }
+    
+}
+else if(status) {
+  var queryMax = await mart.selectBy('cars','status',status);
+  if (queryMax.rows.length>0){
+    res.status(200).send({
+      'status' : 200,
+      'data' :  queryMax.rows
+  });
+  }
+  else{
+    res.status(401).send({
+      'status' : 401,
+      'message':`No carsfound`,
+     
+  });
+  }
+  
+}
     else {
         const token = req.auth
         if (token) {
@@ -106,7 +164,7 @@ const getOneAd = async(req, res, next) =>{
    
     if (car.rowCount!=0){
       return res.status(200).json({
-        status200,
+        status:200,
         data: car.rows[0],
       });
     }
@@ -136,14 +194,10 @@ const getOneAd = async(req, res, next) =>{
      result = await mart.updateCarStatus({'status': status, 'id': id, 'owner': user.rows[0].id});
   }
   
- 
-  
-
-  
   if (result.rowCount > 0) {
     return  res.status(200).json({
       status:200,
-      data:car
+      data:result  
      });
       
   }
@@ -157,34 +211,43 @@ const getOneAd = async(req, res, next) =>{
 };
  
     
-const deleteAd= (req, res, next) => {
+const deleteAd= async(req, res, next) => {
 
-  
+  var id = req.params.id;
+ 
+  const user = await mart.selectBy('users', 'email', req.auth.userName);
+ 
+  const car = await mart.selectBy('cars', 'id', id);
 
-  const car= cars.find(car=> car.id === req.params.id )
+ if( car.rowCount > 0 && user.rowCount >0){
+   if(req.auth.role || (user.row[0].id===car.row[0].owner)) {
+   const  result = await mart.delete({'table':'cars', 'id': req.params.id});
+    return  res.status(200).json({
+      status:200,
+      message: 'car deleted successfully',
+      result:result
+     });
 
-  
-      if (!car || car.owner!=req.auth.userName || req.auth.role!="admin") {
-        return res.status(401).json({
-          error: 'access denied  !'
-        });
-      }
+   }
+ else {
+ 
+  return  res.status(401).json({
+    status:401,
+    message: 'access denied '
+   });
+  }
+ } 
+ else {
+ 
+  return  res.status(401).json({
+    status:401,
+    message: 'no car  found  '
+   });
+  }
+
       
-     
-      
+  }
 
-      const index = cars.indexOf(car);
-      
-      cars.splice(index, 1);
-     
-
-  
-  
-       return  res.status(200).json({
-         status:200,
-         data:"car deleted successfully"
-        });
-};
 export  {
   getAds,getOneAd,deleteAd,updateAd,createAd
 }

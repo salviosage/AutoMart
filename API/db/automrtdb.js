@@ -33,9 +33,9 @@ class Database{
     return result;
   }
 
-  async selectCarByPriceRange(value1, value2) {
+  async selectCarByBodyType(value1) {
     const conn = this.dbConnection();
-    const result = await conn.query(`SELECT * FROM cars WHERE price >= ${value1} AND price <= ${value2};`);
+    const result = await conn.query(`SELECT * FROM cars WHERE Body_type = ${value1} `);
     await conn.end();
     return result;
   }
@@ -43,6 +43,12 @@ class Database{
   async selectCarByMinPrice(value1) {
     const conn = this.dbConnection();
     const result = await conn.query(`SELECT * FROM cars WHERE price >= ${value1};`);
+    await conn.end();
+    return result;
+  }
+  async selectCarByManufacturer(value1) {
+    const conn = this.dbConnection();
+    const result = await conn.query(`SELECT * FROM cars WHERE manufacturer = ${value1};`);
     await conn.end();
     return result;
   }
@@ -119,7 +125,7 @@ class Database{
 
   async addFlag(data) {
     const conn = this.dbConnection();
-    const result = await conn.query(`INSERT INTO flags(id,flager,car_id,reason,description,created_on) VALUES(
+    const result = await conn.query(`INSERT INTO flags (id,user_id,car_id,reason,description,created_on) VALUES(
         '${data.id}',
         '${data.flager}',
         '${data.car_id}',
@@ -137,6 +143,12 @@ class Database{
   async updatePrice(data){
     const conn = this.dbConnection();
     const result = await conn.query(`UPDATE ${data.table} SET price = '${data.price}' WHERE id = '${data.id}' AND owner = '${data.owner}' returning *;`);
+    await conn.end();
+    return result;
+  }
+  async delete(data){
+    const conn = this.dbConnection();
+    const result = await conn.query(`DELETE FROM  ${data.table}  WHERE id = '${data.id}' `);
     await conn.end();
     return result;
   }
