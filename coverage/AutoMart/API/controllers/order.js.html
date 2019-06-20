@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">29.17% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/21</span>
+        <span class='fraction'>7/24</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/41</span>
+        <span class='fraction'>0/42</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">33.33% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>4/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.18% </span>
+        <span class="strong">35% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>7/17</span>
+        <span class='fraction'>7/20</span>
       </div>
     </div>
     <p class="quiet">
@@ -134,7 +134,13 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,6 +156,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,18 +171,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,7 +249,8 @@ const mart = new Database();
               'status': 200, 
               'data':ordersResult.rows });
         }
-        var <span class="cstat-no" title="statement not covered" >ordersResult = await mart.selectBy('orders', 'owner', req.auth.userName);</span>
+        var <span class="cstat-no" title="statement not covered" >usersResult = await mart.selectBy('users', 'email', req.auth.userName);</span>
+        var <span class="cstat-no" title="statement not covered" >ordersResult = await mart.selectBy('orders', 'buyer', usersResult.rows[0].id);</span>
         return res.status(200).send({
             'status' : 200,
             'data' :  ordersResult.rows,
@@ -248,23 +261,28 @@ const mart = new Database();
    
  
 const <span class="fstat-no" title="function not covered" >createOrder </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async(r</span></span>eq, res, next) =&gt; {
-  const <span class="cstat-no" title="statement not covered" >car = await mart.selectById('cars',req.body.car_id)</span>
-&nbsp;
+  const <span class="cstat-no" title="statement not covered" >car = await mart.selectById('cars',req.body.car_id);</span>
+ 
     if (car.rowCount == 0) return res.status(401).send({ 'status': 401, 'message': `Car  not found` });
     
+    
     const <span class="cstat-no" title="statement not covered" >user = await mart.selectBy('users', 'email', req.auth.userName);</span>
-   
+    
   if (car.rowCount!=0,user.rowCount!=0){
   var <span class="cstat-no" title="statement not covered" >order = new Order(  user.rows[0].id,req.body.car_id,req.body.amount,req.body.status || 'pending');</span>
+  
   try {
-      const <span class="cstat-no" title="statement not covered" >insertedOrder = await mart.addOrder(car);</span>
+   
+      const <span class="cstat-no" title="statement not covered" >insertedOrder = await mart.addOrder(order);</span>
+<span class="cstat-no" title="statement not covered" >      console.</span>log(user)
       return  res.status(201).json({
         status: 201,
         message:'order post sucessfuly added',
         data: insertedOrder.rows[0] 
        });
   } catch (error) {
-      return res.status(401).send({ 'status': 401, 'message': 'order is not saved' });
+<span class="cstat-no" title="statement not covered" >    console.</span>log(error,order)
+      return res.status(401).send({ 'status': 401, 'message': 'order is not saved','error':error});
   }
 &nbsp;
 };
@@ -279,7 +297,7 @@ const <span class="fstat-no" title="function not covered" >updateOrderPrice </sp
 &nbsp;
   if (order.rowCount === 0) return res.status(401).send({ 'status': 401, 'message': 'It looks like order you want to updaate is not found.'});
   
-  const <span class="cstat-no" title="statement not covered" >result = await mart.updatPrice({'table':'orders','price': req.body.price, 'id': req.params.id,});</span>
+  const <span class="cstat-no" title="statement not covered" >result = await mart.updatePriceO({'table':'orders','price': req.body.price, 'id': req.params.id, 'owner':order.rows[0].id});</span>
   
   if (result.rowCount &gt; 0) {
       return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
@@ -296,7 +314,7 @@ const <span class="fstat-no" title="function not covered" >updateOrderStatus </s
 &nbsp;
   if (order.rowCount === 0) return res.status(401).send({ 'status': 401, 'message': 'It looks like order you want to updaate is not found.'});
   
-  const <span class="cstat-no" title="statement not covered" >result = await mart.updateOrderstatus({'status': req.body.price, 'id': req.params.id});</span>
+  const <span class="cstat-no" title="statement not covered" >result = await mart.updateOrderStatus({'status': req.body.status, 'id': req.params.id});</span>
   
   if (result.rowCount &gt; 0) {
       return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
@@ -316,7 +334,7 @@ export {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jun 20 2019 13:55:59 GMT+0200 (Central Africa Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jun 20 2019 17:05:30 GMT+0200 (Central Africa Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>

@@ -4,14 +4,36 @@ ENV.config();
 
 class Setup{
     constructor(){
-       this.pool = new Pool({
-           user: process.env.PGUSER,
-           host:process.env.PGHOST,
-           database:process.env.PGTESTDB,
-           password:process.env.PGPASSWORD,
-           port:process.env.PGPORT
-       });
-
+        if (process.env.NODE_ENV==='test'){
+     
+            this.pool= new Pool({
+             user: process.env.PGUSER,
+             host:process.env.PGHOST,
+             database:process.env.PGTESTDB,
+             password:process.env.PGPASSWORD,
+             port:process.env.PGPORT
+         });
+           }
+           else if (process.env.NODE_ENV==='production') {
+            this.pool= new Pool({
+               user: 'ruzmchrydtigis',
+               host:'ec2-107-22-238-217.compute-1.amazonaws.com',
+               database:'d6mfbbjkbq1gkh',
+               password:'ba585fea3cbd548c873a9fb23349acdbddcdfbdd8d64bd7721a6fd868e0428d0',
+               port:'5432'
+             });
+           
+           }
+           else {
+            this.pool = new Pool({
+               user: process.env.PGUSER,
+               host:process.env.PGHOST,
+               database:process.env.PGDATABASE,
+               password:process.env.PGPASSWORD,
+               port:process.env.PGPORT
+           });
+           }
+    
        this.pool.on('connect',()=> {
            console.log('connected...');
        })
@@ -43,6 +65,7 @@ class Setup{
         const cars = `
         CREATE TABLE IF NOT EXISTS cars(
             id UUID PRIMARY KEY,
+            placNo INT NOT NULL,
             owner UUID NOT NULL,
             created_on TIMESTAMP,
             state VARCHAR(5) NOT NULL,

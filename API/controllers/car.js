@@ -1,6 +1,7 @@
 
 import  Database from '../db/automrtdb';
 import {Car} from '../models/car';
+import helper from '../middleware/helper'
 const mart = new Database();
 
 
@@ -10,10 +11,61 @@ const getAds = async (req, res) => {
     const body_type= req.query.body_type;
     const manufacturer = req.query.manufacturer;
     const status= req.query.status;
+    let token = req.headers['x-access-token'] || req.headers['authorization']; 
+    if (token){
+    const auth = await helper.verifyToken(token);
+    if (auth ){
+      if(auth.role){
+        var allCar = await mart.selectAll("cars");
+        res.status(200).send({
+          'status' : 200,
+          'data' :  allCar.rows,
+      });
+      } else {
+        const user = await mart.selectCount('users', 'email', auth.userName);
+        if(user.rowCount > 0){
+           if(status) {
+            var queryavailable = await mart.selectAv(user.rows[0].id);
+            if (queryavailable.rows.length>0){
+              res.status(200).send({
+                'status' : 200,
+                'data' :  queryMax.rows
+            });
+            }
+            else{
+              res.status(401).send({
+                'status' : 401,
+                'message':`No carsfound`,
+               
+            });
+            }
+            
+            }
+          var allCar = await mart.selectBy("car",'owner',user.rows[0].id);
+          if(allCar.rows.length>0){
+          res.status(200).send({
+            'status' : 200,
+            'data' :  allCar.rows
+        });
+      }else{
+        res.status(401).send({
+          'status' : 401,
+          'message':`No carsfound`,
+         
+      });
+      }
 
-    
-    
-    if(min_price && max_price) {
+        }  
+        
+      }
+      } else{
+        res.status(401).send({
+          'status' : 401,
+          'error' :  'token not valid'
+      });
+      }
+    }else {
+      if(min_price && max_price) {
         var queryMinMax = await mart.selectCarByPriceRange(min_price, max_price);
         if (queryMinMax.rows.length>0){
           res.status(200).send({
@@ -32,42 +84,25 @@ const getAds = async (req, res) => {
        
     }
     else if (min_price) {
-        var queryMin = await mart.selectCarByMinPrice(min_price);
-        if (queryMin.rows.length>0){
-          res.status(200).send({
-            'status' : 200,
-            'message':"cars with  sitted min price",
-            'data' :  queryMin.rows
-        });
-        }
-        else{
-          res.status(401).send({
-            'status' : 401,
-            'message':`No carsfound`,
-           
-        });
-        }
-    }
-    
-    else if(max_price) {
-        var queryMax = await mart.selectCarByMaxPrice(max_price);
-        if (queryMax.rows.length>0){
-          res.status(200).send({
-            'status' : 200,
-            'data' :  queryMax.rows
-        });
-        }
-        else{
-          res.status(401).send({
-            'status' : 401,
-            'message':`No carsfound`,
-           
-        });
-        }
-    }
-    else if(body_type) {
-
-      var queryMax = await mart.selectBy( 'cars','body_type',body_type);
+      var queryMin = await mart.selectCarByMinPrice(min_price);
+      if (queryMin.rows.length>0){
+        res.status(200).send({
+          'status' : 200,
+          'message':"cars with  sitted min price",
+          'data' :  queryMin.rows
+      });
+      }
+      else{
+        res.status(401).send({
+          'status' : 401,
+          'message':`No carsfound`,
+         
+      });
+      }
+  }
+  
+  else if(max_price) {
+      var queryMax = await mart.selectCarByMaxPrice(max_price);
       if (queryMax.rows.length>0){
         res.status(200).send({
           'status' : 200,
@@ -77,13 +112,14 @@ const getAds = async (req, res) => {
       else{
         res.status(401).send({
           'status' : 401,
-          'message':`No carsfound for specified body type`,
+          'message':`No carsfound`,
          
       });
       }
   }
-  else if(manufacturer) {
-    var queryMax = await mart.selectBy('cars','manufacturer',manufacturer);
+  else if(body_type) {
+
+    var queryMax = await mart.selectBy( 'cars','body_type',body_type);
     if (queryMax.rows.length>0){
       res.status(200).send({
         'status' : 200,
@@ -93,14 +129,13 @@ const getAds = async (req, res) => {
     else{
       res.status(401).send({
         'status' : 401,
-        'message':`No carsfound`,
+        'message':`No carsfound for specified body type`,
        
     });
     }
-    
 }
-else if(status) {
-  var queryMax = await mart.selectBy('cars','status',status);
+else if(manufacturer) {
+  var queryMax = await mart.selectBy('cars','manufacturer',manufacturer);
   if (queryMax.rows.length>0){
     res.status(200).send({
       'status' : 200,
@@ -116,43 +151,37 @@ else if(status) {
   }
   
 }
-    else {
-        const token = req.auth
-        if (token) {
-            if (token.isadmin) {
-                var carsResult = await mart.selectAll('cars');
-                return res.status(200).send({ 
-                  'status': 200, 
-                  'data': carsResult.rows })
-            };
-        }
-        // Get all cars whose status is available
-        var carsResult = await mart.selectBy('cars', 'status', 'available');
-        return res.status(200).send({
-            'status' : 200,
-            'data' :  carsResult.rows,
-            'message': carsResult.rowCount > 0 ? 'Available cars' : 'No cars available.'   
-        });
+
+
     }
-};
+
+   
+
+  };
 //create a car ad endpoint 
 const createAd = async (req, res)  => {
   const user = await mart.selectBy('users', 'email', req.auth.userName);
       
     if (user.rowCount!=0){
+      const exist  = await mart.selectCount('cars', 'placNo', req.body.placNo);
+      if (exist.rows[0].count === '0'){
+        var car = new Car( user.rows[0].id, req.body.placNo,req.body.state || 'new',req.body.price, req.body.body_type,req.body.model,req.body.manufacturer);
+        try {
+            const insertedCar = await mart.addCar(car);
+            return  res.status(201).json({
+              status: 201,
+              message:'Car post sucessfuly added',
+              data: insertedCar.rows[0] 
+             });
+        } catch (error) {
+          
+            return res.status(401).send({ 'status': 401, 'message': 'Car is not saved' });
+        }
+      } else {
+        return res.status(401).send({ 'status': 401, 'message': 'car with the same plac already exist' });
+      }
    
-  var car = new Car( user.rows[0].id,req.body.state || 'new',req.body.price, req.body.body_type,req.body.model,req.body.manufacturer);
-  try {
-      const insertedCar = await mart.addCar(car);
-      return  res.status(201).json({
-        status: 201,
-        message:'Car post sucessfuly added',
-        data: insertedCar.rows[0] 
-       });
-  } catch (error) {
-    console.log(error)
-      return res.status(401).send({ 'status': 401, 'message': 'Car is not saved' });
-  }
+ 
     }
 };
 

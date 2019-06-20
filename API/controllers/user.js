@@ -8,7 +8,7 @@ const mart = new Database();
   
  
   const result = await mart.selectBy('users', 'email', req.auth.userName);
-  console.log(result.rows[0].is_admin);
+  
   if (result.rowCount > 0  && result.rows[0].is_admin ) {
     console.log("in user ")
     const users = await mart.selectAll('users');

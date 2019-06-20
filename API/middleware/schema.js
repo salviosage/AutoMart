@@ -25,6 +25,7 @@ const password = Joi.string().min(7).required().strict();
 
 const newCarDataSchema = Joi.object().keys({
     manufacturer: name.required(),
+    placNo:amount.required(),
     model: name.required(),
     body_type: name.required(),
     price: amount.required(),
