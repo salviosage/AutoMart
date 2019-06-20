@@ -251,8 +251,8 @@ const deleteAd= async(req, res, next) => {
  if( car.rowCount > 0 && user.rowCount >0){
    if(req.auth.role || (user.row[0].id===car.row[0].owner)) {
    const  result = await mart.delete({'table':'cars', 'id': req.params.id});
-    return  res.status(200).json({
-      status:200,
+    return  res.status(201).json({
+      status:201,
       message: 'car deleted successfully',
       result:result
      });

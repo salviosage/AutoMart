@@ -64,7 +64,7 @@ const updateOrderPrice = async(req, res, next) => {
   const result = await mart.updatePriceO({'table':'orders','price': req.body.price, 'id': req.params.id, 'owner':order.rows[0].id});
   
   if (result.rowCount > 0) {
-      return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
+      return res.status(201).send({ 'status': 201, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
   }
   else{
       return res.status(401).send({ 'status': 401, 'message': 'Update failed, you don\'t own this order.'});
@@ -81,7 +81,7 @@ const updateOrderStatus = async(req, res, next) => {
   const result = await mart.updateOrderStatus({'status': req.body.status, 'id': req.params.id});
   
   if (result.rowCount > 0) {
-      return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
+      return res.status(201).send({ 'status': 201, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
   }
   else{
       return res.status(401).send({ 'status': 401, 'message': 'Update failed, you don\'t own this order.'});

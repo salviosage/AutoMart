@@ -55,7 +55,7 @@ class Setup{
 
         this.pool.query(users)
         .then((res)=>{
-            console.log(res)
+            console.log("created")
         })
         .catch((error)=>{
             console.log(error.message);
@@ -78,7 +78,7 @@ class Setup{
         
         this.pool.query(cars)
         .then((res)=>{
-            console.log(res);
+            console.log("created")
         })
         .catch((error)=>{
             console.log(error.message);
@@ -100,7 +100,7 @@ class Setup{
 
         this.pool.query(orders)
         .then((res)=>{
-            console.log(res);
+            console.log("created")
         })
         .catch((error)=>{
             console.log(error.message);
@@ -123,7 +123,7 @@ class Setup{
 
         this.pool.query(flags)
         .then((res)=>{
-            console.log(res);
+            console.log("created")
         })
         .catch((error)=>{
             console.log(error.message);
