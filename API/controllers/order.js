@@ -13,7 +13,8 @@ const mart = new Database();
               'status': 200, 
               'data':ordersResult.rows });
         }
-        var ordersResult = await mart.selectBy('orders', 'owner', req.auth.userName);
+        var usersResult = await mart.selectBy('users', 'email', req.auth.userName);
+        var ordersResult = await mart.selectBy('orders', 'buyer', usersResult.rows[0].id);
         return res.status(200).send({
             'status' : 200,
             'data' :  ordersResult.rows,
@@ -24,23 +25,28 @@ const mart = new Database();
    
  
 const createOrder = async(req, res, next) => {
-  const car = await mart.selectById('cars',req.body.car_id)
-
+  const car = await mart.selectById('cars',req.body.car_id);
+ 
     if (car.rowCount == 0) return res.status(401).send({ 'status': 401, 'message': `Car  not found` });
     
+    
     const user = await mart.selectBy('users', 'email', req.auth.userName);
-   
+    
   if (car.rowCount!=0,user.rowCount!=0){
   var order = new Order(  user.rows[0].id,req.body.car_id,req.body.amount,req.body.status || 'pending');
+  
   try {
-      const insertedOrder = await mart.addOrder(car);
+   
+      const insertedOrder = await mart.addOrder(order);
+      console.log(user)
       return  res.status(201).json({
         status: 201,
         message:'order post sucessfuly added',
         data: insertedOrder.rows[0] 
        });
   } catch (error) {
-      return res.status(401).send({ 'status': 401, 'message': 'order is not saved' });
+    console.log(error,order)
+      return res.status(401).send({ 'status': 401, 'message': 'order is not saved','error':error});
   }
 
 };
@@ -55,7 +61,7 @@ const updateOrderPrice = async(req, res, next) => {
 
   if (order.rowCount === 0) return res.status(401).send({ 'status': 401, 'message': 'It looks like order you want to updaate is not found.'});
   
-  const result = await mart.updatPrice({'table':'orders','price': req.body.price, 'id': req.params.id,});
+  const result = await mart.updatePriceO({'table':'orders','price': req.body.price, 'id': req.params.id, 'owner':order.rows[0].id});
   
   if (result.rowCount > 0) {
       return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });
@@ -72,7 +78,7 @@ const updateOrderStatus = async(req, res, next) => {
 
   if (order.rowCount === 0) return res.status(401).send({ 'status': 401, 'message': 'It looks like order you want to updaate is not found.'});
   
-  const result = await mart.updateOrderstatus({'status': req.body.price, 'id': req.params.id});
+  const result = await mart.updateOrderStatus({'status': req.body.status, 'id': req.params.id});
   
   if (result.rowCount > 0) {
       return res.status(200).send({ 'status': 200, 'message': 'orders price was updated sucessfuly.', 'data': result.rows[0] });

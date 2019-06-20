@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const Joi = require('joi');
-const Schemas = require('../helper/schema');
+const Schemas = require('./schema');
 
 module.exports = (useJoiError,routing) => {
    

@@ -19,6 +19,7 @@ let validateToken = (req, res, next) => {
       jwt.verify(token, process.env.secret_key, (err, decode) => {
         if (err) {
           return res.send({
+            status:401,
             success: false,
             message: 'Token is not valid'
           });
