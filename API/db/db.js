@@ -21,6 +21,24 @@ class Setup{
     }
 
     createTables(){
+        const users = `
+        CREATE TABLE IF NOT EXISTS users(
+            id UUID PRIMARY KEY,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            first_name VARCHAR(100) NOT NULL,
+            last_name VARCHAR(100) NOT NULL,
+            password VARCHAR(100) NOT NULL,
+            address VARCHAR(100) NOT NULL,
+            is_admin BOOLEAN NOT NULL
+        )`;
+
+        this.pool.query(users)
+        .then((res)=>{
+            console.log(res)
+        })
+        .catch((error)=>{
+            console.log(error.message);
+        })
 
         const cars = `
         CREATE TABLE IF NOT EXISTS cars(
@@ -44,24 +62,7 @@ class Setup{
             console.log(error.message);
         })
 
-        const users = `
-        CREATE TABLE IF NOT EXISTS users(
-            id UUID PRIMARY KEY,
-            email VARCHAR(100) UNIQUE NOT NULL,
-            first_name VARCHAR(100) NOT NULL,
-            last_name VARCHAR(100) NOT NULL,
-            password VARCHAR(100) NOT NULL,
-            address VARCHAR(100) NOT NULL,
-            is_admin BOOLEAN NOT NULL
-        )`;
-
-        this.pool.query(users)
-        .then((res)=>{
-            console.log(res)
-        })
-        .catch((error)=>{
-            console.log(error.message);
-        })
+      
 
         const orders = `
         CREATE TABLE IF NOT EXISTS orders(

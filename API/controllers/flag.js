@@ -25,7 +25,8 @@ const createFlag = async (req, res) => {
       if (car.rowCount == 0) return res.status(401).send({ 'status': 401, 'message': `Car  not found` });
       const user = await mart.selectBy('users', 'email', req.auth.userName);
       
-    if (car.rowCount!=0 && user.rowCount!=0){
+    if (user.rowCount!=0){
+      console.log(user.rows[0].id)
     var flag = new Flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
     try {
       console.log(flag)

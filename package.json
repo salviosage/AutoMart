@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js",
-    "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
+    "start": " nodemon --exec babel-node server.js",
+    "test": " npm run createTablestest && nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
     "coverage": "nyc --reporter=lcov npm run test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "createTablestest": "node  --require @babel/register ./API/db/testDb.js",

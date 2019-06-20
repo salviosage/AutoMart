@@ -8,7 +8,7 @@ const name = Joi.string().regex(/^[A-Z]+$/).uppercase();
 const email= Joi.string().email({minDomainAtoms : 2});
 const  option = Joi.bool().valid([1,0]).required();
 const amount = Joi.number().positive().greater(1).precision(2);
-const userID = Joi.string().guid({version: 'uuidv4'});
+const userID = Joi.string().guid();
 const password = Joi.string().min(7).required().strict();
 
 
@@ -52,7 +52,6 @@ const newCarDataSchema = Joi.object().keys({
 
  const newOrderDataSchema =Joi.object().keys({
     car_id:userID.required(),
-    user_id:userID.required(),
     amount: amount.required(),
 });
 

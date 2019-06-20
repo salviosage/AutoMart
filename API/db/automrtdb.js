@@ -1,12 +1,30 @@
 const { Pool } = require('pg');
+import dotenv from 'dotenv';
+dotenv.config()
+console.log(process.env.NODE_ENV);
+
 
 class Database{
   
   dbConnection() {
+    if (process.env.NODE_ENV==='test'){
+     db =process.env.PGDATABASE;
+     console.log(process.env.NODE_ENV);
+    }
+    else if (process.env.NODE_ENV==='production') {
+    db  =process.env.PGTEST;
+    console.log(process.env.NODE_ENV);
+    }
+    else {
+      return  new Pool({
+        connectionString: process.env.DATABASE_URL,
+      });
+    }
     return new Pool({
+      
         user: process.env.PGUSER,
         host:process.env.PGHOST,
-        database:process.env.PGDATABASE,
+        database:PGTEST,
         password:process.env.PGPASSWORD,
         port:process.env.PGPORT
     });
@@ -39,6 +57,13 @@ class Database{
     await conn.end();
     return result;
   }
+  async selectCarByPriceRange(value1,value2) {
+    const conn = this.dbConnection();
+    const result = await conn.query(`SELECT * FROM cars WHERE price >= ${value1}  AND price <=  ${value2} `);
+    await conn.end();
+    return result;
+  }
+
 
   async selectCarByMinPrice(value1) {
     const conn = this.dbConnection();
@@ -113,7 +138,7 @@ class Database{
         '${data.car_id}',
         '${data.amount}',
         '${data.status}',
-        '${data.created_on}',
+        '${data.created_on}'
         
       ) returning *;
     `);
@@ -143,6 +168,12 @@ class Database{
   async updatePrice(data){
     const conn = this.dbConnection();
     const result = await conn.query(`UPDATE ${data.table} SET price = '${data.price}' WHERE id = '${data.id}' AND owner = '${data.owner}' returning *;`);
+    await conn.end();
+    return result;
+  }
+  async updatePriceO(data){
+    const conn = this.dbConnection();
+    const result = await conn.query(`UPDATE ${data.table} SET amount = '${data.price}' WHERE id = '${data.id}' AND buyer = '${data.owner}' returning *;`);
     await conn.end();
     return result;
   }
