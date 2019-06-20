@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.85% </span>
+        <span class="strong">44.44% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>14/27</span>
+        <span class='fraction'>12/27</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.59% </span>
+        <span class="strong">24.39% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>15/41</span>
+        <span class='fraction'>10/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">83.33% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>10/12</span>
+        <span class='fraction'>8/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">47.83% </span>
+        <span class="strong">43.48% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/23</span>
+        <span class='fraction'>10/23</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -182,7 +182,11 @@
 <a name='L134'></a><a href='#L134'>134</a>
 <a name='L135'></a><a href='#L135'>135</a>
 <a name='L136'></a><a href='#L136'>136</a>
-<a name='L137'></a><a href='#L137'>137</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -267,6 +271,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -286,9 +294,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -368,8 +376,8 @@ const signup = <span class="missing-if-branch" title="else path not taken" >E</s
           const <span class="cstat-no" title="statement not covered" >token = await helper.generateToken(req.body.email,req.body.is_admin);</span>
           const <span class="cstat-no" title="statement not covered" >insertedUser = await mart.addUser(user);</span>
          
-            return  res.status(200).json({
-              status:200,
+            return  res.status(201).json({
+              status:201,
               token:token,
               message: 'User registered sucessfuly!' ,
         
@@ -402,7 +410,11 @@ const signup = <span class="missing-if-branch" title="else path not taken" >E</s
         const <span class="cstat-no" title="statement not covered" >validPassword = await helper.comparePassword( result.rows[0].password,req.body.password);</span>
        
         
-        if (!validPassword) return res.send('Password is not correct.');
+        if (!validPassword) return res.status(401).json({
+          status:401,
+          message: 'Password is not correct.',
+&nbsp;
+        });
         const <span class="cstat-no" title="statement not covered" >token = await helper.generateToken(req.body.email,result.rows[0].is_admin);</span>
         return  res.status(200).json({
           status:200,
@@ -422,9 +434,9 @@ const signup = <span class="missing-if-branch" title="else path not taken" >E</s
 };
  
 &nbsp;
-const reset = <span class="missing-if-branch" title="else path not taken" >E</span><span class="branch-5 cbranch-no" title="branch not covered" ><span class="branch-3 cbranch-no" title="branch not covered" ><span class="branch-2 cbranch-no" title="branch not covered" >async(r</span></span></span>eq, res) =&gt; {
+const <span class="fstat-no" title="function not covered" >reset </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async(r</span></span>eq, res) =&gt; {
  
-    const result = await mart.selectBy('users', 'email', req.body.email);
+    const <span class="cstat-no" title="statement not covered" >result = await mart.selectBy('users', 'email', req.body.email);</span>
     if (result.rowCount &gt; 0) {
     
       
@@ -432,8 +444,8 @@ const reset = <span class="missing-if-branch" title="else path not taken" >E</sp
        
       const <span class="cstat-no" title="statement not covered" >passResult = await mart.updatePassword({'password': hashedPassword, 'id': result.rows[0].id});</span>
         
-        return  res.status(200).json({
-          status:200,
+        return  res.status(201).json({
+          status:201,
           message: 'password resetted to your lastName in capytal letter  success fully !',
           
         });  
@@ -460,7 +472,7 @@ const reset = <span class="missing-if-branch" title="else path not taken" >E</sp
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jun 20 2019 23:35:55 GMT+0200 (Central Africa Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 21 2019 00:50:51 GMT+0200 (Central Africa Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>
