@@ -38,6 +38,12 @@ class Database{
     }
    
   }
+  async selectAv(table, id) {
+    const conn = this.dbConnection();
+    const result = await conn.query(`SELECT * FROM cars WHERE owner='${id}';`);
+    await conn.end();
+    return result;
+  }
 
   async selectById(table, id) {
     const conn = this.dbConnection();
