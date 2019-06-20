@@ -2,9 +2,10 @@ const uuid = require('uuid/v1');
 import moment from 'moment';
 
 class Car {
-    constructor(owner, state, price,model, body_type,manufacturer) {
+    constructor(owner,placNo, state, price,model, body_type,manufacturer) {
         this.id = uuid();
         this.owner = owner;
+        this.placNo=placNo;
         this.state = state;
         this.status = 'available';
         this.price = price;

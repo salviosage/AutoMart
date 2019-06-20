@@ -8,26 +8,35 @@ class Database{
   
   dbConnection() {
     if (process.env.NODE_ENV==='test'){
-     db =process.env.PGDATABASE;
-     console.log(process.env.NODE_ENV);
+     
+     return new Pool({
+      user: process.env.PGUSER,
+      host:process.env.PGHOST,
+      database:process.env.PGTESTDB,
+      password:process.env.PGPASSWORD,
+      port:process.env.PGPORT
+  });
     }
     else if (process.env.NODE_ENV==='production') {
-    db  =process.env.PGTEST;
-    console.log(process.env.NODE_ENV);
+      return new Pool({
+        user: 'ruzmchrydtigis',
+        host:'ec2-107-22-238-217.compute-1.amazonaws.com',
+        database:'d6mfbbjkbq1gkh',
+        password:'ba585fea3cbd548c873a9fb23349acdbddcdfbdd8d64bd7721a6fd868e0428d0',
+        port:'5432'
+      });
+    
     }
     else {
-      return  new Pool({
-        connectionString: process.env.DATABASE_URL,
-      });
-    }
-    return new Pool({
-      
+      return new Pool({
         user: process.env.PGUSER,
         host:process.env.PGHOST,
-        database:PGTEST,
+        database:process.env.PGDATABASE,
         password:process.env.PGPASSWORD,
         port:process.env.PGPORT
     });
+    }
+   
   }
 
   async selectById(table, id) {
@@ -112,8 +121,9 @@ class Database{
 
   async addCar(data) {
     const conn = this.dbConnection();
-    const result = await conn.query(`INSERT INTO cars(id,owner,state,status,price,manufacturer,model,body_type,created_on) VALUES(
+    const result = await conn.query(`INSERT INTO cars(id,placNo,owner,state,status,price,manufacturer,model,body_type,created_on) VALUES(
         '${data.id}',
+        '${data.placNo}',
         '${data.owner}',
         '${data.state}',
         '${data.status}',

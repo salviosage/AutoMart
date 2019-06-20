@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import env from "dotenv"; 
 env.config()
 
-const key =process.env.secret_key;
 class Helper  {
   
   hashPassword(password) {
@@ -12,7 +11,7 @@ class Helper  {
   }
   
   comparePassword(hashPassword, password) {
-    console.log(hashPassword,password)
+    
     return bcrypt.compareSync(password, hashPassword);
   }
   
@@ -24,6 +23,15 @@ class Helper  {
       { expiresIn: '24h' });
 
     return token;
+  }
+ verifyToken(token) {
+   try{
+    const decode = jwt.verify(token, process.env.secret_key);
+    return  decode;
+   }catch{
+    return  false;
+   }
+    
   }
 }
 

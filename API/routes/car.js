@@ -6,7 +6,7 @@ const validateRequest = SchemaValidator(true,"car");
 const router = express.Router();
 
 router.post('/',validateRequest,auth,createAd );
-router.get('/', auth, getAds );
+router.get('/', getAds );
 router.get('/:id',validateRequest,auth, getOneAd );
 router.delete('/:id',auth, deleteAd);
 router.patch('/:id/status',validateRequest,auth, updateAd);
