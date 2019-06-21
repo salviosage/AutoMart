@@ -10,36 +10,43 @@ import  chai from 'chai';
 
  describe('creating ad order  ', () => {
 
-	before((done)=>{
-		
-       
-        const adminInfo = {
-			email: "salviosage@gmail.com",
-			password: "15151"
+  before((done)=>{
+		const adminInfo = {
+            email: "Dukuzwe@gmail.com",
+            password: "Dukuzwe@15151",
+            
         }
+     
         const ownerInfo = {
-			email: "jeasal@gmail.com",
-			password: "1515"
+		   email: "clet@gmail.com",
+           password: "Clet@15151",
+
         }
         const userInfo = {
-			email: "sagesalvi@com.salvi",
-			password: "151"
-		}
+			email: "lucky@gmail.com",
+           password: "Lucky@15151",
+        }
+		chai.request(app)
+		.post('/api/v1/auth/login')
+		.send(adminInfo)
+		.end((err, res)=>{
+            
+			 adminToken = res.body.token;
+			
+        })
+
+    chai.request(app)
+    .post('/api/v1/auth/login')
+    .send(ownerInfo)
+    .end((err, res)=>{
+        
+         ownerToken = res.body.token;
+       
+        
+    })
        
     chai.request(app)
         .post('/api/v1/auth/login')
-      
-        .send(adminInfo)
-        .end((err, res)=>{
-            
-           adminToken = res.body.token;
-            
-         
-        })
-	
-    chai.request(app)
-        .post('/api/v1/auth/login')
-      
         .send(userInfo)
         .end((err, res)=>{
             
@@ -61,7 +68,7 @@ import  chai from 'chai';
             }
            chai.request(app)
              .post('/api/v1/flag')
-             .set('token', userToken)
+             .set('authorization', userToken)
              .send(record)
              .end((err, res)=>{ 
                    
@@ -74,29 +81,7 @@ import  chai from 'chai';
                 })
         
            });
-           it('should create flag with no description  ', (done) =>{
-            const record = {  
-               
-                car_id:"ffdfzfzef5f5zef5d5",
-                reason: "wired price",
-                
-                }
-               chai.request(app)
-                 .post('/api/v1/flag')
-                 .set('token', userToken)
-                 .send(record)
-                 .end((err, res)=>{ 
-                       
-                       res.body.should.be.a('object');
-                       res.body.should.have.property('status').eql(200);
-                       res.body.should.have.property('data');
-                       
         
-                       done();
-                    })
-            
-               });
-   
    
        it('should not create a flag for a car which is not available ', (done) =>{
         const record = {  
@@ -107,7 +92,7 @@ import  chai from 'chai';
             }
            chai.request(app)
              .post('/api/v1/flag')
-             .set('token', userToken)
+             .set('authorization', userToken)
              .send(record)
              .end((err, res)=>{ 
                    
@@ -131,7 +116,7 @@ import  chai from 'chai';
                 }
                chai.request(app)
                  .post('/api/v1/flag')
-                 .set('token', userToken)
+                 .set('authorization', userToken)
                  .send(record)
                  .end((err, res)=>{ 
         
@@ -154,7 +139,7 @@ import  chai from 'chai';
             }
            chai.request(app)
              .post('/api/v1/flag')
-             .set('token', userToken)
+             .set('authorization', userToken)
              .send(record)
              .end((err, res)=>{ 
                    
@@ -173,7 +158,7 @@ import  chai from 'chai';
               
                    chai.request(app)
                      .get('/api/v1/flag')
-                     .set('token', adminToken)
+                     .set('authorization', adminToken)
                      .end((err, res)=>{
                         
                    
@@ -192,7 +177,7 @@ import  chai from 'chai';
               
                     chai.request(app)
                       .get('/api/v1/flag')
-                      .set('token', userToken)
+                      .set('authorization', userToken)
                       .end((err, res)=>{
                          
                          console.log(res.body);

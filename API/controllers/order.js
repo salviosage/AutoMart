@@ -14,12 +14,21 @@ const mart = new Database();
               'data':ordersResult.rows });
         }
         var usersResult = await mart.selectBy('users', 'email', req.auth.userName);
-        var ordersResult = await mart.selectBy('orders', 'buyer', usersResult.rows[0].id);
+        console.log(usersResult.rows)
+        if (usersResult.rows.length >0){
+          var ordersResult = await mart.selectBy('orders', 'buyer', usersResult.rows[0].id);
+          return res.status(200).send({
+              'status' : 200,
+              'data' :  ordersResult.rows,
+              'message': ordersResult.rowCount > 0 ? 'Available cars' : 'No orders available.'   
+          });
+        }
         return res.status(200).send({
-            'status' : 200,
-            'data' :  ordersResult.rows,
-            'message': ordersResult.rowCount > 0 ? 'Available cars' : 'No orders available.'   
-        });
+          'status' : 404,
+          
+          'message': 'login first available.'   
+      });
+       
     }
 
    

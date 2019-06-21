@@ -4,6 +4,7 @@ import Database from '../db/automrtdb';
 const mart = new Database();
 
 
+
  const getUser= async(req, res) =>{
   
  
