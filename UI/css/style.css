@@ -158,6 +158,12 @@ body {
     max-width:100%;
     width:auto;
   }
+  .flex-container {
+    display: flex;
+    
+  flex-flow: row nowrap;
+  height: 100%;
+  }
   .center {
     margin: auto;
     width: 50%;
@@ -242,13 +248,11 @@ body {
    ---------------------*/
    .shop-card {
     display: inline-block;
-    width: 24%;
     background: rgb(206, 206, 216);
     box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
     overflow: hidden;
-    /*border-radius: 5px;
-    padding: 25px;*/
-    /* margin: 5px; */
+    width: 40%;
+    height: 40%;
     text-align: center;
   }
   .shop-card .header {
@@ -1055,12 +1059,7 @@ body {
 
 
 
-body {
-    background: linear-gradient(180deg, #3F65B3 0%, rgba(196, 196, 196, 0) 56.77%);
-    font-size:16px;
-    font-family:"Open Sans",Arial,sans-serif;
-    color:#444;
-  }
+
   /* Rectangle */
   
   
@@ -1318,6 +1317,26 @@ body {
     .navbar nav li a {
       color: #212121;
     }
+}
+
+@media screen and (min-width: 600px){
+  .flex-container {
+   -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+ 
+}
+
+@media screen and (max-width: 600px){
+  .flex-container {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    
+  }
+  .flex-container > .shop-card {
+   width: 100%;
+  }
 }
 
 @media (min-width: 768px) {
