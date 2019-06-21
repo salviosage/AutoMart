@@ -29,7 +29,7 @@ const createFlag = async (req, res) => {
       console.log(user.rows[0].id)
     var flag = new Flag( user.rows[0].id,req.body.car_id,req.body.reason,req.body.description || '');
     try {
-      console.log(flag)
+     
         const insertedFlag = await mart.addFlag(flag);
         return  res.status(201).json({
           status: 201,
@@ -37,7 +37,7 @@ const createFlag = async (req, res) => {
           data: insertedFlag.rows[0] 
          });
     } catch (error) {
-      console.log(error);
+      
         return res.status(401).send({ 'status': 401, 'message': 'flag is not saved' });
     }
   

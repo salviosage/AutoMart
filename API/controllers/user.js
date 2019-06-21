@@ -16,7 +16,7 @@ const mart = new Database();
       
       return  res.status(200).json({
         status:200,
-        data:users,
+        data:users.rows,
       
       });
        
@@ -48,8 +48,8 @@ const signup = async (req, res) => {
           const token = await helper.generateToken(req.body.email,req.body.is_admin);
           const insertedUser = await mart.addUser(user);
          
-            return  res.status(200).json({
-              status:200,
+            return  res.status(201).json({
+              status:201,
               token:token,
               message: 'User registered sucessfuly!' ,
         
@@ -82,7 +82,11 @@ const signup = async (req, res) => {
         const validPassword = await helper.comparePassword( result.rows[0].password,req.body.password);
        
         
-        if (!validPassword) return res.send('Password is not correct.');
+        if (!validPassword) return res.status(401).json({
+          status:401,
+          message: 'Password is not correct.',
+
+        });
         const token = await helper.generateToken(req.body.email,result.rows[0].is_admin);
         return  res.status(200).json({
           status:200,
@@ -112,8 +116,8 @@ const reset = async(req, res) => {
        
       const passResult = await mart.updatePassword({'password': hashedPassword, 'id': result.rows[0].id});
         
-        return  res.status(200).json({
-          status:200,
+        return  res.status(201).json({
+          status:201,
           message: 'password resetted to your lastName in capytal letter  success fully !',
           
         });  

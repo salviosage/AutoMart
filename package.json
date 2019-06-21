@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": " npm run createTables && npm run createTables && npm run createTables && nodemon --exec babel-node server.js",
-    "test": " SET NODE_ENV=testnpm run deleteTable  && npm run createTables && npm run createTables && npm run createTables  && nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
+    "test": " SET NODE_ENV=test npm run deleteTable  && npm run createTables && npm run createTables && npm run createTables  && nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit test/*js || true",
     "coverage": "nyc --reporter=lcov npm run test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "createTablestest": "node  --require @babel/register ./API/db/testDb.js",

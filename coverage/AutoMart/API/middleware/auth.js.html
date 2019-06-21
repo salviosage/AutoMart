@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.78% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/18</span>
+        <span class='fraction'>14/18</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>6/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.78% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/18</span>
+        <span class='fraction'>14/18</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,31 +92,31 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -132,22 +132,22 @@
 import env from "dotenv"; 
 env.config()
 &nbsp;
-let <span class="fstat-no" title="function not covered" >validateToken </span>= (req, res, next) =&gt; {
-  let token = <span class="cstat-no" title="statement not covered" >req.headers['x-access-token'] || req.</span>headers['authorization']; 
-<span class="cstat-no" title="statement not covered" >    if(!token){</span>
+let validateToken = (req, res, next) =&gt; {
+  let token = req.headers['x-access-token'] || req.headers['authorization']; 
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!token){
 <span class="cstat-no" title="statement not covered" >      return r</span>es.status(401).send({
         status:401,
         error:"Unauthorized access"
       })
     }  
-<span class="cstat-no" title="statement not covered" >  if (token.startsWith('Bearer ')) {</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (token.startsWith('Bearer ')) {
   
 <span class="cstat-no" title="statement not covered" >      token </span>= token.slice(7, token.length);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (token) {</span>
-<span class="cstat-no" title="statement not covered" >      jwt.</span>verify(token, process.env.secret_key, <span class="fstat-no" title="function not covered" >(e</span>rr, decode) =&gt; {
-<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (token) {
+      jwt.verify(token, process.env.secret_key, (err, decode) =&gt; {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
 <span class="cstat-no" title="statement not covered" >          return r</span>es.send({
             status:401,
             success: false,
@@ -155,9 +155,9 @@ let <span class="fstat-no" title="function not covered" >validateToken </span>= 
           });
       
         } else {
-<span class="cstat-no" title="statement not covered" >          console.</span>log(decode)
-<span class="cstat-no" title="statement not covered" >          req.</span>auth = decode;
-<span class="cstat-no" title="statement not covered" >          next();</span>
+          console.log(decode)
+          req.auth = decode;
+          next();
         }
       });
     } else {
@@ -175,7 +175,7 @@ let <span class="fstat-no" title="function not covered" >validateToken </span>= 
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jun 20 2019 17:05:30 GMT+0200 (Central Africa Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 21 2019 08:54:07 GMT+0200 (Central Africa Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>
