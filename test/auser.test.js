@@ -9,7 +9,7 @@ import  chai from 'chai';
   let userToken,adminToken,ownerToken,anyToken="";
  chai.use(chaiHttp);
 
-describe('users ', ()=>{
+describe.only('users ', ()=>{
     before((done)=>{
 		const adminInfo = {
             email: "Dukuzwe@gmail.com",
@@ -85,7 +85,7 @@ describe('users ', ()=>{
                .end((err, res)=>{
                    console.log(res.body)
                   res.body.should.be.a('object');
-                  res.body.should.have.property('status').eql(201);
+                  res.body.should.have.property('status').eql(200);
                   res.body.should.have.property('token');
                   done();
               })
@@ -110,6 +110,59 @@ describe('users ', ()=>{
                 console.log(res.body);
                   res.body.should.be.a('object');
                   res.body.should.have.property('status').eql(404);
+                  res.body.should.have.property('error');
+
+                  done();
+               
+              })
+   
+       });
+       it('it should   create a user   ', (done)=>{
+        const record = {
+           email: "irene@gmail.com",
+           first_name: "mwunguzi",
+           last_name: "Dukuzwenimana",
+           confirmPassword :"Dukuzwe@15151",
+           password: "Dukuzwe@15151",
+           address: "kigali",
+           is_admin: 1
+         }
+   
+           chai.request(app)
+               .post('/api/v1/auth/signup')
+               .send(record)
+               
+               .end((err, res)=>{
+                console.log(res.body);
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('status').eql(201);
+                  res.body.should.have.property('token');
+
+                  done();
+               
+              })
+   
+       });
+       it('it should   create a user  who is not dmin  ', (done)=>{
+        const record = {
+           email: "shyaka@gmail.com",
+           first_name: "shaka",
+           last_name: "Dukuzwenimana",
+           confirmPassword :"Dukuzwe@15151",
+           password: "Dukuzwe@15151",
+           address: "kigali",
+           is_admin:0
+         }
+   
+           chai.request(app)
+               .post('/api/v1/auth/signup')
+               .send(record)
+               
+               .end((err, res)=>{
+                console.log(res.body);
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('status').eql(201);
+                  res.body.should.have.property('token');
 
                   done();
                
@@ -118,7 +171,7 @@ describe('users ', ()=>{
        });
        it('it should not create a user becouse of invalid input ', (done)=>{
         const record = {
-           email: "samgma.com",
+           email: "samgma111.com",
            first_name: "sugira ",
            last_name: "samuel",
            password: "salvi123",
@@ -140,15 +193,16 @@ describe('users ', ()=>{
     
     it('it should reset password  ', (done)=>{
         const record = {
-            email: "salviosagegmail.com",
+            email: "Dukuzwe@gmail.com",
          
           }
     
             chai.request(app)
                 .post('/api/v1/auth/reset')
                 .send(record)
-              console.log(res.body)
+              
                 .end((err, res)=>{
+                    console.log(res.body)
                    res.body.should.be.a('object');
                    res.body.should.have.property('status').eql(201);
 
@@ -159,7 +213,7 @@ describe('users ', ()=>{
         });
         it('it should not login user with wrong password   ', (done)=>{
             const record = {
-                email: "dukuzwe@gmail.com",
+                email: "Dukuzwe@gmail.com",
                 password: "solve545455454",
              
               }
@@ -188,6 +242,7 @@ describe('users ', ()=>{
                  console.log(res.body)
                   res.body.should.be.a('object');
                   res.body.should.have.property('status').eql(401);
+                  res.body.should.have.property('error');
                   done();
               })
        });
@@ -197,12 +252,11 @@ describe('users ', ()=>{
    
            chai.request(app)
                .get('/api/v1/auth/users')
-               .set('Authorization', adminToken)
+               .set('authorization', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkR1a3pAZ21haWwuY29tIiwicm9sZSI6MSwiaWF0IjoxNTYxMDk0Mzc2LCJleHAiOjE1NjExODA3NzZ9.QWufSas7UYo0ZwI11eTbuFts75EKQqBxK6Das2LZqJs")
                .end((err, res)=>{
                    console.log(res.body)
                   res.body.should.be.a('object');
                   res.body.should.have.property('data');
-            	  res.body.data.should.be.a('array');
                   res.body.should.have.property('status').eql(200);
           
                   done();
@@ -215,7 +269,7 @@ describe('users ', ()=>{
 
         chai.request(app)
             .get('/api/v1/auth/users')
-            .set('Authorization', userToken)
+            .set('authorization', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkR1a3pAZ21hbC5jb20iLCJyb2xlIjowLCJpYXQiOjE1NjEwOTQ1MDMsImV4cCI6MTU2MTE4MDkwM30.T_SxVJ3dslJ4egj976qL8ELOOTgzq5-mEGrxBsD6Mjg")
             .end((err, res)=>{
                 console.log(res.body)
                res.body.should.be.a('object');

@@ -16,7 +16,7 @@ const mart = new Database();
       
       return  res.status(200).json({
         status:200,
-        data:users,
+        data:users.rows,
       
       });
        

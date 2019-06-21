@@ -5,63 +5,14 @@ import  chai from 'chai';
  
 
 
-  let userToken,adminToken,ownerToken;
+  let userToken,adminToken,ownerToken,carid,orderid;
  chai.use(chaiHttp);
  chai.should();
 
 
  describe('get all ads posts ', () => {
 
-	before((done)=>{
-		
-        const unouthorized = {
-			email: "clet@gmail.com",
-			password: "121621"
-        }
-        const adminInfo = {
-			email: "salviosage@gmail.com",
-			password: "15151"
-        }
-        const ownerInfo = {
-			email: "jeasal@gmail.com",
-			password: "1515"
-        }
-        const userInfo = {
-			email: "sagesalvi@com.salvi",
-			password: "151"
-		}
-
-		chai.request(app)
-		.post('/api/v1/auth/login')
-		.send(adminInfo)
-		.end((err, res)=>{
-            
-			 adminToken = res.body.token;
-			
-        })
-        chai.request(app)
-    .post('/api/v1/auth/login')
-    
-    .send(ownerInfo)
-    .end((err, res)=>{
-        
-         ownerToken = res.body.token;
-       
-        
-    })
-       
-    chai.request(app)
-        .post('/api/v1/auth/login')
-      
-        .send(userInfo)
-        .end((err, res)=>{
-            
-            userToken = res.body.token;
-           
-            done();
-        })
 	
-    })
     
   
    
@@ -309,21 +260,21 @@ import  chai from 'chai';
  });
 
 
- describe('Create A car ad', ()=>{
+ describe.only('Create A car ad', ()=>{
  	it('/POST /car', (done)=>{
- 		const record = {  
-        
-    
-        body_type :"truc",
-        model :"benz",
-        manufacturer :"mercedes",
-        price :"5144",
-        
+ 		const record = { 
+                placNo:"4445",
+                state:"new",
+                status :"available",
+                body_type:"taxi",
+                model :"vw",
+                manufacturer :"vw",
+                price :"12151"
  		}
 
  		chai.request(app)
-			 .post('/api/v1/car')
-			 .set('token', adminToken)
+             .post('/api/v1/car') 
+			 .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImlyZW5lQGdtYWlsLmNvbSIsInJvbGUiOjEsImlhdCI6MTU2MTA5NTAzNCwiZXhwIjoxNTYxMTgxNDM0fQ.mlb8Med6c3b6tsM3oVrD6UKgQtjI9_sA3U_cs-ozw1s')
 			 .send(record)
  		    .end((err, res)=>{
                 console.log(res.body)
@@ -335,56 +286,103 @@ import  chai from 'chai';
                 done();
               
  		    })
- 	})
-
-    
-        it('should not post a car ad while there is invalid parameter', (done)=>{
-            const record = {  
-           
-           state:"used",
-           body_type :"truc",
-          
-           manufacturer :"mercedes",
-           price :"5144",
-           
-            }
-   
-            chai.request(app)
-                .post('/api/v1/car')
-                .set('token', userToken)
-                .send(record)
-                .end((err, res)=>{
-                   
-                 console.log(res.body)
-                    res.body.should.be.a('object');
-                   res.body.should.have.property('status').eql(401);
-                   res.body.should.have.property ('error_msg').eql('"model" is required');
-                  
-                   done();
-                 
-                })
-        })
- 	it('not post a car if user is anoninous ', (done)=>{
-        const record = {  
-       owner :"sagesalvi@gmail.comsalvi",
-       state:"used",
-       body_type :"truc",
-       model :"benz",
-       manufacturer :"mercedes",
-       price :"5144",
-       
+     })
+     it('/POST /car', (done)=>{
+        const record = { 
+               placNo:"4445",
+               state:"new",
+               status :"available",
+               body_type:"taxi",
+               model :"vw",
+               manufacturer :"vw",
+               price :"12151"
         }
 
         chai.request(app)
             .post('/api/v1/car')
+            .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNoeWFrYUBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE1NjEwOTc3MDksImV4cCI6MTU2MTE4NDEwOX0.LqHC4pLdSzTn8Nn4eINz1SjUjNXAmfCrQnrCwFDnF-Y')
             .send(record)
             .end((err, res)=>{
+               console.log(res.body)
+             carid=res.body.data.id;
+              res.body.should.be.a('object');
+               res.body.should.have.property('status').eql(201);
+               res.body.should.have.property('data');
               
-                res.body.should.be.a('object');
-               res.body.should.have.property('status').eql(401);
                done();
+             
             })
     })
+    it('/POST /order', (done)=>{
+        const record = { 
+            car_id:carid,
+            amount :"1215144"
+        }
+
+        chai.request(app)
+            .post('/api/v1/order')
+            .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNoeWFrYUBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE1NjEwOTg4MzIsImV4cCI6MTU2MTE4NTIzMn0.L-9UZ3pYsGBJeOZdy3Dba8D9cCjdEOWED8qWAtK18C8')
+            .send(record)
+            .end((err, res)=>{
+               console.log(res.body)
+             
+                res.body.should.be.a('object');
+               res.body.should.have.property('status').eql(201);
+               res.body.should.have.property('data');
+              
+               done();
+             
+            })
+    })
+   
+    it('should not posty a car with same plate no ', (done)=>{
+        const record = { 
+               placNo:"4445",
+               state:"new",
+               status :"available",
+               body_type:"taxi",
+               model :"vw",
+               manufacturer :"vw",
+               price :"12151"
+        }
+
+        chai.request(app)
+            .post('/api/v1/car/ds454s5d45d5d5d')
+            .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNoeWFrYUBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE1NjEwOTc3MDksImV4cCI6MTU2MTE4NDEwOX0.LqHC4pLdSzTn8Nn4eINz1SjUjNXAmfCrQnrCwFDnF-Y')
+            .send(record)
+            .end((err, res)=>{
+               console.log(res.body)
+             
+                res.body.should.be.a('object');
+               res.body.should.have.property('status').eql(401);
+            
+              
+               done();
+             
+            })
+    })
+    it('should not posty a car with same plate no ', (done)=>{
+      
+
+        chai.request(app)
+            .delete('/api/v1/car/')
+            .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNoeWFrYUBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE1NjEwOTc3MDksImV4cCI6MTU2MTE4NDEwOX0.LqHC4pLdSzTn8Nn4eINz1SjUjNXAmfCrQnrCwFDnF-Y')
+            
+            .end((err, res)=>{
+               console.log(res.body)
+             
+                res.body.should.be.a('object');
+               res.body.should.have.property('status').eql(401);
+            
+              
+               done();
+             
+            })
+    })
+
+    
+     
+ 	
 
 });
 
