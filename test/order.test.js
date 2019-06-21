@@ -10,32 +10,52 @@ import  chai from 'chai';
 
  describe('creating ad order  ', () => {
 
-	before((done)=>{
-        const adminInfo = {
-			email: "salviosage@gmail.com",
-			password: "15151"
+    before((done)=>{
+		const adminInfo = {
+            email: "Dukuzwe@gmail.com",
+            first_name: "Dukuzwenimana",
+            last_name: "salvi",
+            password: "Dukuzwe@15151",
+            confirmPassword :"Dukuzwe@15151",
+            address: "kigali",
+            is_admin: 1
         }
+     
         const ownerInfo = {
-			email: "jeasal@gmail.com",
-			password: "1515"
+		   email: "clet@gmail.com",
+           first_name: "mwunguzi",
+           last_name: "lucky",
+           password: "Clet@15151",
+           confirmPassword :"Clet@15151",
+           address: "kigali",
+           is_admin: 0
         }
         const userInfo = {
-			email: "sagesalvi@com.salvi",
-			password: "151"
-		}
-       
-
+			email: "lucky@gmail.com",
+           first_name: "jhon",
+           last_name: "lucky",
+           password: "Lucky@15151",
+           confirmPassword :"Lucky@15151",
+           address: "kigali",
+           is_admin: 0
+        }
+        adminToken =jwt.sign({ userName:adminInfo.email,role:adminInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        console.log(adminToken);
+        userToken =jwt.sign({ userName:userInfo.email,role:userInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        console.log(userToken);
+        ownerToken =jwt.sign({ userName:ownerInfo.email,role:ownerInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        console.log(userToken);
 		chai.request(app)
-		.post('/api/v1/auth/login')
+		.post('/api/v1/auth/signup')
 		.send(adminInfo)
 		.end((err, res)=>{
             
 			 adminToken = res.body.token;
 			
         })
-        chai.request(app)
-    .post('/api/v1/auth/login')
-    
+
+    chai.request(app)
+    .post('/api/v1/auth/signup')
     .send(ownerInfo)
     .end((err, res)=>{
         
@@ -45,8 +65,7 @@ import  chai from 'chai';
     })
        
     chai.request(app)
-        .post('/api/v1/auth/login')
-      
+        .post('/api/v1/auth/signup')
         .send(userInfo)
         .end((err, res)=>{
             
@@ -56,7 +75,6 @@ import  chai from 'chai';
         })
 	
     })
-  
    
     
 

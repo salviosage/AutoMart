@@ -1,6 +1,9 @@
 import  chai from 'chai';
  import chaiHttp from 'chai-http';
  import app from '../server';
+ import jwt from 'jsonwebtoken';
+import env from "dotenv"; 
+env.config()
 
  let newUser ="token";
  
@@ -9,7 +12,7 @@ import  chai from 'chai';
   let userToken,adminToken,ownerToken,anyToken="";
  chai.use(chaiHttp);
 
-describe.only('users ', ()=>{
+describe('users ', ()=>{
     before((done)=>{
 		const adminInfo = {
             email: "Dukuzwe@gmail.com",
@@ -20,6 +23,7 @@ describe.only('users ', ()=>{
             address: "kigali",
             is_admin: 1
         }
+     
         const ownerInfo = {
 		   email: "clet@gmail.com",
            first_name: "mwunguzi",
@@ -37,9 +41,13 @@ describe.only('users ', ()=>{
            confirmPassword :"Lucky@15151",
            address: "kigali",
            is_admin: 0
-		}
-       
-
+        }
+        adminToken =jwt.sign({ userName:adminInfo.email,role:adminInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        console.log(adminToken);
+        userToken =jwt.sign({ userName:userInfo.email,role:userInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        console.log(userToken);
+        ownerToken =jwt.sign({ userName:ownerInfo.email,role:ownerInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        console.log(userToken);
 		chai.request(app)
 		.post('/api/v1/auth/signup')
 		.send(adminInfo)
@@ -80,7 +88,7 @@ describe.only('users ', ()=>{
            password: "Dukuzwe@15151",
          }
            chai.request(app)
-               .post('/api/v1/auth/reset')
+               .post('/api/v1/auth/login')
                .send(record)
                .end((err, res)=>{
                    console.log(res.body)
@@ -194,7 +202,7 @@ describe.only('users ', ()=>{
     it('it should reset password  ', (done)=>{
         const record = {
             email: "Dukuzwe@gmail.com",
-         
+    
           }
     
             chai.request(app)
@@ -252,7 +260,7 @@ describe.only('users ', ()=>{
    
            chai.request(app)
                .get('/api/v1/auth/users')
-               .set('authorization', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkR1a3pAZ21haWwuY29tIiwicm9sZSI6MSwiaWF0IjoxNTYxMDk0Mzc2LCJleHAiOjE1NjExODA3NzZ9.QWufSas7UYo0ZwI11eTbuFts75EKQqBxK6Das2LZqJs")
+               .set('authorization', adminToken)
                .end((err, res)=>{
                    console.log(res.body)
                   res.body.should.be.a('object');
@@ -269,7 +277,7 @@ describe.only('users ', ()=>{
 
         chai.request(app)
             .get('/api/v1/auth/users')
-            .set('authorization', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkR1a3pAZ21hbC5jb20iLCJyb2xlIjowLCJpYXQiOjE1NjEwOTQ1MDMsImV4cCI6MTU2MTE4MDkwM30.T_SxVJ3dslJ4egj976qL8ELOOTgzq5-mEGrxBsD6Mjg")
+            .set('authorization', userToken)
             .end((err, res)=>{
                 console.log(res.body)
                res.body.should.be.a('object');
