@@ -3,6 +3,16 @@ node_js:
  - 'node'
 install:
    - npm install
+services:
+  - postgresql
+before_install:
+  - psql -c 'create database test' -U postgres
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
 cache:
  directories:
    - 'node_modules'
