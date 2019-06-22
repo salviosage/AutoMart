@@ -42,11 +42,11 @@ describe('users ', ()=>{
            address: "kigali",
            is_admin: 0
         }
-        adminToken =jwt.sign({ userName:adminInfo.email,role:adminInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        adminToken =jwt.sign({ userName:adminInfo.email,role:adminInfo.is_admin },"RANDOM_TOKEN_SECRET",{ expiresIn: '24h' });
         console.log(adminToken);
-        userToken =jwt.sign({ userName:userInfo.email,role:userInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        userToken =jwt.sign({ userName:userInfo.email,role:userInfo.is_admin },"RANDOM_TOKEN_SECRET",{ expiresIn: '24h' });
         console.log(userToken);
-        ownerToken =jwt.sign({ userName:ownerInfo.email,role:ownerInfo.is_admin },process.env.secret_key,{ expiresIn: '24h' });
+        ownerToken =jwt.sign({ userName:ownerInfo.email,role:ownerInfo.is_admin },"RANDOM_TOKEN_SECRET",{ expiresIn: '24h' });
         console.log(userToken);
 		chai.request(app)
 		.post('/api/v1/auth/signup')

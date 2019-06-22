@@ -5,15 +5,7 @@ install:
    - npm install
 services:
   - postgresql
-env:
- - api_version = v1
- - secret_key =RANDOM_TOKEN_SECRET
- - PGUSER=postgres 
- - PGHOST=localhost
- - PGTESTDB=test
- - PGDATABASE=dev
- - PGPASSWORD=15151
- - PGPORT=5432
+
 before_install:
   - psql -c 'create database test' -U postgres
 
